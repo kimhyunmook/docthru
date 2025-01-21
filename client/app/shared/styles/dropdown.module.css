@@ -1,0 +1,118 @@
+.dropdown {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 56px;
+}
+.dropdown.sort {
+  max-width: 140px;
+  height: 40px;
+}
+.dropdown.sort .default {
+  border-radius: 30px;
+  padding: 8px 12px 8px 8px;
+}
+.dropdown.sort .default::after {
+  right: 8%;
+}
+.default {
+  cursor: pointer;
+  position: relative;
+  align-items: center;
+  display: flex;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray400);
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--gray200);
+  background-color: #fff;
+  border-radius: 4px;
+}
+.default.on {
+  color: var(--gray800);
+}
+.default.open::after {
+  transform: translateY(-50%) rotate(0deg);
+}
+.default::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 7px solid var(--gray800);
+}
+
+.dropList {
+  z-index: 10;
+  border-radius: 8px;
+  width: 100%;
+  border: 1px solid var(--gray300);
+  overflow: hidden;
+  background-color: #fff;
+  top: 115%;
+  position: absolute;
+}
+.dropList li {
+  cursor: pointer;
+  text-align: center;
+  padding: 12px;
+  border-bottom: 1px solid var(--gray300);
+}
+.dropList li:last-child {
+  border-bottom: 0;
+}
+.dropList li p {
+  font-size: 16px;
+  color: var(--gray500);
+  font-weight: 400;
+}
+
+.login {
+  width: 152px;
+  border: 2px solid var(--gray100);
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 12px;
+}
+.login .top {
+  display: flex;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 2px solid var(--gray100);
+}
+.login .top img {
+  margin-right: 8px;
+}
+.login .top .text {
+}
+.login .top .text h3 {
+  color: var(--gray800);
+  font-size: 14px;
+  font-weight: 500;
+}
+.login .top .text p {
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--gray500);
+}
+.login .list li {
+  padding: 8px 0;
+}
+.login .list li a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray400);
+  transition: 0.5s;
+}
+.login .list li:hover a {
+  color: var(--gray600);
+  font-weight: 700;
+}

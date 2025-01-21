@@ -1,0 +1,88 @@
+.modal {
+  border: 2px solid var(--gray800);
+  border-radius: 8px;
+  position: relative;
+}
+.modal .content {
+  width: 100%;
+}
+.modal .content p {
+  text-align: center;
+}
+.btn {
+  width: 100%;
+}
+
+.modal.popup {
+  max-width: 540px;
+  min-height: 250px;
+}
+.modal.popup p {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--gray800);
+  margin-bottom: 28px;
+}
+.modal.popup .btn {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+}
+
+.modal.textbox {
+  max-width: 496px;
+  min-height: 423px;
+  padding: 24px;
+}
+.modal.textbox .top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.modal.textbox .title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray800);
+}
+.modal.textbox .textarea {
+  margin-bottom: 24px;
+}
+.modal.textbox .textarea .label {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray900);
+  margin-bottom: 8px;
+  display: block;
+}
+.modal.textbox .textarea textarea {
+  border: 1px solid var(--gray300);
+  border-radius: 6px;
+  width: 100%;
+  height: 219px;
+  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: 400;
+}
+@media screen and (max-width: 744px) {
+  .modal.popup {
+    max-width: 327px;
+    min-height: 220px;
+  }
+  .modal.popup p {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+  .modal.popup .btn {
+    position: absolute;
+    left: 50%;
+    right: 0;
+    transform: translateX(-50%);
+    bottom: 28px;
+  }
+
+  .modal.textbox {
+    max-width: 343px;
+    min-height: 407px;
+    padding: 16px;
+  }
+}

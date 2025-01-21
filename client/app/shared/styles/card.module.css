@@ -1,0 +1,49 @@
+.card {
+  height: 100%;
+  min-height: 180px;
+  border: 2px solid var(--gray800);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 996px;
+}
+.top {
+  border-bottom: 1px solid var(--gray200);
+  margin-bottom: 16px;
+  position: relative;
+}
+.state {
+  display: flex;
+  margin-bottom: 16px;
+}
+.title {
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--gray700);
+  margin-bottom: 14px;
+}
+.chip {
+  display: flex;
+  width: 100%;
+  margin-bottom: 16px;
+}
+.chip span {
+  margin-right: 8px;
+}
+.chip span:last-child {
+  margin-right: 0;
+}
+
+.info {
+  display: flex;
+}
+.info > div:first-child {
+  margin-right: 12px;
+}
+
+.menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
