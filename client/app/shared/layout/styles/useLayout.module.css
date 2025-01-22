@@ -1,0 +1,25 @@
+.use {
+  position: relative;
+  margin: 40px 10px;
+  display: inline;
+}
+.title {
+  font-family: quantity;
+  font-size: 20px;
+  font-weight: 700;
+  position: absolute;
+  top: -32.5px;
+}
+.list {
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  border: 1px dashed var(--brand_black);
+}
+.list .li {
+  margin-bottom: 10px;
+}
+
+.list .li:last-child {
+  margin-bottom: 0;
+}

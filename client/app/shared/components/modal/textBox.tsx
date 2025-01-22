@@ -1,13 +1,13 @@
 import Btn from "../btn/btn";
-import Modal, { ModalT } from "./modal";
+import Modal, { ModalProps } from "./modal";
 import styles from "@/app/shared/styles/modal.module.css";
 
-type TextBoxT = ModalT & {
+type TextBoxProps = ModalProps & {
   title: string;
   name: string;
-  placeholder: string;
+  placeholder?: string;
   value: string;
-  setValue: (v: string) => void;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export default function TextBox({
@@ -18,7 +18,7 @@ export default function TextBox({
   placeholder,
   value,
   setValue,
-}: TextBoxT) {
+}: TextBoxProps) {
   return (
     <Modal className={`${styles.textbox} ${className}`}>
       <div className={styles.top}>
@@ -32,14 +32,13 @@ export default function TextBox({
         <textarea
           name={name}
           id={name}
+          value={value}
           placeholder={placeholder}
           onChange={(e) => {
             e.preventDefault();
             setValue(e.target.value);
           }}
-        >
-          {value}
-        </textarea>
+        />
       </div>
       <Btn.Solid.Large className={styles.btn}>전송</Btn.Solid.Large>
       {children}
@@ -47,7 +46,7 @@ export default function TextBox({
   );
 }
 
-function Reject({ className, name, value, setValue }: TextBoxT) {
+function Reject({ className, name, value, setValue }: TextBoxProps) {
   return (
     <TextBox
       name={name}

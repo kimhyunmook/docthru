@@ -3,17 +3,17 @@ import styles from "@/app/shared/styles/container.module.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-type InfoProps = {
+export type InfoProps = {
   date: string;
   current: number;
-  max: number;
+  total: number;
 };
 
-export default function Info({ date, current, max }: InfoProps) {
+export default function Info({ date, current, total }: InfoProps) {
   const [finish, setFinish] = useState(false);
   useEffect(() => {
-    if (current === max) setFinish(true);
-  }, [current, max]);
+    if (current === total) setFinish(true);
+  }, [current, total]);
   return (
     <>
       <div className={styles.date}>
@@ -23,7 +23,7 @@ export default function Info({ date, current, max }: InfoProps) {
       <div className={styles.person}>
         <Image src="/img/icon/person2.svg" alt="사람" width={24} height={24} />
         <p>
-          {current}/{max} {finish ? "참여 완료" : ""}
+          {current}/{total} {finish ? "참여 완료" : ""}
         </p>
       </div>
     </>

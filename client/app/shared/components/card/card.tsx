@@ -9,7 +9,7 @@ type CardProps = PropsWithClassName & {
   state?: React.ReactNode;
   date: string;
   current: number;
-  max: number;
+  total: number;
 };
 
 function Card({
@@ -19,7 +19,7 @@ function Card({
   className = "",
   date = "0000년 0월 0일",
   current = 0,
-  max = 0,
+  total = 0,
   children,
 }: CardProps) {
   return (
@@ -43,7 +43,7 @@ function Card({
         </div>
       </div>
       <div className={styles.info}>
-        <Info date={date} current={current} max={max} />
+        <Info date={date} current={current} total={total} />
       </div>
     </div>
   );
