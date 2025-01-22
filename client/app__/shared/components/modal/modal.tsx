@@ -1,7 +1,7 @@
 import styles from "@/app/shared/styles/modal.module.css";
-import Popup from "./popup";
-import TextBox from "./textBox";
-import { PropsWithClassName } from "../../types/common";
+import Popup from "./popup.jsx";
+import TextBox from "./textBox.jsx";
+import { PropsWithClassName } from "../../types/common.jsx";
 
 export type ModalT = PropsWithClassName & {};
 

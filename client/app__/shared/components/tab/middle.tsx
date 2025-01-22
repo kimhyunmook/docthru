@@ -1,5 +1,5 @@
 import styles from "@/app/shared/styles/tap.module.css";
-import Tab, { TabType } from "./tab";
+import Tab, { TabType } from "./tab.jsx";
 
 export default function Middle({
   className = "",

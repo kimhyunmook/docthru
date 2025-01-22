@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useState } from "react";
 
 type SearchInputT = {
-  className?: string;
-  setData?: null;
+  className: string;
+  setData: any;
 };
-function SearchInput({ setData = null, className }: SearchInputT) {
+function SearchInput({ setData, className }: SearchInputT) {
   const [value, setValue] = useState("");
   function searchHandle(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();

@@ -1,13 +1,14 @@
+"use client";
 import styles from "@/app/shared/styles/tap.module.css";
-import Tab, { TabType } from "./tab";
+import Tab, { TabType } from "./tab.jsx";
 
-export default function Middle({
+export default function Top({
   className = "",
   active = false,
-  children = "진행중인 챌린지",
+  children = "탭01",
 }: TabType) {
   const att = {
-    className: `${styles.middle} ${className} ${
+    className: `${styles.top} ${className} ${
       active ? styles.active : ""
     }`.trim(),
   };

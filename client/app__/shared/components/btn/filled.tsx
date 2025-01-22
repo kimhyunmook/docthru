@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Btn, { IconBtnT } from "./btn";
+import Btn, { BtnT, IconBtnT } from "./btn";
 import styles from "@/app/shared/styles/btn.module.css";
 
-type FilledSizeProps = Omit<IconBtnT, "size">;
+type FilledSize = Omit<IconBtnT, "size">;
 
 function FilledBtn({
   size,
@@ -21,7 +21,7 @@ function FilledBtn({
   );
 }
 
-function Large({ children, className, width, icon = false }: FilledSizeProps) {
+function Large({ children, className, width, icon = false }: FilledSize) {
   const att = {
     className,
     width,
@@ -33,7 +33,7 @@ function Large({ children, className, width, icon = false }: FilledSizeProps) {
     </FilledBtn>
   );
 }
-function Medium({ children, className, width, icon = false }: FilledSizeProps) {
+function Medium({ children, className, width, icon = false }: FilledSize) {
   const att = {
     className,
     width,
@@ -45,7 +45,7 @@ function Medium({ children, className, width, icon = false }: FilledSizeProps) {
     </FilledBtn>
   );
 }
-function Regular({ children, className, width, icon = false }: FilledSizeProps) {
+function Regular({ children, className, width, icon = false }: FilledSize) {
   const att = {
     className,
     width,
@@ -57,7 +57,7 @@ function Regular({ children, className, width, icon = false }: FilledSizeProps) 
     </FilledBtn>
   );
 }
-function Small({ children, className, width, icon = false }: FilledSizeProps) {
+function Small({ children, className, width, icon = false }: FilledSize) {
   const att = {
     className,
     width,
@@ -69,7 +69,7 @@ function Small({ children, className, width, icon = false }: FilledSizeProps) {
     </FilledBtn>
   );
 }
-function Yellow({ children, className, width, icon = false }: FilledSizeProps) {
+function Yellow({ children, className, width, icon = false }: IconBtnT) {
   const att = {
     className,
     width,

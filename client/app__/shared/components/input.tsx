@@ -5,12 +5,19 @@ import { InputHTMLAttributes, useEffect, useState } from "react";
 import LinkImg from "./LinkImg";
 import { PropsWithClassName } from "../types/common";
 
-type InputProps = PropsWithClassName &
-  InputHTMLAttributes<HTMLInputElement> & {
-    label?: string;
-    error?: string;
-    errorCondition?: boolean;
-  };
+type InputT = {
+  label: string;
+  name: string;
+  type: InputHTMLAttributes<HTMLInputElement>["type"];
+  value: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  placeholder?: string;
+  id?: string;
+  className?: string;
+  error?: string;
+  errorCondition?: boolean;
+};
+type InputType = PropsWithClassName & InputT;
 
 function Input({
   label,
@@ -24,7 +31,7 @@ function Input({
   errorCondition = false,
   children,
   ...props
-}: InputProps) {
+}: InputType) {
   const [isErr, setIsErr] = useState(errorCondition);
   const inputAtt = {
     id: name,
@@ -57,7 +64,7 @@ function Password({
   onChange,
   placeholder,
   className,
-}: InputProps) {
+}: InputType) {
   const [inputType, setInputType] = useState("password");
   const [icon, setIcon] = useState({
     width: 24,
@@ -85,7 +92,7 @@ function Password({
       setInputType("password");
     }
   }
-  const inputAtt: InputProps = {
+  const inputAtt: InputType = {
     label,
     id: name,
     name,
@@ -108,7 +115,7 @@ function Date({
   value,
   onChange,
   className,
-}: InputProps) {
+}: InputType) {
   const inputAtt = {
     label,
     id: name,

@@ -1,0 +1,23 @@
+.loginBox {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.loginBtn {
+  width: 90px;
+  height: 40px;
+  border: 1px solid var(--gray800);
+  background-color: #fff;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.loginBox a {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+}
+.loginBox a:last-child {
+  margin: 0;
+}

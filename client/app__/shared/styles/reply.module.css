@@ -1,0 +1,52 @@
+.replyBox {
+  width: 100%;
+  max-width: 826px;
+  min-height: 117px;
+  height: 100%;
+  padding: 16px;
+  background-color: var(--gray50);
+  border-radius: 12px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.top .left {
+  display: flex;
+}
+.top .left img {
+  margin-right: 8px;
+}
+.userName {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--gray800);
+  margin-bottom: 4px;
+}
+.date {
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--gray400);
+}
+
+.text {
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--gra700);
+}
+.replyTextarea {
+  padding: 0;
+}
+.replyTextarea .textarea {
+  min-height: 117px;
+  width: 100%;
+  font-size: 16px;
+  color: var(--gra700);
+  padding: 16px;
+}
+
+.replyTextarea:focus-within {
+  border: 2px solid var(--brand_black);
+}
