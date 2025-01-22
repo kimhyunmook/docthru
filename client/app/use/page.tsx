@@ -1,7 +1,7 @@
 "use client";
 import styles from "./use.module.css";
 import Input from "../shared/components/input/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isValidEmail } from "@/lib/utils/convenience";
 import Chip from "../shared/components/chip/chip";
 import Btn from "../shared/components/btn/btn";
@@ -13,10 +13,10 @@ import Dropdown from "../shared/components/dropdown/dropdown";
 import Card from "../shared/components/card/card";
 import Reply from "../shared/components/reply/reply";
 import Modal from "../shared/components/modal/modal";
+import UseLayout from "../shared/layout/useLayout";
 
 //지울거
 import { User } from "../shared/types/user";
-import UseLayout from "../shared/layout/useLayout";
 
 const userDumi: User = {
   id: "1",
@@ -24,13 +24,26 @@ const userDumi: User = {
   grade: "어드민",
   heart: 0,
 };
+type ComponenetValue = {
+  name?: string;
+  props?: object;
+};
 
 export default function ComponentsUse() {
   const [email, setEmail] = useState("");
   const [text, setText] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [component, setComponenet] = useState<ComponenetValue>({});
+  const att = {
+    setOpen: setIsOpen,
+    setValue: setComponenet,
+  };
+  // useEffect(() => {
+  //   console.log(component);
+  // }, [component]);
   return (
     <div style={{ marginBottom: "400px" }} className={styles.page}>
-      <UseLayout title="input">
+      <UseLayout title="input" {...att}>
         <Input
           label="테스터"
           name="email"
@@ -44,11 +57,18 @@ export default function ComponentsUse() {
           errorCondition={isValidEmail(email)}
         />
         <Input.Email />
-        <Input.Password />
+        <Input.Password
+          label="비밀번호"
+          name=""
+          value=""
+          onChange={() => {}}
+          placeholder=""
+          className=""
+        />
         <Input.Date />
         <SearchInput />
       </UseLayout>
-      <UseLayout title="chip">
+      <UseLayout title="chip" {...att}>
         <Chip.NextChip />
         <Chip.WebChip />
         <Chip.CareerChip />
@@ -61,7 +81,7 @@ export default function ComponentsUse() {
         <Chip.Reject />
         <Chip.Card.Compolete /> <Chip.Card.Finish />
       </UseLayout>
-      <UseLayout title="button">
+      <UseLayout title="button" {...att}>
         <Btn.Filled.Large>라지</Btn.Filled.Large>
         <Btn.Filled.Medium icon={true}>미디움</Btn.Filled.Medium>
         <Btn.Filled.Regular icon={true}>레귤러</Btn.Filled.Regular>
@@ -71,24 +91,24 @@ export default function ComponentsUse() {
         <Btn.Solid.Regular>솔리드</Btn.Solid.Regular>
         <Btn.Filled.Yellow>필드</Btn.Filled.Yellow>
       </UseLayout>
-      <UseLayout title="tab">
+      <UseLayout title="tab" {...att}>
         <Tab.Middle></Tab.Middle>
         <Tab.Middle active={true}></Tab.Middle>
         <Tab.Top active={true}></Tab.Top>
         <Tab.Top></Tab.Top>
       </UseLayout>
-      <UseLayout title="list" width={900}>
+      <UseLayout title="list" width={900} {...att}>
         <List number={0} user={userDumi} />
       </UseLayout>
-      <UseLayout title="container">
+      <UseLayout title="container" {...att}>
         <Container date="0000년 00월 00일" current={0} total={3}></Container>
       </UseLayout>
-      <UseLayout title="dropdown" width={840}>
+      <UseLayout title="dropdown" width={840} {...att}>
         <Dropdown></Dropdown>
         <Dropdown.Sort></Dropdown.Sort>
         <Dropdown.Login />
       </UseLayout>
-      <UseLayout title="card" width={1040}>
+      <UseLayout title="card" width={1040} {...att}>
         <Card
           state={<Chip.Card.Compolete />}
           chip={<Chip.NextChip />}
@@ -100,7 +120,7 @@ export default function ComponentsUse() {
           Next.js -APP Router:Routing
         </Card>
       </UseLayout>
-      <UseLayout title="reply" width={870}>
+      <UseLayout title="reply" width={870} {...att}>
         <Reply userName={userDumi.name} date="날짜입니다" text="날짜" />
         <Reply.Textarea
           userName={userDumi.name}
@@ -108,7 +128,7 @@ export default function ComponentsUse() {
           setValue={setText}
         ></Reply.Textarea>
       </UseLayout>
-      <UseLayout title="modal" width={600}>
+      <UseLayout title="modal" width={600} {...att}>
         <Modal.Popup>가입이 완료되었습니다!</Modal.Popup>
         <Modal.TextBox.Reject
           title="거절"
@@ -119,6 +139,27 @@ export default function ComponentsUse() {
           칠드런은 뭘까
         </Modal.TextBox.Reject>
       </UseLayout>
+      <div className={`${styles.infomation} ${isOpen && styles.display}`}>
+        <div className={styles.top}>
+          <h2>
+            <span>Componenet:</span>
+            {component.name}
+          </h2>
+        </div>
+        <div className={styles.props}>
+          <h2>Props</h2>
+          <ul>
+            {Object.entries(component?.props ?? {}).map((v, index) => {
+              return (
+                <li key={index}>
+                  <h3>{v[0]}</h3>
+                  <p>{typeof v[1] as React.ReactNode}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
