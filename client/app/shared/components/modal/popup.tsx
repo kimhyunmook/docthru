@@ -1,8 +1,8 @@
 import Btn from "../btn/btn";
-import Modal, { ModalT } from "./modal";
+import Modal, { ModalProps } from "./modal";
 import styles from "@/app/shared/styles/modal.module.css";
 
-export default function Popup({ children, className }: ModalT) {
+export default function Popup({ children, className }: ModalProps) {
   return (
     <Modal className={`${styles.popup} ${className}`}>
       <p>{children}</p>

@@ -5,8 +5,8 @@ import { PropsWithClassName } from "../../types/common";
 
 type ReplyT = PropsWithClassName & {
   userName: string;
-  date: string;
-  text: string;
+  date?: string;
+  text?: string;
 };
 
 export default function Reply({

@@ -1,6 +1,6 @@
 "use client";
 import styles from "@/app/shared/styles/dropdown.module.css";
-import DropList from "./dropList.jsx";
+import DropList from "./dropList";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,15 +18,15 @@ const state = [
   "마감 기한 느린순",
 ];
 
-type DropdwonT = PropsWithClassName & {
-  list: string[];
+type DropdwonProps = PropsWithClassName & {
+  list?: string[];
 };
 
 function Dropdown({
   className = "",
   children = "카테고리",
   list = type,
-}: DropdwonT) {
+}: DropdwonProps) {
   const [value, setValue] = useState(children);
   const [on, setOn] = useState("");
   const [open, setOpen] = useState(false);
@@ -57,7 +57,7 @@ function Dropdown({
   );
 }
 
-function Sort({ className }: { className: string }) {
+function Sort({ className }: PropsWithClassName) {
   return (
     <Dropdown className={`${styles.sort} ${className}`} list={state}>
       승인 대기
@@ -66,7 +66,7 @@ function Sort({ className }: { className: string }) {
 }
 
 type login = PropsWithClassName & {
-  user: User;
+  user?: User | null;
 };
 function Login({ className, user }: login) {
   return (
@@ -79,8 +79,8 @@ function Login({ className, user }: login) {
           height={32}
         />
         <div className={styles.text}>
-          <h3>{user.name}</h3>
-          <p>{user.grade}</p>
+          <h3>{user?.name}</h3>
+          <p>{user?.grade}</p>
         </div>
       </div>
       <ul className={styles.list}>

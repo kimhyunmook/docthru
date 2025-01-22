@@ -1,5 +1,5 @@
 "use client";
-import styles from "@/app/shared/styles/btn.module.css";
+import styles from "../../styles/btn.module.css";
 import FilledBtn from "./filled";
 import OutlineBtn from "./outline";
 import TransparentBtn from "./transparent";

@@ -22,7 +22,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en">
       <body className={``}>
         <Gnb />
-        {children}
+        <div className="gc">{children}</div>
       </body>
     </html>
   );

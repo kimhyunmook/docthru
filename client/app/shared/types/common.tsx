@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
 
-export interface PropsWithClassName<T = {}> extends PropsWithChildren {
+export interface PropsWithClassName extends PropsWithChildren {
   className?: string;
 }

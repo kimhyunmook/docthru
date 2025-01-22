@@ -4,11 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { User } from "../types/user";
 
-type ListT = {
+type ListProps = {
   number: number;
   user: User;
 };
-function List({ number, user }: ListT) {
+function List({ number, user }: ListProps) {
   return (
     <div className={`${styles.list}`}>
       <p className={`${styles.number}`}>

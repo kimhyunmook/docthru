@@ -1,6 +1,16 @@
 import styles from "@/app/shared/styles/card.module.css";
 import Info from "../container/info";
 import Image from "next/image";
+import { PropsWithClassName } from "../../types/common";
+
+type CardProps = PropsWithClassName & {
+  chip?: React.ReactNode;
+  categori?: React.ReactNode;
+  state?: React.ReactNode;
+  date: string;
+  current: number;
+  total: number;
+};
 
 function Card({
   chip = null,
@@ -9,9 +19,9 @@ function Card({
   className = "",
   date = "0000년 0월 0일",
   current = 0,
-  max = 0,
+  total = 0,
   children,
-}) {
+}: CardProps) {
   return (
     <div className={`${styles.card} ${className}`}>
       <div className={styles.top}>
@@ -33,7 +43,7 @@ function Card({
         </div>
       </div>
       <div className={styles.info}>
-        <Info date={date} current={current} max={max} />
+        <Info date={date} current={current} total={total} />
       </div>
     </div>
   );

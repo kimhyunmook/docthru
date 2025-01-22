@@ -1,19 +1,13 @@
 import styles from "@/app/shared/styles/chip.module.css";
-import Chip from "./chip.jsx";
-import Image from "next/image";
+import Chip, { ChipProps } from "./chip";
+import Image, { ImageProps } from "next/image";
 
-function Card({
-  bg,
-  color,
-  children,
-  icon = {
-    src: "",
-    alt: "",
-    width: 0,
-    height: 0,
-  },
-  className,
-}) {
+type CardProps = ChipProps & {
+  icon: ImageProps;
+};
+type CardChildProps = Omit<CardProps, "icon">;
+
+function Card({ bg, color, children, icon, className }: CardProps) {
   const att = {
     bg,
     color,
@@ -21,7 +15,7 @@ function Card({
   };
   return (
     <Chip {...att}>
-      <Image {...icon} />
+      <Image {...icon} alt={icon.alt || ""} />
       {children}
     </Chip>
   );
@@ -30,7 +24,7 @@ const size = {
   width: 20,
   height: 20,
 };
-function Compolete({ className }) {
+function Compolete({ className }: CardChildProps) {
   const icon = {
     src: "/img/icon/person.svg",
     alt: "완료",
@@ -43,7 +37,7 @@ function Compolete({ className }) {
   );
 }
 
-function Finish({ className }) {
+function Finish({ className }: CardChildProps) {
   const icon = {
     src: "/img/icon/deadline.svg",
     alt: "완료",
