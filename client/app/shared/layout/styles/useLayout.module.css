@@ -17,7 +17,14 @@
   border: 1px dashed var(--brand_black);
 }
 .list .li {
+  border: 2px solid transparent;
   margin-bottom: 10px;
+  border-radius: 6px;
+  transition: 0.5s;
+  padding: 3px;
+}
+.list .li:hover {
+  border: 2px solid #000;
 }
 
 .list .li:last-child {
