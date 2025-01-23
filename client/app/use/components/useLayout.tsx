@@ -10,7 +10,6 @@ type UseLayoutProps = PropsWithClassName & {
   setValue: React.Dispatch<React.SetStateAction<object>>;
 };
 
-
 export default function UseLayout({
   children,
   title,
@@ -30,10 +29,8 @@ export default function UseLayout({
               onClick={() => {
                 setOpen(true);
                 if (!React.isValidElement(child)) return;
-                console.log(child.props);
                 setValue({
                   element: React.cloneElement(child),
-                  // symbol: child.$$typeof,
                   name: typeof child.type === "function" ? child.type.name : "",
                   props: child.props,
                 });

@@ -35,9 +35,6 @@ export default function ComponentsUse() {
     setOpen: setIsOpen,
     setValue: setComponenet,
   };
-  // useEffect(() => {
-  //   console.log(component);
-  // }, [component]);
 
   return (
     <div style={{ marginBottom: "400px" }} className={styles.page}>
@@ -172,10 +169,10 @@ export default function ComponentsUse() {
           value={text}
           setValue={setText}
         >
-          칠드런은 뭘까
+          칠드런
         </Modal.TextBox.Reject>
       </UseLayout>
-      <UseModal isOpen={isOpen} component={component} />
+      <UseModal isOpen={isOpen} setIsOpen={setIsOpen} component={component} />
     </div>
   );
 }
