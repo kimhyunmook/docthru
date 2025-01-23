@@ -9,7 +9,7 @@ type LoginBoxT = {
   admin: boolean;
 };
 
-export default function LoginBox({ login = false, admin = false }: LoginBoxT) {
+export default function LoginBox({ login = false, admin }: LoginBoxT) {
   const [state, setState] = useState([
     {
       src: "/img/icon/alarm.svg",
@@ -40,7 +40,10 @@ export default function LoginBox({ login = false, admin = false }: LoginBoxT) {
   return (
     <div className={styles.loginBox}>
       {!login ? (
-        <Link className={`${styles.loginBtn} flexCenter`} href="/auth/login">
+        <Link
+          className={`${styles.loginBtn} flexCenter`}
+          href="/pages/auth/login"
+        >
           로그인
         </Link>
       ) : (

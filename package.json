@@ -6,7 +6,8 @@
   "scripts": {
     "i_front": "cd client && npm i",
     "front": "cd client && npm run dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "git_pull_main": "git pull origin main"
   },
   "author": "",
   "license": "ISC"

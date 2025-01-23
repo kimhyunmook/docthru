@@ -2,10 +2,15 @@ import styles from "@/app/shared/styles/header.module.css";
 import LoginBox from "./loginBox";
 import LinkImg from "../LinkImg";
 import Link from "next/link";
+import { User } from "../../types/user";
 
-export default function Gnb({}) {
+interface Gnb {
+  login: boolean;
+  user: User;
+}
+export default function Gnb({ login, user }: Gnb) {
   return (
-    <header className={`${styles.header} flexCenter`}>
+    <header id={"header"} className={`${styles.header} flexCenter`}>
       <nav className={`${styles.gnb}`}>
         <div className={`${styles.left}`}>
           <LinkImg
@@ -25,7 +30,7 @@ export default function Gnb({}) {
             </li>
           </ul>
         </div>
-        <LoginBox login={true} admin={true} />
+        <LoginBox login={login} admin={user.grade === "어드민"} />
       </nav>
     </header>
   );

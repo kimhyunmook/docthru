@@ -35,23 +35,20 @@ export default function ComponentsUse() {
     setOpen: setIsOpen,
     setValue: setComponenet,
   };
-  // useEffect(() => {
-  //   console.log(component);
-  // }, [component]);
 
   return (
     <div style={{ marginBottom: "400px" }} className={styles.page}>
       <UseLayout title="input" {...att}>
         <Input
           label="테스터"
-          name="email"
-          type="email"
+          name="test"
+          type="text"
           value={email}
           onChange={(e) => {
             const { value } = e.target;
             setEmail(value);
           }}
-          error={"이메일 형식 알아"}
+          error={"이메일 형식 아니야"}
           errorCondition={isValidEmail(email)}
         />
         <Input.Email />
@@ -103,6 +100,13 @@ export default function ComponentsUse() {
         </Btn.Filled.Small>
         <Btn.Outline.Small className="" width={"0|auto"}>
           아웃라인
+        </Btn.Outline.Small>
+        <Btn.Outline.Small
+          className=""
+          width={"0|auto"}
+          icon="/img/icon/arrow_right.svg"
+        >
+          아웃라인 아이콘
         </Btn.Outline.Small>
         <Btn.Transparent.Regular className="" width={"0|auto"} icon={true}>
           투명
@@ -172,10 +176,10 @@ export default function ComponentsUse() {
           value={text}
           setValue={setText}
         >
-          칠드런은 뭘까
+          칠드런
         </Modal.TextBox.Reject>
       </UseLayout>
-      <UseModal isOpen={isOpen} component={component} />
+      <UseModal isOpen={isOpen} setIsOpen={setIsOpen} component={component} />
     </div>
   );
 }
