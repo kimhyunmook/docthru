@@ -1,8 +1,9 @@
 import { isValidEmail } from "@/lib/utils/convenience";
 import Input from "./input";
 import { useState } from "react";
+import { PropsWithClassName } from "../../types/common";
 
-function InputEmail({}) {
+function InputEmail({ className }: PropsWithClassName) {
   const [email, setEmail] = useState("");
 
   const att = {
@@ -13,6 +14,7 @@ function InputEmail({}) {
     error: "Email 형식이 아닙니다.",
     errorCondition: isValidEmail(email),
     placeholder: "Email을 입력해주세요",
+    className,
   };
   return (
     <Input
