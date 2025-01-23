@@ -26,7 +26,8 @@ export default function UseLayout({
             <li
               className={styles.li}
               key={index}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 setOpen(true);
                 if (!React.isValidElement(child)) return;
                 setValue({
@@ -37,6 +38,7 @@ export default function UseLayout({
               }}
             >
               {child}
+              <div className={styles.cover}></div>
             </li>
           );
         })}

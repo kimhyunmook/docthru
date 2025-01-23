@@ -1,41 +1,54 @@
 import Btn, { BtnT } from "./btn";
 import styles from "@/app/shared/styles/btn.module.css";
+import Image from "next/image";
+type SolidProps = BtnT & {
+  icon?: string;
+};
+type SolidSize = Omit<SolidProps, "size">;
 
-type SolidSize = Omit<BtnT, "size">;
-
-function SolidBtn({ size, className, children, width }: BtnT) {
+function SolidBtn({ size, className, children, width, icon }: SolidProps) {
   return (
     <Btn size={size} width={width} className={`${styles.solid} ${className}`}>
       {children}
+      {!!icon && (
+        <Image
+          className={styles.img}
+          src={icon}
+          alt="icon"
+          width={24}
+          height={24}
+        />
+      )}
     </Btn>
   );
 }
 
-function Large({ children, className, width = "auto" }: SolidSize) {
+function Large({ children, className, width, icon }: SolidSize) {
+  const att = { className, width, icon };
   return (
-    <SolidBtn className={className} width={width} size="l">
+    <SolidBtn {...att} size="l">
       {children}
     </SolidBtn>
   );
 }
-function Medium({ children, className, width }: SolidSize) {
-  const att = { className, width };
+function Medium({ children, className, width, icon }: SolidSize) {
+  const att = { className, width, icon };
   return (
     <SolidBtn {...att} size="m">
       {children}
     </SolidBtn>
   );
 }
-function Regular({ children, className, width }: SolidSize) {
-  const att = { className, width };
+function Regular({ children, className, width, icon }: SolidSize) {
+  const att = { className, width, icon };
   return (
     <SolidBtn {...att} size="r">
       {children}
     </SolidBtn>
   );
 }
-function Small({ children, className, width }: SolidSize) {
-  const att = { className, width };
+function Small({ children, className, width, icon }: SolidSize) {
+  const att = { className, width, icon };
   return (
     <SolidBtn {...att} size="s">
       {children}

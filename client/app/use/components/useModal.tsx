@@ -27,7 +27,7 @@ export default function UseModal({
       </div>
       <div className={styles.elements}>{component.element}</div>
       <div className={styles.lists}>
-        <h2 className={styles.title}>Props</h2>
+        {!!component?.props && <h2 className={styles.title}>Props</h2>}
         <ul>
           {Object.entries(component?.props ?? {}).map((v, index) => {
             let value = typeof v[1] as React.ReactNode;
@@ -36,7 +36,7 @@ export default function UseModal({
 
             switch (value) {
               case "function":
-                value = "() => void";
+                value = "void";
                 break;
 
               case "object":
@@ -44,7 +44,7 @@ export default function UseModal({
                   const overlap = v[1].map((v) => {
                     return typeof v[1];
                   });
-                  let setOverlap = new Set(overlap);
+                  const setOverlap = new Set(overlap);
                   const arr = [...setOverlap];
                   value = arr.reduce((a, c, i) => {
                     a += c;
