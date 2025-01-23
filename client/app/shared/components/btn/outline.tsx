@@ -1,14 +1,26 @@
 import Image from "next/image";
-import Btn, { BtnT } from "./btn";
+import Btn, { BtnProps } from "./btn";
 import styles from "@/app/shared/styles/btn.module.css";
-type OutlineProps = BtnT & {
+type OutlineProps = BtnProps & {
   icon?: string;
 };
 type OutlineSize = Omit<OutlineProps, "size">;
 
-function OutlineBtn({ size, className, children, width, icon }: OutlineProps) {
+function OutlineBtn({
+  size,
+  className,
+  children,
+  width,
+  icon,
+  onClick,
+}: OutlineProps) {
   return (
-    <Btn size={size} width={width} className={`${styles.outline} ${className}`}>
+    <Btn
+      size={size}
+      width={width}
+      onClick={onClick}
+      className={`${styles.outline} ${className}`}
+    >
       {children}
       {!!icon && (
         <Image
@@ -23,11 +35,12 @@ function OutlineBtn({ size, className, children, width, icon }: OutlineProps) {
   );
 }
 
-function Large({ children, className, width, icon }: OutlineSize) {
+function Large({ children, className, width, icon, onClick }: OutlineSize) {
   const att = {
     className,
     width,
     icon,
+    onClick,
   };
   return (
     <OutlineBtn {...att} size="l">
@@ -35,11 +48,12 @@ function Large({ children, className, width, icon }: OutlineSize) {
     </OutlineBtn>
   );
 }
-function Medium({ children, className, width, icon }: OutlineSize) {
+function Medium({ children, className, width, icon, onClick }: OutlineSize) {
   const att = {
     className,
     width,
     icon,
+    onClick,
   };
   return (
     <OutlineBtn {...att} size="m">
@@ -47,11 +61,12 @@ function Medium({ children, className, width, icon }: OutlineSize) {
     </OutlineBtn>
   );
 }
-function Regular({ children, className, width, icon }: OutlineSize) {
+function Regular({ children, className, width, icon, onClick }: OutlineSize) {
   const att = {
     className,
     width,
     icon,
+    onClick,
   };
   return (
     <OutlineBtn {...att} size="r">
@@ -59,11 +74,12 @@ function Regular({ children, className, width, icon }: OutlineSize) {
     </OutlineBtn>
   );
 }
-function Small({ children, className, width, icon }: OutlineSize) {
+function Small({ children, className, width, icon, onClick }: OutlineSize) {
   const att = {
     className,
     width,
     icon,
+    onClick,
   };
   return (
     <OutlineBtn {...att} size="s">

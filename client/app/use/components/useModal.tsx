@@ -4,6 +4,7 @@ export type ComponenetValue = {
   name?: string;
   props?: object;
   element?: React.ReactNode;
+  displayName?: string;
 };
 type UseModalProps = {
   isOpen: boolean;
@@ -19,12 +20,20 @@ export default function UseModal({
     e.preventDefault();
     setIsOpen(false);
   }
+
+  const displayName = !!Object.keys(component?.props ?? {}).find(
+    (x) => x === "children"
+  )
+    ? `<${component.displayName}></${component.displayName}>`
+    : `<${component?.displayName} />`;
+  navigator.clipboard.writeText(displayName);
   return (
     <div className={`${styles.infomation} ${isOpen && styles.display}`}>
       <div className={styles.top}>
         <h2 className={styles.name}>{component.name}</h2>
         <a className={styles.closeBtn} onClick={close}></a>
       </div>
+      <div className={styles.displayName}>{displayName}</div>
       <div className={styles.elements}>{component.element}</div>
       <div className={styles.lists}>
         {!!component?.props && <h2 className={styles.title}>Props</h2>}

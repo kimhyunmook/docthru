@@ -1,20 +1,22 @@
-import Btn, { IconBtnT } from "./btn";
+import Btn, { IconBtnProps } from "./btn";
 import styles from "@/app/shared/styles/btn.module.css";
 import Image from "next/image";
 
-type TransparentSize = Omit<IconBtnT, "size">;
+type TransparentSize = Omit<IconBtnProps, "size">;
 function TransparentBtn({
   size,
   className,
   children,
   width,
   icon = true,
-}: IconBtnT) {
+  onClick,
+}: IconBtnProps) {
   return (
     <Btn
       size={size}
       width={width}
       className={`${styles.transparent} ${className}`}
+      onClick={onClick}
     >
       {children}
       {icon ? (
@@ -30,11 +32,12 @@ function TransparentBtn({
   );
 }
 
-function Large({ children, className, icon, width }: TransparentSize) {
+function Large({ children, className, icon, width, onClick }: TransparentSize) {
   const att = {
     className,
     icon,
     width,
+    onClick,
   };
   return (
     <TransparentBtn {...att} size="l">
@@ -42,11 +45,18 @@ function Large({ children, className, icon, width }: TransparentSize) {
     </TransparentBtn>
   );
 }
-function Medium({ children, className, icon, width }: TransparentSize) {
+function Medium({
+  children,
+  className,
+  icon,
+  width,
+  onClick,
+}: TransparentSize) {
   const att = {
     className,
     icon,
     width,
+    onClick,
   };
   return (
     <TransparentBtn {...att} size="m">
@@ -54,11 +64,18 @@ function Medium({ children, className, icon, width }: TransparentSize) {
     </TransparentBtn>
   );
 }
-function Regular({ children, className, icon, width }: TransparentSize) {
+function Regular({
+  children,
+  className,
+  icon,
+  width,
+  onClick,
+}: TransparentSize) {
   const att = {
     className,
     icon,
     width,
+    onClick,
   };
   return (
     <TransparentBtn {...att} size="r">
@@ -66,11 +83,12 @@ function Regular({ children, className, icon, width }: TransparentSize) {
     </TransparentBtn>
   );
 }
-function Small({ children, className, icon, width }: TransparentSize) {
+function Small({ children, className, icon, width, onClick }: TransparentSize) {
   const att = {
     className,
     icon,
     width,
+    onClick,
   };
   return (
     <TransparentBtn {...att} size="s">

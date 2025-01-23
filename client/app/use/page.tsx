@@ -35,7 +35,9 @@ export default function ComponentsUse() {
     setOpen: setIsOpen,
     setValue: setComponenet,
   };
-
+  const click = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+  };
   return (
     <div style={{ marginBottom: "400px" }} className={styles.page}>
       <UseLayout title="input" {...att}>
@@ -86,35 +88,61 @@ export default function ComponentsUse() {
         <Chip.Card.Finish className="" />
       </UseLayout>
       <UseLayout title="button" {...att}>
-        <Btn.Filled.Large className="" width={"0|auto"} icon={false}>
+        <Btn.Filled.Large
+          className=""
+          width={"0|auto"}
+          icon={false}
+          onClick={click}
+        >
           라지
         </Btn.Filled.Large>
-        <Btn.Filled.Medium className="" width={"0|auto"} icon={true}>
+        <Btn.Filled.Medium
+          className=""
+          width={"0|auto"}
+          icon={true}
+          onClick={click}
+        >
           미디움
         </Btn.Filled.Medium>
-        <Btn.Filled.Regular className="" width={"0|auto"} icon={true}>
+        <Btn.Filled.Regular
+          className=""
+          width={"0|auto"}
+          icon={true}
+          onClick={click}
+        >
           레귤러
         </Btn.Filled.Regular>
-        <Btn.Filled.Small className="" width={"0|auto"} icon={true}>
+        <Btn.Filled.Small
+          className=""
+          width={"0|auto"}
+          icon={true}
+          onClick={click}
+        >
           스몰
         </Btn.Filled.Small>
-        <Btn.Outline.Small className="" width={"0|auto"}>
+        <Btn.Outline.Small className="" width={"0|auto"} onClick={click}>
           아웃라인
         </Btn.Outline.Small>
         <Btn.Outline.Small
           className=""
           width={"0|auto"}
           icon="/img/icon/arrow_right.svg"
+          onClick={click}
         >
           아웃라인 아이콘
         </Btn.Outline.Small>
-        <Btn.Transparent.Regular className="" width={"0|auto"} icon={true}>
+        <Btn.Transparent.Regular
+          className=""
+          width={"0|auto"}
+          icon={true}
+          onClick={click}
+        >
           투명
         </Btn.Transparent.Regular>
-        <Btn.Solid.Regular className="" width={"0|auto"}>
+        <Btn.Solid.Regular className="" width={"0|auto"} onClick={click}>
           솔리드
         </Btn.Solid.Regular>
-        <Btn.Filled.Yellow className="" width={"0|auto"}>
+        <Btn.Filled.Yellow className="" width={"0|auto"} onClick={click}>
           필드
         </Btn.Filled.Yellow>
       </UseLayout>
