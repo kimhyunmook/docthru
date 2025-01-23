@@ -1,6 +1,6 @@
 import "@/app/shared/styles/globals.css";
-import Gnb from "./shared/components/gnb/gnb";
 import { PropsWithChildren } from "react";
+import HeaderProvider from "./provider/headerProvider";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -21,8 +21,8 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body className={``}>
-        <Gnb />
-        <div className="gc">{children}</div>
+        <HeaderProvider />
+        {children}
       </body>
     </html>
   );
