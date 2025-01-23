@@ -48,7 +48,6 @@ function Input({
     </div>
   );
 }
-
 Input.Email = InputEmail;
 Input.Password = InputPassword;
 Input.Date = InputDate;

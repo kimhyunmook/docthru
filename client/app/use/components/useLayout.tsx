@@ -2,6 +2,7 @@
 import React from "react";
 import { PropsWithClassName } from "../../shared/types/common";
 import styles from "../styles/useLayout.module.css";
+import { getDisplayName } from "next/dist/shared/lib/utils";
 
 type UseLayoutProps = PropsWithClassName & {
   title: string;
@@ -30,8 +31,13 @@ export default function UseLayout({
                 e.stopPropagation();
                 setOpen(true);
                 if (!React.isValidElement(child)) return;
+
                 setValue({
                   element: React.cloneElement(child),
+                  displayName:
+                    typeof child.type === "string"
+                      ? child.type
+                      : getDisplayName(child.type),
                   name: typeof child.type === "function" ? child.type.name : "",
                   props: child.props,
                 });

@@ -1,18 +1,24 @@
 import Image from "next/image";
-import Btn, { IconBtnT } from "./btn";
+import Btn, { IconBtnProps } from "./btn";
 import styles from "@/app/shared/styles/btn.module.css";
 
-type FilledSizeProps = Omit<IconBtnT, "size">;
+type FilledSizeProps = Omit<IconBtnProps, "size">;
 
 function FilledBtn({
   size,
   className,
   children,
   width,
+  onClick,
   icon = false,
-}: IconBtnT) {
+}: IconBtnProps) {
   return (
-    <Btn size={size} className={`${styles.filled} ${className}`} width={width}>
+    <Btn
+      size={size}
+      onClick={onClick}
+      className={`${styles.filled} ${className}`}
+      width={width}
+    >
       {children}
       {icon ? (
         <Image src="/img/icon/filled.svg" alt="filled" width={24} height={24} />
@@ -21,11 +27,12 @@ function FilledBtn({
   );
 }
 
-function Large({ children, className, width, icon = false }: FilledSizeProps) {
+function Large({ children, className, width, onClick, icon }: FilledSizeProps) {
   const att = {
     className,
     width,
     icon,
+    onClick,
   };
   return (
     <FilledBtn {...att} size="l">
@@ -33,11 +40,18 @@ function Large({ children, className, width, icon = false }: FilledSizeProps) {
     </FilledBtn>
   );
 }
-function Medium({ children, className, width, icon = false }: FilledSizeProps) {
+function Medium({
+  children,
+  className,
+  width,
+  onClick,
+  icon,
+}: FilledSizeProps) {
   const att = {
     className,
     width,
     icon,
+    onClick,
   };
   return (
     <FilledBtn {...att} size="m">
@@ -45,11 +59,18 @@ function Medium({ children, className, width, icon = false }: FilledSizeProps) {
     </FilledBtn>
   );
 }
-function Regular({ children, className, width, icon = false }: FilledSizeProps) {
+function Regular({
+  children,
+  className,
+  width,
+  icon,
+  onClick,
+}: FilledSizeProps) {
   const att = {
     className,
     width,
     icon,
+    onClick,
   };
   return (
     <FilledBtn {...att} size="r">
@@ -57,11 +78,12 @@ function Regular({ children, className, width, icon = false }: FilledSizeProps) 
     </FilledBtn>
   );
 }
-function Small({ children, className, width, icon = false }: FilledSizeProps) {
+function Small({ children, className, width, icon, onClick }: FilledSizeProps) {
   const att = {
     className,
     width,
     icon,
+    onClick,
   };
   return (
     <FilledBtn {...att} size="s">

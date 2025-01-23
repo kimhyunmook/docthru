@@ -20,18 +20,35 @@
   font-family: Quantico;
   font-size: 30px;
   font-weight: 700;
-  color: #4ec9b0;
+  color: #dcdcaa;
   padding-bottom: 5px;
+}
+.displayName {
+  font-weight: 700;
+  font-size: 24px;
+  color: #4ec9b0;
+  margin: 10px 0;
+  padding: 5px 0;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.5s;
+  border: 3px solid transparent;
+  cursor: pointer;
+}
+.displayName:hover {
+  background-color: #000;
+  border: 3px solid #4ec9b0;
 }
 .title {
   font-family: Quantico;
 }
 
 .elements {
-  background-color:#cecece;
+  background-color: #cecece;
   padding: 10px;
   margin: 2.5px 0;
   border-radius: 5px;
+  margin-bottom: 15px;
 }
 .lists {
 }
