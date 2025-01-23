@@ -51,7 +51,7 @@ export default function ComponentsUse() {
           error={"이메일 형식 아니야"}
           errorCondition={isValidEmail(email)}
         />
-        <Input.Email />
+        <Input.Email className="" />
         <Input.Password
           label="비밀번호"
           name=""
