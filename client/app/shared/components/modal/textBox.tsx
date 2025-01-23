@@ -58,4 +58,7 @@ function Reject({ className, name, value, setValue }: TextBoxProps) {
     ></TextBox>
   );
 }
+
 TextBox.Reject = Reject;
+TextBox.displayName = "Modal.TextBox";
+Reject.displayName = "Modal.TextBox.Reject";

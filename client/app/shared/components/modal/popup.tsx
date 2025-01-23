@@ -12,3 +12,4 @@ export default function Popup({ children, className }: ModalProps) {
     </Modal>
   );
 }
+Popup.displayName = "Modal.Popup";

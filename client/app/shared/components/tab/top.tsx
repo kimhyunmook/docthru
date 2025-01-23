@@ -14,3 +14,5 @@ export default function Top({
   };
   return <Tab {...att}>{children}</Tab>;
 }
+
+Top.displayName = "Tab.Top";

@@ -73,4 +73,10 @@ SolidBtn.Medium = Medium;
 SolidBtn.Regular = Regular;
 SolidBtn.Small = Small;
 
+SolidBtn.displayName = "Btn.Solid";
+Large.displayName = "Btn.Solid.Large";
+Medium.displayName = "Btn.Solid.Medium";
+Regular.displayName = "Btn.Solid.Regular";
+Small.displayName = "Btn.Solid.Small";
+
 export default SolidBtn;

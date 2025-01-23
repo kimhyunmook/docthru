@@ -27,7 +27,7 @@ function Dropdown({
   children = "카테고리",
   list = type,
 }: DropdwonProps) {
-  const [value, setValue] = useState(children);
+  const [value, setValue] = useState<React.ReactNode>(children);
   const [on, setOn] = useState("");
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -101,5 +101,8 @@ function Login({ className, user }: login) {
 
 Dropdown.Sort = Sort;
 Dropdown.Login = Login;
+
+Sort.displayName = "Dropdown.Sort";
+Login.displayName = "Dropdown.Login";
 
 export default Dropdown;

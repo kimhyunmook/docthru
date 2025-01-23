@@ -52,5 +52,6 @@ function Finish({ className }: CardChildProps) {
 
 Card.Compolete = Compolete;
 Card.Finish = Finish;
+Compolete.displayName = "Card.Compolete";
 
 export default Card;
