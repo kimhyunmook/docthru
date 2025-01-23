@@ -11,6 +11,7 @@ function InputEmail({}) {
     type: "email",
     error: "Email 형식이 아닙니다.",
     errorCondition: isValidEmail(email),
+    placeholder: "Email을 입력해주세요",
   };
   return (
     <Input

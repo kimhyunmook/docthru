@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "front":"cd client && npm run dev",
+    "i_front": "cd client && npm i",
+    "front": "cd client && npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

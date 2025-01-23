@@ -43,7 +43,7 @@ function InputPassword({
     name,
     value,
     onChange,
-    placeholder,
+    placeholder: placeholder ? placeholder : "비밀번호를 입력해주세요",
     className,
     type: inputType,
   };

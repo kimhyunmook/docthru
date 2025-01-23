@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { PropsWithClassName } from "../types/common";
-import styles from "./styles/useLayout.module.css";
+import React from "react";
+import { PropsWithClassName } from "../../shared/types/common";
+import styles from "../styles/useLayout.module.css";
 
 type UseLayoutProps = PropsWithClassName & {
   title: string;
@@ -9,6 +9,7 @@ type UseLayoutProps = PropsWithClassName & {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setValue: React.Dispatch<React.SetStateAction<object>>;
 };
+
 
 export default function UseLayout({
   children,
@@ -26,11 +27,13 @@ export default function UseLayout({
             <li
               className={styles.li}
               key={index}
-              onClick={(e) => {
-                console.log(child);
+              onClick={() => {
                 setOpen(true);
                 if (!React.isValidElement(child)) return;
+                console.log(child.props);
                 setValue({
+                  element: React.cloneElement(child),
+                  // symbol: child.$$typeof,
                   name: typeof child.type === "function" ? child.type.name : "",
                   props: child.props,
                 });

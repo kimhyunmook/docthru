@@ -1,7 +1,7 @@
 "use client";
-import styles from "./use.module.css";
+import styles from "./styles/use.module.css";
 import Input from "../shared/components/input/input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { isValidEmail } from "@/lib/utils/convenience";
 import Chip from "../shared/components/chip/chip";
 import Btn from "../shared/components/btn/btn";
@@ -13,7 +13,8 @@ import Dropdown from "../shared/components/dropdown/dropdown";
 import Card from "../shared/components/card/card";
 import Reply from "../shared/components/reply/reply";
 import Modal from "../shared/components/modal/modal";
-import UseLayout from "../shared/layout/useLayout";
+import UseLayout from "./components/useLayout";
+import UseModal, { ComponenetValue } from "./components/useModal";
 
 //지울거
 import { User } from "../shared/types/user";
@@ -23,10 +24,6 @@ const userDumi: User = {
   name: "테스터",
   grade: "어드민",
   heart: 0,
-};
-type ComponenetValue = {
-  name?: string;
-  props?: object;
 };
 
 export default function ComponentsUse() {
@@ -41,6 +38,7 @@ export default function ComponentsUse() {
   // useEffect(() => {
   //   console.log(component);
   // }, [component]);
+
   return (
     <div style={{ marginBottom: "400px" }} className={styles.page}>
       <UseLayout title="input" {...att}>
@@ -65,37 +63,70 @@ export default function ComponentsUse() {
           placeholder=""
           className=""
         />
-        <Input.Date />
-        <SearchInput />
+        <Input.Date
+          label="마감기한"
+          name=""
+          value={text}
+          onChange={(e) => {
+            setText(e.target.value);
+          }}
+          className=""
+        />
+        <SearchInput setData={null} className="" />
       </UseLayout>
       <UseLayout title="chip" {...att}>
-        <Chip.NextChip />
-        <Chip.WebChip />
-        <Chip.CareerChip />
-        <Chip.ModernChip />
-        <Chip.ApiChip />
-        <Chip.Categori>대기</Chip.Categori>
-        <Chip.Accecpt />
-        <Chip.Pending />
-        <Chip.Delete />
-        <Chip.Reject />
-        <Chip.Card.Compolete /> <Chip.Card.Finish />
+        <Chip.NextChip className="" />
+        <Chip.WebChip className="" />
+        <Chip.CareerChip className="" />
+        <Chip.ModernChip className="" />
+        <Chip.ApiChip className="" />
+        <Chip.Categori className="">대기</Chip.Categori>
+        <Chip.Accecpt className="" />
+        <Chip.Pending className="" />
+        <Chip.Delete className="" />
+        <Chip.Reject className="" />
+        <Chip.Card.Compolete className="" />
+        <Chip.Card.Finish className="" />
       </UseLayout>
       <UseLayout title="button" {...att}>
-        <Btn.Filled.Large>라지</Btn.Filled.Large>
-        <Btn.Filled.Medium icon={true}>미디움</Btn.Filled.Medium>
-        <Btn.Filled.Regular icon={true}>레귤러</Btn.Filled.Regular>
-        <Btn.Filled.Small>스몰</Btn.Filled.Small>
-        <Btn.Outline.Small>아웃라인</Btn.Outline.Small>
-        <Btn.Transparent.Regular>투명</Btn.Transparent.Regular>
-        <Btn.Solid.Regular>솔리드</Btn.Solid.Regular>
-        <Btn.Filled.Yellow>필드</Btn.Filled.Yellow>
+        <Btn.Filled.Large className="" width={"0|auto"} icon={false}>
+          라지
+        </Btn.Filled.Large>
+        <Btn.Filled.Medium className="" width={"0|auto"} icon={true}>
+          미디움
+        </Btn.Filled.Medium>
+        <Btn.Filled.Regular className="" width={"0|auto"} icon={true}>
+          레귤러
+        </Btn.Filled.Regular>
+        <Btn.Filled.Small className="" width={"0|auto"} icon={true}>
+          스몰
+        </Btn.Filled.Small>
+        <Btn.Outline.Small className="" width={"0|auto"}>
+          아웃라인
+        </Btn.Outline.Small>
+        <Btn.Transparent.Regular className="" width={"0|auto"} icon={true}>
+          투명
+        </Btn.Transparent.Regular>
+        <Btn.Solid.Regular className="" width={"0|auto"}>
+          솔리드
+        </Btn.Solid.Regular>
+        <Btn.Filled.Yellow className="" width={"0|auto"}>
+          필드
+        </Btn.Filled.Yellow>
       </UseLayout>
       <UseLayout title="tab" {...att}>
-        <Tab.Middle></Tab.Middle>
-        <Tab.Middle active={true}></Tab.Middle>
-        <Tab.Top active={true}></Tab.Top>
-        <Tab.Top></Tab.Top>
+        <Tab.Middle className="" active={false}>
+          진행중인 챌린지
+        </Tab.Middle>
+        <Tab.Middle className="" active={true}>
+          진행중인 챌린지
+        </Tab.Middle>
+        <Tab.Top className="" active={true}>
+          탭1
+        </Tab.Top>
+        <Tab.Top className="" active={false}>
+          탭1
+        </Tab.Top>
       </UseLayout>
       <UseLayout title="list" width={900} {...att}>
         <List number={0} user={userDumi} />
@@ -104,9 +135,14 @@ export default function ComponentsUse() {
         <Container date="0000년 00월 00일" current={0} total={3}></Container>
       </UseLayout>
       <UseLayout title="dropdown" width={840} {...att}>
-        <Dropdown></Dropdown>
-        <Dropdown.Sort></Dropdown.Sort>
-        <Dropdown.Login />
+        <Dropdown
+          className=""
+          list={["Next.js", "API", "Career", "Modern JS", "Web"]}
+        >
+          카테고리
+        </Dropdown>
+        <Dropdown.Sort className=""></Dropdown.Sort>
+        <Dropdown.Login className="" />
       </UseLayout>
       <UseLayout title="card" width={1040} {...att}>
         <Card
@@ -139,27 +175,7 @@ export default function ComponentsUse() {
           칠드런은 뭘까
         </Modal.TextBox.Reject>
       </UseLayout>
-      <div className={`${styles.infomation} ${isOpen && styles.display}`}>
-        <div className={styles.top}>
-          <h2>
-            <span>Componenet:</span>
-            {component.name}
-          </h2>
-        </div>
-        <div className={styles.props}>
-          <h2>Props</h2>
-          <ul>
-            {Object.entries(component?.props ?? {}).map((v, index) => {
-              return (
-                <li key={index}>
-                  <h3>{v[0]}</h3>
-                  <p>{typeof v[1] as React.ReactNode}</p>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
+      <UseModal isOpen={isOpen} component={component} />
     </div>
   );
 }
