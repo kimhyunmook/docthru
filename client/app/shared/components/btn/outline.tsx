@@ -93,4 +93,10 @@ OutlineBtn.Medium = Medium;
 OutlineBtn.Regular = Regular;
 OutlineBtn.Small = Small;
 
+OutlineBtn.displayName = "Btn.Outline";
+Large.displayName = "Btn.Outline.Large";
+Medium.displayName = "Btn.Outline.Medium";
+Regular.displayName = "Btn.Outline.Regular";
+Small.displayName = "Btn.Outline.Small";
+
 export default OutlineBtn;

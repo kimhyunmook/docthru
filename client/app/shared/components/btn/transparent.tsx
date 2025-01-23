@@ -102,4 +102,10 @@ TransparentBtn.Medium = Medium;
 TransparentBtn.Regular = Regular;
 TransparentBtn.Small = Small;
 
+TransparentBtn.displayName = "Btn.Transparent";
+Large.displayName = "Btn.Transparent.Large";
+Medium.displayName = "Btn.Transparent.Medium";
+Regular.displayName = "Btn.Transparent.Regular";
+Small.displayName = "Btn.Transparent.Small";
+
 export default TransparentBtn;

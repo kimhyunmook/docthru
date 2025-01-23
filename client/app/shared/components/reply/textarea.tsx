@@ -32,3 +32,5 @@ export default function Textarea({
     </Reply>
   );
 }
+
+Textarea.displayName = "Reply.Textarea";

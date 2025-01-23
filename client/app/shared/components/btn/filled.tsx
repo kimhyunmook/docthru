@@ -40,6 +40,7 @@ function Large({ children, className, width, onClick, icon }: FilledSizeProps) {
     </FilledBtn>
   );
 }
+
 function Medium({
   children,
   className,
@@ -109,5 +110,12 @@ FilledBtn.Medium = Medium;
 FilledBtn.Regular = Regular;
 FilledBtn.Small = Small;
 FilledBtn.Yellow = Yellow;
+
+FilledBtn.displayName = "Btn.Filled";
+Large.displayName = "Btn.Filled.Large";
+Medium.displayName = "Btn.Filled.Medium";
+Regular.displayName = "Btn.Filled.Regular";
+Small.displayName = "Btn.Filled.Small";
+Yellow.displayName = "Btn.Filled.Yellow";
 
 export default FilledBtn;

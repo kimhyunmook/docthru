@@ -13,3 +13,5 @@ export default function Middle({
   };
   return <Tab {...att}>{children}</Tab>;
 }
+
+Middle.displayName = "Tab.Middle";
