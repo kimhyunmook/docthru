@@ -56,11 +56,10 @@ export default function UseModal({
                   const arr = Object.entries(v[1]);
 
                   const reactChk = arr[0].find((x) => x === "$$typeof");
-                  console.log(reactChk);
                   if (!!reactChk) {
                     value = "React.ReactNode";
                     return (
-                      <li className={styles.ob}>
+                      <li className={""} key={index}>
                         <span className={styles.key}>{v[0]}</span>
                         <span className={styles.value}>{value}</span>
                       </li>
