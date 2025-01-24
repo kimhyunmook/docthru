@@ -1,30 +1,54 @@
-import styles from "../styles/useModal.module.css";
+"use client";
+import React from "react";
+import styles from "./styles/crystalModal.module.css";
+import DisplayName from "./components/displayName/displayName";
+import { useState } from "react";
 
 export type ComponenetValue = {
   name?: string;
   props?: object;
   element?: React.ReactNode;
+  displayName?: string;
 };
-type UseModalProps = {
+type CrystalModalProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   component: ComponenetValue;
 };
-export default function UseModal({
+export default function CrystalModal({
   isOpen,
   setIsOpen,
   component,
-}: UseModalProps) {
+}: CrystalModalProps) {
   function close(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
     e.preventDefault();
     setIsOpen(false);
   }
+
+  const np =
+    component.element && React.isValidElement(component.element)
+      ? Object.fromEntries(
+          Object.entries(
+            component?.element?.props as { [key: string]: any }
+          ).map((v) => {
+            const key = v[0];
+            let value = v[1];
+            if (key === "value") return [key, undefined];
+            return [key, value];
+          })
+        )
+      : {};
+  if (React.isValidElement(component.element)) {
+    component.element = React.cloneElement(component.element, np);
+  }
+
   return (
     <div className={`${styles.infomation} ${isOpen && styles.display}`}>
       <div className={styles.top}>
         <h2 className={styles.name}>{component.name}</h2>
         <a className={styles.closeBtn} onClick={close}></a>
       </div>
+      <DisplayName component={component} />
       <div className={styles.elements}>{component.element}</div>
       <div className={styles.lists}>
         {!!component?.props && <h2 className={styles.title}>Props</h2>}
@@ -49,7 +73,7 @@ export default function UseModal({
                   value = arr.reduce((a, c, i) => {
                     a += c;
                     if (i !== arr.length - 1) a += "|";
-                    else a += "[]";
+                    else a += "[ ]";
                     return a;
                   }, "");
                 } else {

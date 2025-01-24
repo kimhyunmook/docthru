@@ -27,5 +27,6 @@ function InputEmail({ className }: PropsWithClassName) {
     ></Input>
   );
 }
+InputEmail.displayName = "Input.Email";
 
 export default InputEmail;

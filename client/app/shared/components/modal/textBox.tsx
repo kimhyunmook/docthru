@@ -46,7 +46,7 @@ export default function TextBox({
   );
 }
 
-function Reject({ className, name, value, setValue }: TextBoxProps) {
+export function Reject({ className, name, value, setValue }: TextBoxProps) {
   return (
     <TextBox
       name={name}
@@ -58,4 +58,7 @@ function Reject({ className, name, value, setValue }: TextBoxProps) {
     ></TextBox>
   );
 }
+
 TextBox.Reject = Reject;
+TextBox.displayName = "Modal.TextBox";
+Reject.displayName = "Modal.TextBox.Reject";

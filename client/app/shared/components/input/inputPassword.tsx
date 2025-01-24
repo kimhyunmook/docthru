@@ -53,5 +53,6 @@ function InputPassword({
     </Input>
   );
 }
+InputPassword.displayName = "Input.Password";
 
 export default InputPassword;

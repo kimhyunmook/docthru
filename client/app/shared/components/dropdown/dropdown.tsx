@@ -27,12 +27,12 @@ function Dropdown({
   children = "카테고리",
   list = type,
 }: DropdwonProps) {
-  const [value, setValue] = useState(children);
+  const [value, setValue] = useState<React.ReactNode>(children);
   const [on, setOn] = useState("");
   const [open, setOpen] = useState(false);
   useEffect(() => {
     if (value !== children) setOn(styles.on);
-  }, [value]);
+  }, [value, children]);
   function openHandle(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     setOpen(!open);
@@ -66,7 +66,7 @@ function Sort({ className }: PropsWithClassName) {
 }
 
 type login = PropsWithClassName & {
-  user?: User | null;
+  user: User;
 };
 function Login({ className, user }: login) {
   return (
@@ -101,5 +101,8 @@ function Login({ className, user }: login) {
 
 Dropdown.Sort = Sort;
 Dropdown.Login = Login;
+
+Sort.displayName = "Dropdown.Sort";
+Login.displayName = "Dropdown.Login";
 
 export default Dropdown;

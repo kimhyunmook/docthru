@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export type LinkImgT = {
+export type LinkImgProps = {
   href: string;
   src: string;
   alt: string;
@@ -20,7 +20,7 @@ export default function LinkImg({
   className,
   onClick,
   ...props
-}: LinkImgT) {
+}: LinkImgProps) {
   return (
     <Link
       href={href}

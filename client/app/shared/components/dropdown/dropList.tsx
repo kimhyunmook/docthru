@@ -5,7 +5,7 @@ type DropListProps = PropsWithClassName & {
   list: string[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   open: boolean;
-  setValue: React.Dispatch<React.SetStateAction<any>>;
+  setValue: React.Dispatch<React.SetStateAction<React.ReactNode>>;
 };
 export default function DropList({
   list = [],

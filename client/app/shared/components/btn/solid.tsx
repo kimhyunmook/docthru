@@ -1,14 +1,26 @@
-import Btn, { BtnT } from "./btn";
+import Btn, { BtnProps } from "./btn";
 import styles from "@/app/shared/styles/btn.module.css";
 import Image from "next/image";
-type SolidProps = BtnT & {
+type SolidProps = BtnProps & {
   icon?: string;
 };
 type SolidSize = Omit<SolidProps, "size">;
 
-function SolidBtn({ size, className, children, width, icon }: SolidProps) {
+function SolidBtn({
+  size,
+  className,
+  children,
+  width,
+  icon,
+  onClick,
+}: SolidProps) {
   return (
-    <Btn size={size} width={width} className={`${styles.solid} ${className}`}>
+    <Btn
+      size={size}
+      onClick={onClick}
+      width={width}
+      className={`${styles.solid} ${className}`}
+    >
       {children}
       {!!icon && (
         <Image
@@ -23,32 +35,32 @@ function SolidBtn({ size, className, children, width, icon }: SolidProps) {
   );
 }
 
-function Large({ children, className, width, icon }: SolidSize) {
-  const att = { className, width, icon };
+function Large({ children, className, width, icon, onClick }: SolidSize) {
+  const att = { className, width, icon, onClick };
   return (
     <SolidBtn {...att} size="l">
       {children}
     </SolidBtn>
   );
 }
-function Medium({ children, className, width, icon }: SolidSize) {
-  const att = { className, width, icon };
+function Medium({ children, className, width, icon, onClick }: SolidSize) {
+  const att = { className, width, icon, onClick };
   return (
     <SolidBtn {...att} size="m">
       {children}
     </SolidBtn>
   );
 }
-function Regular({ children, className, width, icon }: SolidSize) {
-  const att = { className, width, icon };
+function Regular({ children, className, width, icon, onClick }: SolidSize) {
+  const att = { className, width, icon, onClick };
   return (
     <SolidBtn {...att} size="r">
       {children}
     </SolidBtn>
   );
 }
-function Small({ children, className, width, icon }: SolidSize) {
-  const att = { className, width, icon };
+function Small({ children, className, width, icon, onClick }: SolidSize) {
+  const att = { className, width, icon, onClick };
   return (
     <SolidBtn {...att} size="s">
       {children}
@@ -60,5 +72,11 @@ SolidBtn.Large = Large;
 SolidBtn.Medium = Medium;
 SolidBtn.Regular = Regular;
 SolidBtn.Small = Small;
+
+SolidBtn.displayName = "Btn.Solid";
+Large.displayName = "Btn.Solid.Large";
+Medium.displayName = "Btn.Solid.Medium";
+Regular.displayName = "Btn.Solid.Regular";
+Small.displayName = "Btn.Solid.Small";
 
 export default SolidBtn;

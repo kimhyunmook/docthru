@@ -5,14 +5,16 @@ import OutlineBtn from "./outline";
 import TransparentBtn from "./transparent";
 import SolidBtn from "./solid";
 import { PropsWithClassName } from "../../types/common";
+import { ButtonHTMLAttributes } from "react";
 
-export type BtnT = PropsWithClassName & {
-  width?: number | string;
-  height?: number | string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  size: "l" | "m" | "r" | "s";
-};
-export type IconBtnT = BtnT & { icon?: boolean };
+export type BtnProps = PropsWithClassName &
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    width?: number | string;
+    height?: number | string;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    size: "l" | "m" | "r" | "s";
+  };
+export type IconBtnProps = BtnProps & { icon?: boolean };
 
 function Btn({
   children = "거절하기",
@@ -20,7 +22,7 @@ function Btn({
   onClick,
   size = "l",
   width,
-}: BtnT) {
+}: BtnProps) {
   return (
     <button
       className={`${styles.btn} ${styles[size]} ${className}`}
@@ -38,5 +40,7 @@ Btn.Filled = FilledBtn;
 Btn.Outline = OutlineBtn;
 Btn.Transparent = TransparentBtn;
 Btn.Solid = SolidBtn;
+
+
 
 export default Btn;

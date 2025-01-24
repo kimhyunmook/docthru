@@ -18,4 +18,5 @@ function InputDate({
   return <Input type={"date"} {...inputAtt}></Input>;
 }
 
+InputDate.displayName = "Input.Date";
 export default InputDate;
