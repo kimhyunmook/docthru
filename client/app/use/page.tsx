@@ -39,11 +39,8 @@ export default function ComponentsUse() {
             label="테스터"
             name="test"
             type="text"
-            value={email}
-            onChange={(e) => {
-              const { value } = e.target;
-              setEmail(value);
-            }}
+            value={""}
+            onChange={() => {}}
             error={"이메일 형식 아니야"}
             errorCondition={isValidEmail(email)}
           />
@@ -154,20 +151,6 @@ export default function ComponentsUse() {
             탭1
           </Tab.Top>
         </CrystalLayout>
-        <CrystalLayout title="tab">
-          <Tab.Middle className="" active={false}>
-            진행중인 챌린지
-          </Tab.Middle>
-          <Tab.Middle className="" active={true}>
-            진행중인 챌린지
-          </Tab.Middle>
-          <Tab.Top className="" active={true}>
-            탭1
-          </Tab.Top>
-          <Tab.Top className="" active={false}>
-            탭1
-          </Tab.Top>
-        </CrystalLayout>
         <CrystalLayout title="list" width={900}>
           <List number={0} user={userDumi} />
         </CrystalLayout>
@@ -182,7 +165,7 @@ export default function ComponentsUse() {
             카테고리
           </Dropdown>
           <Dropdown.Sort className=""></Dropdown.Sort>
-          <Dropdown.Login className="" />
+          <Dropdown.Login className="" user={userDumi} />
         </CrystalLayout>
         <CrystalLayout title="card" width={1040}>
           <Card
@@ -212,7 +195,6 @@ export default function ComponentsUse() {
             value={text}
             setValue={setText}
           />
-          <Modal.TextBox></Modal.TextBox>
         </CrystalLayout>
       </Crystal>
     </div>

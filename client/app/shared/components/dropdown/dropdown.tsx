@@ -66,7 +66,7 @@ function Sort({ className }: PropsWithClassName) {
 }
 
 type login = PropsWithClassName & {
-  user?: User | null;
+  user: User;
 };
 function Login({ className, user }: login) {
   return (

@@ -1,6 +1,8 @@
 "use client";
-import { useEffect } from "react";
+import React from "react";
 import styles from "./styles/crystalModal.module.css";
+import DisplayName from "./components/displayName/displayName";
+import { useState } from "react";
 
 export type ComponenetValue = {
   name?: string;
@@ -23,24 +25,30 @@ export default function CrystalModal({
     setIsOpen(false);
   }
 
-  const displayName = !!Object.keys(component?.props ?? {}).find(
-    (x) => x === "children"
-  )
-    ? `<${component.displayName}></${component.displayName}>`
-    : `<${component?.displayName} />`;
-  async function clipDisplayName() {
-    await navigator?.clipboard?.writeText(displayName);
+  const np =
+    component.element && React.isValidElement(component.element)
+      ? Object.fromEntries(
+          Object.entries(
+            component?.element?.props as { [key: string]: any }
+          ).map((v) => {
+            const key = v[0];
+            let value = v[1];
+            if (key === "value") return [key, undefined];
+            return [key, value];
+          })
+        )
+      : {};
+  if (React.isValidElement(component.element)) {
+    component.element = React.cloneElement(component.element, np);
   }
-  useEffect(() => {
-    clipDisplayName();
-  }, [component]);
+
   return (
     <div className={`${styles.infomation} ${isOpen && styles.display}`}>
       <div className={styles.top}>
         <h2 className={styles.name}>{component.name}</h2>
         <a className={styles.closeBtn} onClick={close}></a>
       </div>
-      <div className={styles.displayName}>{displayName}</div>
+      <DisplayName component={component} />
       <div className={styles.elements}>{component.element}</div>
       <div className={styles.lists}>
         {!!component?.props && <h2 className={styles.title}>Props</h2>}
@@ -65,7 +73,7 @@ export default function CrystalModal({
                   value = arr.reduce((a, c, i) => {
                     a += c;
                     if (i !== arr.length - 1) a += "|";
-                    else a += "[]";
+                    else a += "[ ]";
                     return a;
                   }, "");
                 } else {

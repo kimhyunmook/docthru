@@ -56,8 +56,18 @@ export function CrystalLayout({ children, title, width }: UseLayoutProps) {
                 e.stopPropagation();
                 setIsOpen(true);
                 if (!React.isValidElement(child)) return;
+
+                const cloneProps = Object.fromEntries(
+                  Object.entries(child.props ?? {}).map((v) => {
+                    const key = v[0];
+                    let value = v[1];
+                    return [key, value];
+                  })
+                );
+                const clone = React.cloneElement(child, cloneProps);
+
                 setComponent({
-                  element: React.cloneElement(child),
+                  element: clone,
                   displayName:
                     typeof child.type === "string"
                       ? child.type

@@ -1,0 +1,30 @@
+.displayName {
+  font-weight: 700;
+  font-size: 24px;
+  color: #4ec9b0;
+  margin: 10px 0;
+  padding: 5px 20px;
+  border-radius: 10px;
+  transition: 0.5s;
+  text-align: center;
+  border: 3px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.displayName img {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.5s;
+}
+.displayName:hover {
+  background-color: #000;
+  border: 3px solid #4ec9b0;
+}
+.displayName:hover img {
+  transform: translateY(-50%) scale(1.2);
+}
