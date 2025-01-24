@@ -95,7 +95,17 @@ Chip.Pending = Pending;
 Chip.Reject = Reject;
 Chip.Accecpt = Accecpt;
 Chip.Delete = Delete;
-
 Chip.Card = Card;
+
+NextChip.displayName = "Chip.NextChip";
+ApiChip.displayName = "Chip.ApiChip";
+CareerChip.displayName = "Chip.CareerChip";
+ModernChip.displayName = "Chip.ModernChip";
+WebChip.displayName = "Chip.WebChip";
+Categori.displayName = "Chip.Categori";
+Pending.displayName = "Chip.Pending";
+Reject.displayName = "Chip.Reject";
+Accecpt.displayName = "Chip.Accecpt";
+Delete.displayName = "Chip.Delete";
 
 export default Chip;

@@ -1,4 +1,8 @@
-.use {
+.page {
+  display: flex;
+  flex-wrap: wrap;
+}
+.layout {
   position: relative;
   margin: 40px 10px;
   display: inline;

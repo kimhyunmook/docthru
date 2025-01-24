@@ -32,7 +32,7 @@ function Dropdown({
   const [open, setOpen] = useState(false);
   useEffect(() => {
     if (value !== children) setOn(styles.on);
-  }, [value]);
+  }, [value, children]);
   function openHandle(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     setOpen(!open);
@@ -66,7 +66,7 @@ function Sort({ className }: PropsWithClassName) {
 }
 
 type login = PropsWithClassName & {
-  user?: User | null;
+  user: User;
 };
 function Login({ className, user }: login) {
   return (
