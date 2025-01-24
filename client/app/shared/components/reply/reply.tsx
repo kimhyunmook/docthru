@@ -3,7 +3,7 @@ import Image from "next/image";
 import Textarea from "./textarea";
 import { PropsWithClassName } from "../../types/common";
 
-type ReplyT = PropsWithClassName & {
+type ReplyProps = PropsWithClassName & {
   userName: string;
   date?: string;
   text?: string;
@@ -15,7 +15,7 @@ export default function Reply({
   text,
   children,
   className,
-}: ReplyT) {
+}: ReplyProps) {
   return (
     <div className={`${styles.replyBox} ${className}`}>
       {children ? (

@@ -10,7 +10,7 @@ function FilledBtn({
   children,
   width,
   onClick,
-  icon = false,
+  icon,
 }: IconBtnProps) {
   return (
     <Btn

@@ -46,7 +46,7 @@ export default function TextBox({
   );
 }
 
-function Reject({ className, name, value, setValue }: TextBoxProps) {
+export function Reject({ className, name, value, setValue }: TextBoxProps) {
   return (
     <TextBox
       name={name}
