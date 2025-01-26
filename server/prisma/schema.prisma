@@ -12,3 +12,16 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model example {
+  uuid     String  @id @default(uuid())
+  require  String  @default("필수")
+  optional String? @default("옵션 (없어도 됨)")
+}
+
+model user {
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
+  nickName String @unique
+}
