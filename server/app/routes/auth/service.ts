@@ -1,11 +1,13 @@
 import Hash from "../../lib/utils/hash";
-import authRepo from "../../repositorys/auth";
+import userRepo from "../../repositorys/user";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../../../config/config";
 import type { Compare, SignupProps, User } from "../../types/common";
 
-async function signup({ email, password, nickName }: SignupProps) {
-  const res = await authRepo.signup({ email, password, nickName });
+async function signup({ email, password, nickname }: SignupProps) {
+  const hashpw = await Hash.hash({ password });
+
+  const res = await userRepo.signup({ email, password: hashpw, nickname });
   return !!res;
 }
 
@@ -30,15 +32,19 @@ async function createToken({ user, type }: CreateTokenProps) {
 
 interface LoginProps {
   email: string;
+  password: string;
 }
-async function login({ email }: LoginProps) {
-  const user: User | null = await authRepo.findUser({ email });
-  // console.log()
-  // if (verifyPw(user?.password,))
+async function login({ email, password }: LoginProps) {
+  const user: User | null = await userRepo.findUser({ email });
+  if (!!user) {
+    const verifypw = await verifyPw({ password, hashPw: user.password });
+    if (!verifypw) return null;
+    return user;
+  } else return null;
 }
 
-async function verifyPw({ password, password2 }: Compare) {
-  const compare: boolean = await Hash.compare({ password, password2 });
+async function verifyPw({ password, hashPw }: Compare) {
+  const compare: boolean = await Hash.compare({ password, hashPw });
   return compare;
 }
 

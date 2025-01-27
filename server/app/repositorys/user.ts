@@ -1,5 +1,38 @@
 import prisma from "./prisma";
+import type { SignupProps, User } from "../types/common";
 
-const userRepo = {};
+async function signup({ email, password, nickname }: SignupProps) {
+  try {
+    const res = await prisma.user.create({
+      data: {
+        email,
+        password,
+        nickname,
+      },
+    });
+
+    return !!res;
+  } catch (err) {
+    return err;
+  }
+}
+
+async function findUser({ email }: { email: string }) {
+  try {
+    const res: User | null = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    return res;
+  } catch (err) {
+    return null;
+  }
+}
+
+const userRepo = {
+  signup,
+  findUser,
+};
 
 export default userRepo;
