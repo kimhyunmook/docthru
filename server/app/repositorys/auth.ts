@@ -1,6 +1,6 @@
 import Hash from "../lib/utils/hash";
 import prisma from "./prisma";
-import type { SignupProps } from "../types/common";
+import type { SignupProps, User } from "../types/common";
 
 async function signup({ email, password, nickName }: SignupProps) {
   try {
@@ -21,14 +21,14 @@ async function signup({ email, password, nickName }: SignupProps) {
 
 async function findUser({ email }: { email: string }) {
   try {
-    const res = await prisma.user.findUnique({
+    const res: User = await prisma.user.findUnique({
       where: {
         email,
       },
     });
     return res;
   } catch (err) {
-    return err;
+    return null;
   }
 }
 

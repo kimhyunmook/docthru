@@ -23,5 +23,5 @@ model user {
   id       String @id @default(uuid())
   email    String @unique
   password String
-  nickName String @unique
+  nickname String @unique
 }
