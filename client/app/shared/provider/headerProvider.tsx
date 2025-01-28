@@ -1,5 +1,5 @@
 "use client";
-import Gnb from "../shared/components/gnb/gnb";
+import Gnb from "@/app/shared/components/gnb/gnb";
 import { usePathname } from "next/navigation";
 
 const noHeader = ["/", "/pages/auth/login", "/pages/auth/signup"];
