@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 export default function Login({}) {
   const [body, setBody] = useState({
     email: "",
-    nickName: "",
+    nickname: "",
     password: "",
   });
 
@@ -43,7 +43,7 @@ export default function Login({}) {
         <Input
           label="닉네임"
           onChange={handleChange}
-          name="nickName"
+          name="nickname"
           placeholder="닉네임을 입력해주세요"
         />
         <Input.Password name="password" onChange={handleChange} />
