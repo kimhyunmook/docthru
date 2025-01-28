@@ -1,20 +1,18 @@
 import express, { Request, Response } from "express";
-import { ORIGIN, PORT } from "../config/config";
-import cors from "cors";
-import cookieParser from "cookie-parser";
+import { PORT } from "../config/config";
 import router from "./routes/route";
+import cors from "cors";
 
 const app = express();
 const SERVICE_PORT = PORT || 8000;
-
-app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: ORIGIN || ["*"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
+
 app.use("/api", router);
 
 app.listen(SERVICE_PORT, () => {

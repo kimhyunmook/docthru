@@ -1,12 +1,24 @@
 import { Request, Response, Router } from "express";
 import service from "./service";
 import { BodyResult } from "../../types/common";
+import prisma from "../../repositorys/prisma";
 
 const authRouter = Router();
 
-authRouter.get("/signup", async (req: Request, res: Response) => {
-  // service.
-  res.status(201).json({});
+authRouter.get("/", async (req: Request, res: Response) => {
+  res.status(200).json({});
+});
+
+authRouter.post("/signup", async (req: Request, res: Response) => {
+  const { email, password, nickname } = req.body;
+  try {
+    const data = await prisma.user.create({
+      data: { email, password, nickname },
+    });
+    res.status(201).json({ data });
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 authRouter.post("/login", async (req: Request, res: Response) => {
