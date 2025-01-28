@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "i_front": "cd client && npm i",
+    "i_back": "cd server && npm i",
     "front": "cd client && npm run dev",
+    "back": "cd server && npm run dev",
     "git_pull_main": "git pull origin main",
     "server": "cd server && npm run dev",
     "ts":"cd server && npm run ts"

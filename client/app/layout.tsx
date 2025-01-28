@@ -1,6 +1,6 @@
 import "@/app/shared/styles/globals.css";
 import { PropsWithChildren } from "react";
-import HeaderProvider from "./provider/headerProvider";
+import HeaderProvider from "@/app/shared/provider/headerProvider";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
