@@ -24,4 +24,25 @@ challenge.post(
   }
 );
 
+challenge.patch(
+  "/edit",
+  authMiddleware.verifyAT,
+  async (req: Request, res: Response) => {
+    console.log(req.body);
+    const { title, originalLink, field, date, maximum, content } = req.body;
+
+    // const data = await prisma.challenge.update({
+    //   data: {
+    //     title,
+    //     originalLink,
+    //     field,
+    //     date,
+    //     maximum,
+    //     content,
+    //   },
+    // });
+    // res.status(202).send({ data });
+  }
+);
+
 export default challenge;

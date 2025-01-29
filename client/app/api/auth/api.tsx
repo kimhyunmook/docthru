@@ -1,3 +1,4 @@
+import exp from "constants";
 import instance from "../instance";
 
 interface bodyProps {
@@ -10,5 +11,3 @@ export async function signupApi(body: bodyProps) {
   const res = await instance.post("/api/auth/signup", body);
   return await res.data;
 }
-
-// signupApi({ name: "d", nickName: "00", password: "false" });

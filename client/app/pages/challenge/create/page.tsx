@@ -2,12 +2,30 @@
 
 import Input from "@/app/shared/components/input/input";
 import s from "./application.module.css";
-import { useState } from "react";
+import React, { PropsWithChildren, useState } from "react";
 import Btn from "@/app/shared/components/btn/btn";
 import { PostChallenge } from "@/app/api/challenge/api";
 
-export default function Application() {
-  const [form, setForm] = useState({
+interface bodyProps extends PropsWithChildren {
+  mainTitle: string;
+  setData: React.Dispatch<React.SetStateAction<Form>>;
+}
+
+type Form = {
+  title: string;
+  originalLink: string;
+  field: string;
+  date: string;
+  maximum: string;
+  content: string;
+};
+
+export default function Application({
+  mainTitle,
+  children,
+  setData,
+}: bodyProps) {
+  const [form, setForm] = useState<Form>({
     title: "",
     originalLink: "",
     field: "",
@@ -24,6 +42,10 @@ export default function Application() {
       ...prev,
       [name]: value,
     }));
+    setData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   }
 
   async function handleClick() {
@@ -33,7 +55,7 @@ export default function Application() {
 
   return (
     <div className={s.application}>
-      <h2>신규 챌린지 신청</h2>
+      <h2>{mainTitle ? mainTitle : "신규 챌린지 신청"}</h2>
       <Input
         label="제목"
         name="title"
@@ -74,9 +96,13 @@ export default function Application() {
           onChange={handleChange}
         ></textarea>
       </div>
-      <Btn.Solid.Large onClick={handleClick} className={s.bt_l} width="100%">
-        신청하기
-      </Btn.Solid.Large>
+      {!!children ? (
+        children
+      ) : (
+        <Btn.Solid.Large onClick={handleClick} className={s.bt_l} width="100%">
+          신청하기
+        </Btn.Solid.Large>
+      )}
     </div>
   );
 }
