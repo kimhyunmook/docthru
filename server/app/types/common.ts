@@ -1,6 +1,6 @@
 export interface BodyResult {
   success: boolean;
-  data?: string | number | object | boolean;
+  data?: string | number | object | boolean | null;
   totalLength?: number;
   accessToken?: string | null;
   refreshToken?: string | null;

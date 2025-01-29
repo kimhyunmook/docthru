@@ -3,13 +3,14 @@ import Input, { InputProps } from "./input";
 import { useState } from "react";
 import { PropsWithClassName } from "../../types/common";
 
-function InputEmail({ className, onChange }: InputProps) {
+function InputEmail({ className, setValue, onChange }: InputProps) {
   const att = {
     label: "이메일",
     name: "email",
     type: "email",
     // value: email,
     error: "Email 형식이 아닙니다.",
+    setValue,
     onChange,
     // errorCondition: isValidEmail(email),
     placeholder: "Email을 입력해주세요",

@@ -8,7 +8,7 @@ import Link from "next/link";
 import { signupApi } from "@/app/api/auth/api";
 import { useEffect, useState } from "react";
 
-export default function Login({}) {
+export default function Sign({}) {
   const [body, setBody] = useState({
     email: "",
     nickname: "",

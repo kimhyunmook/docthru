@@ -6,10 +6,11 @@ import userService from "./service";
 const userRouter = Router();
 
 userRouter.get(
-  "/user",
+  "/",
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
-    const user = await userService;
+    console.log(req.user);
+    const user = await userService.getUser({ email: req.user.email });
     let result: BodyResult = { success: true, data: user };
     res.status(200).json(result);
   }
