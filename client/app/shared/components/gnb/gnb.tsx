@@ -5,10 +5,9 @@ import Link from "next/link";
 import { User } from "../../types/user";
 
 interface Gnb {
-  login: boolean;
   user: User;
 }
-export default function Gnb({ login, user }: Gnb) {
+export default function Gnb({ user }: Gnb) {
   return (
     <header id={"header"} className={`${styles.header} flexCenter`}>
       <nav className={`${styles.gnb}`}>
@@ -21,16 +20,18 @@ export default function Gnb({ login, user }: Gnb) {
             width={108}
             height={31}
           />
-          <ul className={`${styles.gnbMenu} flexCenter`}>
-            <li>
-              <Link href="#">챌린지 관리</Link>
-            </li>
-            <li>
-              <Link href="#">챌린지 목록</Link>
-            </li>
-          </ul>
+          {user?.grade === "어드민" ? (
+            <ul className={`${styles.gnbMenu} flexCenter`}>
+              <li>
+                <Link href="#">챌린지 관리</Link>
+              </li>
+              <li>
+                <Link href="#">챌린지 목록</Link>
+              </li>
+            </ul>
+          ) : null}
         </div>
-        <LoginBox login={login} admin={user.grade === "어드민"} />
+        <LoginBox login={!!user} admin={user?.grade === "어드민"} />
       </nav>
     </header>
   );

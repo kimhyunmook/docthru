@@ -6,7 +6,6 @@ import type { Compare, SignupProps, User } from "../../types/common";
 
 async function signup({ email, password, nickname }: SignupProps) {
   const hashpw = await Hash.hash({ password });
-
   const res = await userRepo.signup({ email, password: hashpw, nickname });
   return !!res;
 }
@@ -18,7 +17,7 @@ interface CreateTokenProps {
 async function createToken({ user, type }: CreateTokenProps) {
   if (user) {
     const payload = { email: user.email, id: user.id };
-    const option = { expiresIn: type === "r" ? "1209600" : "3600" }; // 2 weeks in seconds and 1 hour in seconds
+    const option = { expiresIn: type === "r" ? "2w" : "1h" }; // 2 weeks in seconds and 1 hour in seconds
     try {
       return jwt.sign(
         payload,

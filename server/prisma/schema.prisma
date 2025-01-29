@@ -24,4 +24,6 @@ model user {
   email    String @unique
   password String
   nickname String @unique
+  grade    String @default("일반")
+  like     Int    @default(0)
 }

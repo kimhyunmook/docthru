@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import axios from "axios";
 import useLocalStorage from "../shared/hooks/useLocalStorage";
 
@@ -10,8 +11,7 @@ const storage = useLocalStorage();
 instance.interceptors.request.use(
   (config) => {
     const token = storage.get("token");
-    console.log(token);
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    if (!!token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
   (err) => {

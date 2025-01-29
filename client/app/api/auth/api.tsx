@@ -7,7 +7,6 @@ interface SignProps {
   password: string;
 }
 export async function signupApi(body: SignProps) {
-  console.log(body);
   const res = await instance.post("/api/auth/signup", body);
   return await res.data;
 }
