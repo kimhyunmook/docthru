@@ -1,6 +1,6 @@
-export interface User {
+export type User = {
   id: string;
   name: string;
   grade: "일반" | "어드민";
-  heart: number;
-}
+  like: number;
+} | null;

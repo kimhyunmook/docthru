@@ -1,8 +1,8 @@
 "use client";
 import styles from "@/app/shared/styles/loginBox.module.css";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import LinkImg from "../LinkImg";
 
 type LoginBoxT = {
   login: boolean;
@@ -10,18 +10,24 @@ type LoginBoxT = {
 };
 
 export default function LoginBox({ login = false, admin }: LoginBoxT) {
+  function openModal() {}
+  
   const [state, setState] = useState([
     {
+      href: "#",
       src: "/img/icon/alarm.svg",
       alt: "알람",
-      width: 24,
-      height: 24,
+      width: 18,
+      height: 18,
+      onClick: () => {},
     },
     {
+      href: "#",
       src: "/img/icon/profile_member.svg",
       alt: "유저",
       width: 32,
       height: 32,
+      onClick: () => {},
     },
   ]);
 
@@ -29,10 +35,12 @@ export default function LoginBox({ login = false, admin }: LoginBoxT) {
     if (admin)
       setState([
         {
+          href: "#",
           src: "/img/icon/profile_admin.svg",
           alt: "어드민",
           width: 32,
           height: 32,
+          onClick: () => {},
         },
       ]);
   }, [admin]);
@@ -48,14 +56,16 @@ export default function LoginBox({ login = false, admin }: LoginBoxT) {
         </Link>
       ) : (
         state.map((v, i: number) => {
-          const { src, alt, width, height } = v;
+          const { src, alt, width, height, href, onClick } = v;
           return (
-            <Image
+            <LinkImg
               key={src + i}
+              href={href}
               src={src}
               alt={alt}
               width={width}
               height={height}
+              onClick={onClick}
             />
           );
         })
