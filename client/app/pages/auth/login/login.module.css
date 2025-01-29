@@ -30,3 +30,9 @@
   color: #262626;
   text-decoration: underline;
 }
+
+@media screen and (max-width: 743px) {
+  .logo_box {
+    min-width: 240px;
+  }
+}
