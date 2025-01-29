@@ -1,0 +1,41 @@
+.application {
+  margin: 0 auto;
+  max-width: 996px;
+  width: 83%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 36px;
+}
+
+.application h2 {
+  margin-top: 24px;
+  font-size: 20px;
+  font-family: 600;
+}
+
+.constent_box {
+  margin-top: 8px;
+}
+
+.application span {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.textarea {
+  margin-top: 8px;
+  border: 1px solid #d4d4d4;
+  height: 220px;
+  width: 100%;
+  border-radius: 6px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+@media screen and (max-width: 1199px) {
+  .challenge {
+    width: 89%;
+  }
+}
