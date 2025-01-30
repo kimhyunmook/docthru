@@ -11,18 +11,19 @@ authRouter.get("/", async (req: Request, res: Response) => {
 
 authRouter.post("/signup", async (req: Request, res: Response) => {
   const { email, password, nickname } = req.body;
-  try {
-    const data = await prisma.user.create({
-      data: { email, password, nickname },
-    });
-    res.status(201).json({ data });
-  } catch (error) {
-    console.error(error);
-  }
+  const result: BodyResult = { success: true };
+  await service.signup({
+    email,
+    password,
+    nickname,
+  });
+
+  res.status(201).json(result);
 });
 
 authRouter.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
+  console.log(req.body);
   let result: BodyResult = { success: false };
   const login = await service.login({ email, password });
   if (!login) {
@@ -32,12 +33,8 @@ authRouter.post("/login", async (req: Request, res: Response) => {
 
   const at = await service.createToken({ user: login, type: "a" });
   const rt = await service.createToken({ user: login, type: "r" });
-  result = { success: true };
+  result = { success: true, accessToken: at };
   res
-    .cookie("accessToken", at, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 1000,
-    })
     .cookie("refreshToken", rt, {
       httpOnly: true,
       maxAge: 60 * 60 * 1000 * 24 * 14,

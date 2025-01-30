@@ -8,6 +8,7 @@ import InputEmail from "./inputEmail";
 
 export type InputProps = PropsWithClassName &
   InputHTMLAttributes<HTMLInputElement> & {
+    setValue?: React.Dispatch<React.SetStateAction<string>>;
     label?: string;
     error?: string;
     errorCondition?: boolean;
@@ -23,6 +24,7 @@ function Input({
   error,
   errorCondition = false,
   children,
+  setValue,
   ...props
 }: InputProps) {
   const [isErr, setIsErr] = useState(errorCondition);

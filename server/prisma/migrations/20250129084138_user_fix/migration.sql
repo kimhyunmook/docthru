@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "user" ADD COLUMN     "grade" TEXT NOT NULL DEFAULT '일반',
+ADD COLUMN     "like" INTEGER NOT NULL DEFAULT 0;

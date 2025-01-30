@@ -6,9 +6,12 @@ import Input from "@/app/shared/components/input/input";
 import Btn from "@/app/shared/components/btn/btn";
 import Link from "next/link";
 import { signupApi } from "@/app/api/auth/api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-export default function Login({}) {
+export default function Sign({}) {
+  const router = useRouter();
   const [body, setBody] = useState({
     email: "",
     nickname: "",
@@ -24,20 +27,24 @@ export default function Login({}) {
       [name]: value,
     }));
   }
-  function handleClick() {
-    console.log(body);
+  async function handleClick() {
     if (body.password !== check) {
-      console.log("비밀번호 다름");
+      alert("비밀번호가 다릅니다.");
       return;
     }
-    signupApi(body);
+    const result = await signupApi(body);
+    if (result.success) {
+      alert("회원가입을 축하합니다.");
+      router.push("/pages/auth/login");
+    }
   }
 
   return (
     <div>
       <div className={s.inner}>
         <div className={s.logo_box}>
-          <img src="/img/logo.svg" alt="Logo" style={{ width: "100%" }} />
+          <Image src="/img/logo.svg" alt="Logo" width={320} height={82} />
+          {/* <img src="/img/logo.svg" alt="Logo" style={{ width: "100%" }} /> */}
         </div>
         <Input.Email onChange={handleChange} />
         <Input
