@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+
 dotenv.config();
 console.log("환경 변수 확인:", {
   PORT: process.env.PORT,
