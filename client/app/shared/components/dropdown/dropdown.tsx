@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PropsWithClassName } from "../../types/common";
 import { User } from "../../types/user";
+import { useAuth } from "../../provider/authProvider";
 
 const type = ["Next.js", "API", "Career", "Modern JS", "Web"];
 const state = [
@@ -69,6 +70,7 @@ type login = PropsWithClassName & {
   user: User;
 };
 function Login({ className, user }: login) {
+  const { logout } = useAuth();
   return (
     <div className={`${styles.login} ${className}`}>
       <div className={styles.top}>
@@ -85,12 +87,16 @@ function Login({ className, user }: login) {
       </div>
       <ul className={styles.list}>
         <li>
-          <Link href="#" className="">
-            나의 챌린지
-          </Link>
+          <Link href="#">나의 챌린지</Link>
         </li>
         <li>
-          <Link href="#" className="">
+          <Link
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              logout();
+            }}
+          >
             로그아웃
           </Link>
         </li>

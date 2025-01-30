@@ -10,7 +10,8 @@
     "back": "cd server && npm run dev",
     "git_pull_main": "git pull origin main",
     "server": "cd server && npm run dev",
-    "ts":"cd server && npm run ts"
+    "ts":"cd server && npm run ts",
+    "tsw":"cd server && npx tsc -watch"
   },
   "author": "",
   "license": "ISC"

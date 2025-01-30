@@ -1,13 +1,12 @@
-import { loginApi, LoginProps } from "@/app/api/auth/api";
+import {
+  loginApi,
+  LoginProps,
+  logoutApi,
+  refreshTokenApi,
+} from "@/app/api/auth/api";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, PropsWithChildren, useContext, useEffect } from "react";
 import useValue from "../hooks/useValue";
 import { getUserAPi } from "@/app/api/user/api";
 import type { User } from "../types/user";
@@ -15,7 +14,10 @@ import useLocalStorage from "../hooks/useLocalStorage";
 
 interface AuthContextType {
   login: ({ email, password }: LoginProps) => Promise<void>;
+  refreshToken: () => Promise<void>;
+  logout: () => Promise<void>;
   user: User;
+  isPending: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -25,7 +27,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const router = useRouter();
   const storage = useLocalStorage();
   const token = useValue(null);
-  // const [user, setUser] = useState<User>(null);
   const {
     data: user,
     isStale,
@@ -41,9 +42,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     token.set(storage.get("token"));
-    console.log("token", token.value);
-    // setUser(data);
-    userRefetch();
+    if (isStale && !isPending) {
+      console.log("isStale", isStale);
+      refreshToken();
+      userRefetch();
+    }
   }, [isStale, token.value]);
   async function login({ email, password }: LoginProps) {
     const res = await loginApi({ email, password });
@@ -52,13 +55,39 @@ export function AuthProvider({ children }: PropsWithChildren) {
       return;
     }
     token.set(storage.set("token", res.accessToken, expired));
+    await userRefetch();
     router.push("/pages");
   }
+
+  async function refreshToken() {
+    const res = await refreshTokenApi();
+    if (!res.success) {
+      console.log("refresh 실패");
+      return;
+    }
+    token.set(storage.set("token", res.accessToken, expired));
+    userRefetch();
+  }
+
+  async function logout() {
+    const res = await logoutApi();
+    if (!res.success) {
+      console.log("refresh 실패");
+    }
+    localStorage.removeItem("token");
+    token.set(false);
+    alert("로그아웃 되었습니다.");
+    await userRefetch();
+    router.refresh();
+  }
+
   if (isLoading) return "loading...";
   if (isPending) return null;
 
   return (
-    <AuthContext.Provider value={{ login, user: user.data }}>
+    <AuthContext.Provider
+      value={{ login, refreshToken, logout, isPending, user: user?.data }}
+    >
       {children}
     </AuthContext.Provider>
   );

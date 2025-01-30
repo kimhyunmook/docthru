@@ -5,7 +5,9 @@ import { JWT_SECRET } from "../../config/config";
 const verifyRT = expressjwt({
   secret: JWT_SECRET as string,
   algorithms: ["HS256"],
-  getToken: (req: Request) => req.cookies.refreshToken,
+  getToken: (req: Request) => {
+    return req.cookies.refreshToken;
+  },
 });
 
 // access token

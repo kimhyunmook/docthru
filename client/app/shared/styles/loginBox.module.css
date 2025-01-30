@@ -13,11 +13,16 @@
   font-weight: 600;
 }
 
-.loginBox a {
-  display: flex;
-  align-items: center;
+.itemBox {
   margin-right: 16px;
+  position: relative;
 }
-.loginBox a:last-child {
-  margin: 0;
+.itemBox:last-child {
+  margin-right: 0;
+}
+
+.modal {
+  position: absolute;
+  top: 115%;
+  right: 0;
 }

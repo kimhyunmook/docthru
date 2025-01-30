@@ -3,7 +3,7 @@ import type { SignupProps, User } from "../types/common";
 
 async function signup({ email, password, nickname }: SignupProps) {
   try {
-    const res = await prisma.user.create({
+    const result = await prisma.user.create({
       data: {
         email,
         password,
@@ -11,9 +11,16 @@ async function signup({ email, password, nickname }: SignupProps) {
       },
     });
 
-    return !!res;
-  } catch (err) {
-    return err;
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      code: err?.code,
+      model: err?.meta.modelName,
+    };
   }
 }
 
