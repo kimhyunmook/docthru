@@ -30,6 +30,7 @@ export async function loginApi(body: LoginProps) {
 export async function refreshTokenApi() {
   try {
     const res = await instance.post("/api/auth/refresh");
+    console.log("res", res);
     return await res.data;
   } catch (err) {
     return err;

@@ -1,13 +1,19 @@
+"use client";
 import {
   loginApi,
   LoginProps,
   logoutApi,
   refreshTokenApi,
 } from "@/app/api/auth/api";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { createContext, PropsWithChildren, useContext, useEffect } from "react";
-import useValue from "../hooks/useValue";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { getUserAPi } from "@/app/api/user/api";
 import type { User } from "../types/user";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -17,7 +23,7 @@ interface AuthContextType {
   refreshToken: () => Promise<void>;
   logout: () => Promise<void>;
   user: User;
-  isPending: boolean;
+  isFetching: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -26,67 +32,68 @@ const expired = 60 * 60 * 1000;
 export function AuthProvider({ children }: PropsWithChildren) {
   const router = useRouter();
   const storage = useLocalStorage();
-  const token = useValue(null);
+  const queryClient = useQueryClient();
+  const [token, setToken] = useState(storage.get("token"));
   const {
     data: user,
     isStale,
     isPending,
+    isFetching,
     isLoading,
     refetch: userRefetch,
   } = useQuery({
-    queryKey: ["user", !!token.value],
+    queryKey: ["user", token],
     queryFn: getUserAPi,
-    enabled: !!token.value,
-    staleTime: expired, // 한 시간
+    enabled: !!token,
+    staleTime: 5000, // 한 시간
   });
 
   useEffect(() => {
-    token.set(storage.get("token"));
+    setToken(storage.get("token"));
+    // console.log(isPending);
     if (isStale && !isPending) {
       console.log("isStale", isStale);
-      refreshToken();
-      userRefetch();
+      // refreshToken();
     }
-  }, [isStale, token.value]);
+  }, [isStale, token]);
+
+  // if (isFetching) return null;
+
   async function login({ email, password }: LoginProps) {
     const res = await loginApi({ email, password });
-    if (!res.success) {
-      alert("로그인 실패");
-      return;
-    }
-    token.set(storage.set("token", res.accessToken, expired));
-    await userRefetch();
     router.push("/pages");
+    storage.set("token", res.accessToken, expired);
+    setToken(res.accessToken);
+    userRefetch();
   }
 
   async function refreshToken() {
     const res = await refreshTokenApi();
+    console.log("refresh", res);
     if (!res.success) {
       console.log("refresh 실패");
       return;
     }
-    token.set(storage.set("token", res.accessToken, expired));
+    setToken(res.accessToken);
     userRefetch();
   }
 
   async function logout() {
-    const res = await logoutApi();
-    if (!res.success) {
-      console.log("refresh 실패");
-    }
-    localStorage.removeItem("token");
-    token.set(false);
-    alert("로그아웃 되었습니다.");
-    await userRefetch();
+    await logoutApi();
+    // alert("로그아웃 되었습니다.");
+    userRefetch();
+    localStorage.clear();
+    queryClient.removeQueries({ queryKey: ["user"] });
     router.refresh();
+    setToken(null);
   }
 
   if (isLoading) return "loading...";
-  if (isPending) return null;
+  // if (isFetching) return null;
 
   return (
     <AuthContext.Provider
-      value={{ login, refreshToken, logout, isPending, user: user?.data }}
+      value={{ login, refreshToken, isFetching, logout, user }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,9 +1,7 @@
+"use client";
 import { isValidEmail } from "@/lib/utils/convenience";
 import Input, { InputProps } from "./input";
-import { useState } from "react";
-import { PropsWithClassName } from "../../types/common";
-
-function InputEmail({ className, setValue, onChange }: InputProps) {
+function InputEmail({ className, value, setValue, onChange }: InputProps) {
   const att = {
     label: "이메일",
     name: "email",
@@ -12,7 +10,7 @@ function InputEmail({ className, setValue, onChange }: InputProps) {
     error: "Email 형식이 아닙니다.",
     setValue,
     onChange,
-    // errorCondition: isValidEmail(email),
+    errorCondition: isValidEmail(value as string),
     placeholder: "Email을 입력해주세요",
     className,
   };

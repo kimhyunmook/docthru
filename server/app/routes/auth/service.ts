@@ -29,7 +29,7 @@ async function createToken({ user, type }: CreateTokenProps) {
       return null;
     }
   } else {
-    console.error("create token error");
+    console.error("create token error!");
     return null;
   }
 }

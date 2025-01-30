@@ -4,8 +4,10 @@ import instance from "../instance";
 export async function getUserAPi() {
   try {
     const res = await instance.get("/api/user");
-    return await res.data;
+    const user = await res.data;
+    return user;
   } catch (err: any) {
-    return { err, data: null };
+    console.log("getUser :", err);
+    return null;
   }
 }

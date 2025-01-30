@@ -34,7 +34,6 @@ authRouter.post("/login", async (req: Request, res: Response) => {
     res.status(401).json(result);
     return;
   }
-
   const at = await service.createToken({ user: login, type: "a" });
   const rt = await service.createToken({ user: login, type: "r" });
   result = { success: true, accessToken: at };
@@ -59,12 +58,12 @@ authRouter.get(
 
 authRouter.post(
   "/refresh",
+  authMiddleware.refreshTokenChk,
   authMiddleware.verifyRT,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email } = req.auth;
       const { refreshToken } = req.cookies;
-      // console.log("refresh : ", email);
       const accessToken = await service.refreshToken({ email, refreshToken });
       res.status(201).json({ success: true, accessToken });
     } catch (err) {
