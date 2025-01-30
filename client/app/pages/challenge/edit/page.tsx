@@ -21,7 +21,7 @@ export default function Edit() {
   //   }, [form]);
 
   function handleClick() {
-    // console.log(form);
+    console.log(form);
     PatchCallenge(form);
   }
   return (

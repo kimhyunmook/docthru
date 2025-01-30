@@ -32,7 +32,7 @@ export default function Login({}) {
         </Btn.Solid.Large>
         <div className={s.join_box}>
           <span>회원이 아니신가요?</span>
-          <Link href={"/pages/auth/singup"}>회원가입하기</Link>
+          <Link href={"/pages/auth/signup"}>회원가입하기</Link>
         </div>
       </div>
     </div>

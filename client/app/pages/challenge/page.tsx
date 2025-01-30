@@ -6,9 +6,18 @@ import SearchInput from "@/app/shared/components/search";
 import Card from "@/app/shared/components/card/card";
 import Chip from "@/app/shared/components/chip/chip";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { GetChallenge } from "@/app/api/challenge/api";
 
 export default function Challenge() {
-  const arr = [1, 23, 4, 5, 6, 7, 8, 9];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    GetChallenge({}).then((res) => {
+      setData(res.data);
+    });
+  }, []);
+
   return (
     <div className={s.challenge}>
       <div className={s.top}>
@@ -23,7 +32,7 @@ export default function Challenge() {
           <SearchInput className={s.search}></SearchInput>
         </div>
         <ul>
-          {arr.map((v) => {
+          {data.map((v) => {
             return (
               <li key={v}>
                 <Card
