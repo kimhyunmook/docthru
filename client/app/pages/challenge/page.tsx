@@ -47,12 +47,12 @@ export default function Challenge() {
                 <li key={i}>
                   <Card
                     field={v.field as ChipType}
-                    categori={<Chip.Categori>블로그</Chip.Categori>}
+                    documentType={"블로그"}
                     state={<Chip.Card.Compolete />}
                     className={``}
                     date="0000년 00월 00일"
-                    current={3}
-                    total={3}
+                    current={v.current}
+                    total={v.maximum}
                   ></Card>
                 </li>
               );

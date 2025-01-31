@@ -23,7 +23,7 @@ type DropdwonProps = PropsWithClassName & {
   name?: string;
   list?: string[];
   value?: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue?: React.Dispatch<React.SetStateAction<string>>;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -41,7 +41,7 @@ function Dropdown({
 
   useEffect(() => {
     if (child !== children) setOn(styles.on);
-    setValue(child as string);
+    setValue?.(child as string);
   }, [child, children]);
 
   function openHandle(e: React.MouseEvent<HTMLElement>) {
