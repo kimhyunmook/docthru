@@ -6,11 +6,11 @@ import { PropsWithClassName } from "../../types/common";
 import useValue from "../../hooks/useValue";
 import { useEffect } from "react";
 import Chip from "../chip/chip";
-import type { ChipType } from "../../types/common";
+import type { ChipType, DocumentType } from "../../types/common";
 
 type CardProps = PropsWithClassName & {
   field?: ChipType;
-  categori?: React.ReactNode;
+  documentType?: DocumentType;
   state?: React.ReactNode;
   date: string;
   current: number;
@@ -19,7 +19,7 @@ type CardProps = PropsWithClassName & {
 
 function Card({
   field = null,
-  categori = null,
+  documentType = null,
   state = null,
   className = "",
   date = "0000년 0월 0일",
@@ -52,10 +52,12 @@ function Card({
       <div className={styles.top}>
         {!!state && <div className={styles.state}>{state}</div>}
         <h3 className={styles.title}>{children}</h3>
-        {!!field || !!categori ? (
+        {!!field || !!documentType ? (
           <div className={styles.chip}>
             <span>{chipElement.value}</span>
-            <span>{categori}</span>
+            <span>
+              <Chip.Categori>{documentType}</Chip.Categori>
+            </span>
           </div>
         ) : null}
         <div className={styles.menu}>
