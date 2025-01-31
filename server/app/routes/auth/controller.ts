@@ -15,6 +15,7 @@ authRouter.post("/signup", async (req: Request, res: Response) => {
     password,
     nickname,
   });
+  console.log(signup);
   if (!signup.success) {
     status = 400;
     if (signup.model === "user") msg = "이메일 또는 닉네임 중복입니다.";

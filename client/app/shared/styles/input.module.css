@@ -21,6 +21,9 @@
   outline: none;
   position: relative;
 }
+.inputBox input::placeholder {
+  color: var(--placeholder);
+}
 .inputBox input::-webkit-calendar-picker-indicator {
   position: absolute;
   right: 0;

@@ -14,19 +14,23 @@ challenge.post(
   "/create",
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
-    const { title, originalLink, field, date, maximum, content } = req.body;
-    const data = await prisma.challenge.create({
-      data: {
-        title,
-        originalLink,
-        field,
-        date: new Date(date),
-        maximum: parseInt(maximum),
-        content,
-        userId: req.user.id,
-      },
-    });
-    res.status(201).send({ data });
+    try {
+      const { title, originalLink, field, date, maximum, content } = req.body;
+      const data = await prisma.challenge.create({
+        data: {
+          title,
+          originalLink,
+          field,
+          date: new Date(date),
+          maximum: parseInt(maximum),
+          content,
+          userId: req.user.id,
+        },
+      });
+      res.status(201).send({ success: true, data });
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 

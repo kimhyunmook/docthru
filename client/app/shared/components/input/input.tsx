@@ -5,10 +5,10 @@ import { PropsWithClassName } from "../../types/common";
 import InputDate from "./inputDate";
 import InputPassword from "./inputPassword";
 import InputEmail from "./inputEmail";
+import InputNumber from "./inputNumber";
 
 export type InputProps = PropsWithClassName &
   InputHTMLAttributes<HTMLInputElement> & {
-    setValue?: React.Dispatch<React.SetStateAction<string>>;
     label?: string;
     error?: string;
     errorCondition?: boolean;
@@ -24,7 +24,6 @@ function Input({
   error,
   errorCondition = false,
   children,
-  setValue,
   ...props
 }: InputProps) {
   const [isErr, setIsErr] = useState(errorCondition);
@@ -54,5 +53,6 @@ Input.displayName = "Input";
 Input.Email = InputEmail;
 Input.Password = InputPassword;
 Input.Date = InputDate;
+Input.Number = InputNumber;
 
 export default Input;

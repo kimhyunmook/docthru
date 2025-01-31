@@ -37,30 +37,27 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const {
     data: user,
     isStale,
-    isPending,
     isFetching,
-    isLoading,
+    // isLoading,
     refetch: userRefetch,
   } = useQuery({
     queryKey: ["user", token],
     queryFn: getUserAPi,
     enabled: !!token,
-    staleTime: 5000, // 한 시간
+    staleTime: expired, // 한 시간
   });
 
   useEffect(() => {
     setToken(storage.get("token"));
-    // console.log(isPending);
-    if (isStale && !isPending) {
-      console.log("isStale", isStale);
-      // refreshToken();
-    }
+    refreshToken();
   }, [isStale, token]);
-
-  // if (isFetching) return null;
 
   async function login({ email, password }: LoginProps) {
     const res = await loginApi({ email, password });
+    if (!res.success) {
+      alert("id 또는 password 를 확인해주세요");
+      return;
+    }
     router.push("/pages");
     storage.set("token", res.accessToken, expired);
     setToken(res.accessToken);
@@ -68,19 +65,20 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }
 
   async function refreshToken() {
+    if (!!token) return;
     const res = await refreshTokenApi();
-    console.log("refresh", res);
     if (!res.success) {
       console.log("refresh 실패");
       return;
     }
+    storage.set("token", res.accessToken, expired);
     setToken(res.accessToken);
     userRefetch();
   }
 
   async function logout() {
     await logoutApi();
-    // alert("로그아웃 되었습니다.");
+    alert("로그아웃 되었습니다.");
     userRefetch();
     localStorage.clear();
     queryClient.removeQueries({ queryKey: ["user"] });
@@ -88,8 +86,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setToken(null);
   }
 
-  if (isLoading) return "loading...";
   // if (isFetching) return null;
+  // if (isLoading) return "loading...";
 
   return (
     <AuthContext.Provider
