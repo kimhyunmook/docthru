@@ -1,16 +1,11 @@
 import instance from "../instance";
+import type { ChallengeProps } from "@/app/shared/types/common";
 
 interface GetChallengeProps {
   page?: string | number;
   pageSize?: string | number;
   orderby?: string;
 }
-
-// export async function GetChallenge() {
-//   const res = await instance.get(`/api/challenge/`);
-//   console.log("?", res);
-//   return await res.data;
-// }
 
 export async function GetChallenge({
   page,
@@ -23,21 +18,12 @@ export async function GetChallenge({
   return await res.data;
 }
 
-interface bodyProps {
-  title: string;
-  originalLink: string;
-  field: string;
-  date: string;
-  maximum: string;
-  content: string;
-}
-
-export async function PostChallenge(body: bodyProps) {
+export async function PostChallenge(body: ChallengeProps) {
   const res = await instance.post("/api/challenge/create", body);
   return res.data;
 }
 
-export async function PatchCallenge(body: bodyProps) {
+export async function PatchCallenge(body: ChallengeProps) {
   const res = await instance.patch("/api/challenge/edit", body);
   return res.data;
 }

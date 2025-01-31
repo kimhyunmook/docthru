@@ -7,11 +7,12 @@ import Card from "@/app/shared/components/card/card";
 import Chip from "@/app/shared/components/chip/chip";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { GetChallenge } from "@/app/api/challenge/api";
+import { ChallengeProps, GetChallenge } from "@/app/api/challenge/api";
+import useValue from "@/app/shared/hooks/useValue";
 
 export default function Challenge() {
   const [data, setData] = useState([]);
-
+  const filter = useValue("");
   useEffect(() => {
     GetChallenge({}).then((res) => {
       setData(res.data);
@@ -28,7 +29,9 @@ export default function Challenge() {
       </div>
       <div>
         <div className={s.search_box}>
-          <Dropdown.Sort className={s.filter}>필터</Dropdown.Sort>
+          <Dropdown.Sort setValue={filter.set} className={s.filter}>
+            필터
+          </Dropdown.Sort>
           <SearchInput className={s.search}></SearchInput>
         </div>
         <ul className={""}>
@@ -37,11 +40,12 @@ export default function Challenge() {
               아직 챌린지가 없어요, <br /> 지금 바로 챌린지를 신청해보세요
             </li>
           ) : (
-            data.map((v, i) => {
+            data.map((v: ChallengeProps, i) => {
+              console.log(v);
               return (
                 <li key={i}>
                   <Card
-                    chip={"nextjs"}
+                    field={v.field as ChipType}
                     categori={<Chip.Categori>블로그</Chip.Categori>}
                     state={<Chip.Card.Compolete />}
                     className={``}

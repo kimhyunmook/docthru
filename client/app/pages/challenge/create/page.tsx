@@ -59,22 +59,24 @@ export default function Application({
   }
 
   async function handleClick() {
-    console.log(form);
-    console.log(documentType.value, field.value);
-    // if (allErrorCondtion.find((x) => !x) === false)
-    //   return alert("조건에 안맞습니다.");
-    // if (!!clickHanlde) clickHanlde();
-    // else {
-    //   PostChallenge(form).then((res) => {
-    //     if (res.success) {
-    //       alert("챌린지 생성에 성공했습니다.");
-    //       router.push("/pages/challenge");
-    //       return;
-    //     }
-    //     alert("실패");
-    //     router.refresh();
-    //   });
-    // }
+    if (allErrorCondtion.find((x) => !x) === false)
+      return alert("조건에 안맞습니다.");
+    if (!!clickHanlde) clickHanlde();
+    else {
+      PostChallenge({
+        ...form,
+        documentType: documentType.value,
+        field: field.value,
+      }).then((res) => {
+        if (res.success) {
+          alert("챌린지 생성에 성공했습니다.");
+          router.push("/pages/challenge");
+          return;
+        }
+        alert("실패");
+        router.refresh();
+      });
+    }
   }
 
   const allErrorCondtion = [
@@ -116,20 +118,6 @@ export default function Application({
         setValue={documentType.set}
         list={["블로그", "공식문서"]}
       />
-      {/* <Input
-        label="분야"
-        name="field"
-        value={form.field}
-        placeholder="카테고리"
-        onChange={handleChange}
-      /> */}
-      {/* <Input
-        label="문서 타입"
-        name="documentType"
-        value={form.documentType}
-        onChange={handleChange}
-        placeholder="카테고리"
-      /> */}
       <Input.Date name="date" onChange={handleChange} />
       <Input
         label="최대 인원"
