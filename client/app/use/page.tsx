@@ -17,12 +17,13 @@ import Modal from "../shared/components/modal/modal";
 //지울거
 import { User } from "../shared/types/user";
 import Crystal, { CrystalLayout } from "./crystal/crystal";
+import CloseBtn from "../shared/components/btn/close";
 
 const userDumi: User = {
   id: "1",
   name: "테스터",
   grade: "어드민",
-  heart: 0,
+  like: 0,
 };
 
 export default function ComponentsUse() {
@@ -136,6 +137,7 @@ export default function ComponentsUse() {
           <Btn.Filled.Yellow className="" width={"0|auto"} onClick={click}>
             필드
           </Btn.Filled.Yellow>
+          <CloseBtn width={30} height={30} />
         </CrystalLayout>
         <CrystalLayout title="tab">
           <Tab.Middle className="" active={false}>

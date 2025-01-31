@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PropsWithClassName } from "../../types/common";
 import { User } from "../../types/user";
+import { useAuth } from "../../provider/authProvider";
 
 const type = ["Next.js", "API", "Career", "Modern JS", "Web"];
 const state = [
@@ -19,47 +20,67 @@ const state = [
 ];
 
 type DropdwonProps = PropsWithClassName & {
+  name?: string;
   list?: string[];
+  value?: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 function Dropdown({
+  name = "",
   className = "",
+  onChange,
+  setValue,
   children = "카테고리",
   list = type,
 }: DropdwonProps) {
-  const [value, setValue] = useState<React.ReactNode>(children);
+  const [child, setChild] = useState<React.ReactNode>(children);
   const [on, setOn] = useState("");
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
-    if (value !== children) setOn(styles.on);
-  }, [value, children]);
+    if (child !== children) setOn(styles.on);
+    setValue(child as string);
+  }, [child, children]);
+
   function openHandle(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     setOpen(!open);
   }
   return (
     <div className={`${styles.dropdown} ${className}`.trim()}>
+      <input
+        type="hidden"
+        name={name}
+        value={child as string}
+        onChange={onChange}
+      />
       <div
         className={`${styles.default} ${on} ${open ? styles.open : ""} `.trim()}
         onClick={openHandle}
       >
-        {value}
+        {child}
       </div>
       {open && (
         <DropList
           list={list}
           setOpen={setOpen}
           open={open}
-          setValue={setValue}
+          setValue={setChild}
         />
       )}
     </div>
   );
 }
 
-function Sort({ className }: PropsWithClassName) {
+function Sort({ className, setValue }: DropdwonProps) {
   return (
-    <Dropdown className={`${styles.sort} ${className}`} list={state}>
+    <Dropdown
+      setValue={setValue}
+      className={`${styles.sort} ${className}`}
+      list={state}
+    >
       승인 대기
     </Dropdown>
   );
@@ -69,6 +90,7 @@ type login = PropsWithClassName & {
   user: User;
 };
 function Login({ className, user }: login) {
+  const { logout } = useAuth();
   return (
     <div className={`${styles.login} ${className}`}>
       <div className={styles.top}>
@@ -85,12 +107,16 @@ function Login({ className, user }: login) {
       </div>
       <ul className={styles.list}>
         <li>
-          <Link href="#" className="">
-            나의 챌린지
-          </Link>
+          <Link href="#">나의 챌린지</Link>
         </li>
         <li>
-          <Link href="#" className="">
+          <Link
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              logout();
+            }}
+          >
             로그아웃
           </Link>
         </li>

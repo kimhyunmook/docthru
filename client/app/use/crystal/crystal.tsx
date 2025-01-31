@@ -60,7 +60,7 @@ export function CrystalLayout({ children, title, width }: UseLayoutProps) {
                 const cloneProps = Object.fromEntries(
                   Object.entries(child.props ?? {}).map((v) => {
                     const key = v[0];
-                    let value = v[1];
+                    const value = v[1];
                     return [key, value];
                   })
                 );

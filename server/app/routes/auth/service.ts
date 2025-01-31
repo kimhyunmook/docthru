@@ -6,8 +6,8 @@ import type { Compare, SignupProps, User } from "../../types/common";
 
 async function signup({ email, password, nickname }: SignupProps) {
   const hashpw = await Hash.hash({ password });
-  const res = await userRepo.signup({ email, password: hashpw, nickname });
-  return !!res;
+  const result = await userRepo.signup({ email, password: hashpw, nickname });
+  return result;
 }
 
 interface CreateTokenProps {
@@ -29,9 +29,22 @@ async function createToken({ user, type }: CreateTokenProps) {
       return null;
     }
   } else {
-    console.error("create token error");
+    console.error("create token error!");
     return null;
   }
+}
+
+interface RefreshTokenProps {
+  email: string;
+  refreshToken: string;
+}
+async function refreshToken({ email, refreshToken }: RefreshTokenProps) {
+  const user = await userRepo.findUser({ email });
+  if (!user || !refreshToken) {
+    const error = new Error("Unauthorized");
+    throw error;
+  }
+  return createToken({ user, type: "a" });
 }
 
 interface LoginProps {
@@ -54,6 +67,7 @@ async function verifyPw({ password, hashPw }: Compare) {
 
 const service = {
   createToken,
+  refreshToken,
   login,
   signup,
 };

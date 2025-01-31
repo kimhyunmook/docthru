@@ -23,7 +23,21 @@
   font-size: 16px;
   font-weight: 400;
 }
-
+.application .dropdownBox label {
+  display: block;
+  width: 100%;
+  margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.application .dropdown {
+  width: 100%;
+  max-width: 100%;
+}
+.application .dropdown > div {
+  border-radius: 12px;
+  height: 48px;
+}
 .textarea {
   margin-top: 8px;
   border: 1px solid #d4d4d4;

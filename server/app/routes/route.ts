@@ -9,5 +9,5 @@ router.use("/example", exampleRouter);
 router.use("/auth", authRouter);
 router.use("/challenge", challenge);
 router.use("/user", userRouter);
-
+//way?
 export default router;

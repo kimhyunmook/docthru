@@ -57,7 +57,7 @@
   border: 1px solid var(--gray300);
   overflow: hidden;
   background-color: #fff;
-  top: 115%;
+  top: 105%;
   position: absolute;
 }
 .dropList li {

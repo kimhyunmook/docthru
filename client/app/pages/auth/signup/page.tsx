@@ -1,14 +1,12 @@
 "use client";
-
 import s from "@/app/pages/auth/login/login.module.css";
-
 import Input from "@/app/shared/components/input/input";
 import Btn from "@/app/shared/components/btn/btn";
 import Link from "next/link";
 import { signupApi } from "@/app/api/auth/api";
 import { useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import LinkImg from "@/app/shared/components/LinkImg";
 
 export default function Sign({}) {
   const router = useRouter();
@@ -33,18 +31,25 @@ export default function Sign({}) {
       return;
     }
     const result = await signupApi(body);
-    if (result.success) {
-      alert("회원가입을 축하합니다.");
-      router.push("/pages/auth/login");
+    if (!result.success) {
+      alert(result.msg);
+      return;
     }
+    alert("회원가입을 축하합니다.");
+    router.push("/pages/auth/login");
   }
 
   return (
     <div>
       <div className={s.inner}>
         <div className={s.logo_box}>
-          <Image src="/img/logo.svg" alt="Logo" width={320} height={82} />
-          {/* <img src="/img/logo.svg" alt="Logo" style={{ width: "100%" }} /> */}
+          <LinkImg
+            href="/"
+            src="/img/logo.svg"
+            alt="Logo"
+            width={320}
+            height={82}
+          />
         </div>
         <Input.Email onChange={handleChange} />
         <Input

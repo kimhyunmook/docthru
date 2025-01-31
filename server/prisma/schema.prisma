@@ -26,18 +26,23 @@ model user {
   nickname  String      @unique
   grade     String      @default("일반")
   like      Int         @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
   challenge challenge[]
 }
 
 model challenge {
   id           String   @id @default(uuid())
-  title        String
-  originalLink String
-  field        String
+  title        String   @default("")
+  originalLink String   @default("")
+  field        String   @default("")
+  documentType String   @default("")
   date         DateTime
   current      Int      @default(0)
   maximum      Int
   content      String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   user         user     @relation(fields: [userId], references: [id])
   userId       String
 }

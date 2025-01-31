@@ -55,3 +55,26 @@
   color: var(--brand_black);
   font-weight: 700;
 }
+
+.closeBtn {
+  position: relative;
+}
+.closeBtn::after,
+.closeBtn::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 2px;
+  border-radius: 10px;
+  background-color: var(--brand_black);
+}
+.closeBtn::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.closeBtn::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
