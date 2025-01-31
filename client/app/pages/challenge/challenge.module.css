@@ -38,14 +38,15 @@
   background-color: #fff;
   max-width: 872px;
   width: 100%;
+  border: 1px solid var(--gray200);
 }
-.challenge ul {
+.challenge .list {
   margin-top: 24px;
 }
-.challenge ul li {
+.challenge .list > li {
   margin-bottom: 24px;
 }
-.challenge ul li.noList {
+.challenge .list li.noList {
   position: absolute;
   top: 50%;
   left: 50%;

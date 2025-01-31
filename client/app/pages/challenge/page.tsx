@@ -4,12 +4,11 @@ import s from "./challenge.module.css";
 import Dropdown from "@/app/shared/components/dropdown/dropdown";
 import SearchInput from "@/app/shared/components/search";
 import Card from "@/app/shared/components/card/card";
-import Chip from "@/app/shared/components/chip/chip";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GetChallenge } from "@/app/api/challenge/api";
 import useValue from "@/app/shared/hooks/useValue";
-import type { ChallengeProps, ChipType } from "@/app/shared/types/common";
+import type { Challenge, ChipType } from "@/app/shared/types/common";
 
 export default function Challenge() {
   const [data, setData] = useState([]);
@@ -19,7 +18,6 @@ export default function Challenge() {
       setData(res.data);
     });
   }, []);
-
   return (
     <div className={s.challenge}>
       <div className={s.top}>
@@ -35,25 +33,27 @@ export default function Challenge() {
           </Dropdown.Sort>
           <SearchInput className={s.search}></SearchInput>
         </div>
-        <ul className={""}>
+        <ul className={s.list}>
           {data.length === 0 ? (
             <li className={s.noList}>
               아직 챌린지가 없어요, <br /> 지금 바로 챌린지를 신청해보세요
             </li>
           ) : (
-            data.map((v: ChallengeProps, i) => {
+            data.map((v: Challenge, i) => {
               console.log(v);
               return (
                 <li key={i}>
                   <Card
+                    href={`${v.id}`}
                     field={v.field as ChipType}
                     documentType={"블로그"}
-                    state={<Chip.Card.Compolete />}
                     className={``}
-                    date="0000년 00월 00일"
+                    date={v.date}
                     current={v.current}
-                    total={v.maximum}
-                  ></Card>
+                    maximum={v.maximum}
+                  >
+                    {v.title}
+                  </Card>
                 </li>
               );
             })
