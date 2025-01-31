@@ -7,8 +7,9 @@ import Card from "@/app/shared/components/card/card";
 import Chip from "@/app/shared/components/chip/chip";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ChallengeProps, GetChallenge } from "@/app/api/challenge/api";
+import { GetChallenge } from "@/app/api/challenge/api";
 import useValue from "@/app/shared/hooks/useValue";
+import type { ChallengeProps, ChipType } from "@/app/shared/types/common";
 
 export default function Challenge() {
   const [data, setData] = useState([]);
