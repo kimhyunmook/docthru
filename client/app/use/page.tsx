@@ -2,7 +2,6 @@
 import styles from "./styles/use.module.css";
 import Input from "../shared/components/input/input";
 import { useState } from "react";
-import { isValidEmail } from "@/lib/utils/convenience";
 import Chip from "../shared/components/chip/chip";
 import Btn from "../shared/components/btn/btn";
 import Tab from "../shared/components/tab/tab";
@@ -27,7 +26,6 @@ const userDumi: User = {
 };
 
 export default function ComponentsUse() {
-  const [email, setEmail] = useState("");
   const [text, setText] = useState("");
   const click = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -43,7 +41,6 @@ export default function ComponentsUse() {
             value={""}
             onChange={() => {}}
             error={"이메일 형식 아니야"}
-            errorCondition={isValidEmail(email)}
           />
           <Input.Email className="" />
           <Input.Password
@@ -171,12 +168,12 @@ export default function ComponentsUse() {
         </CrystalLayout>
         <CrystalLayout title="card" width={1040}>
           <Card
-            state={<Chip.Card.Compolete />}
-            chip={<Chip.NextChip />}
-            categori={<Chip.Categori>블로그</Chip.Categori>}
+            href="#"
+            field={"next.js"}
+            documentType={"블로그"}
             date="00000"
-            current={0}
-            total={3}
+            current={3}
+            maximum={3}
           >
             Next.js -APP Router:Routing
           </Card>

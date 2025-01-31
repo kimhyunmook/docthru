@@ -32,7 +32,7 @@ model user {
 }
 
 model challenge {
-  id           String   @id @default(uuid())
+  id           Int      @id @default(autoincrement())
   title        String   @default("")
   originalLink String   @default("")
   field        String   @default("")

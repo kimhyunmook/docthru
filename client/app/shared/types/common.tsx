@@ -16,6 +16,7 @@ export interface ChallengeProps {
   content: string;
 }
 export interface Challenge extends ChallengeProps {
+  id: string;
   current: number;
   maximum: number;
 }
