@@ -9,7 +9,7 @@ import Chip from "../chip/chip";
 import type { ChipType } from "../../types/common";
 
 type CardProps = PropsWithClassName & {
-  chip?: ChipType;
+  field?: ChipType;
   categori?: React.ReactNode;
   state?: React.ReactNode;
   date: string;
@@ -18,7 +18,7 @@ type CardProps = PropsWithClassName & {
 };
 
 function Card({
-  chip = null,
+  field = null,
   categori = null,
   state = null,
   className = "",
@@ -29,8 +29,8 @@ function Card({
 }: CardProps) {
   const chipElement = useValue(null);
   useEffect(() => {
-    switch (chip) {
-      case "nextjs":
+    switch (field?.toLocaleLowerCase()) {
+      case "next.js":
         chipElement.set(<Chip.NextChip />);
         break;
       case "api":
@@ -52,7 +52,7 @@ function Card({
       <div className={styles.top}>
         {!!state && <div className={styles.state}>{state}</div>}
         <h3 className={styles.title}>{children}</h3>
-        {!!chip || !!categori ? (
+        {!!field || !!categori ? (
           <div className={styles.chip}>
             <span>{chipElement.value}</span>
             <span>{categori}</span>
