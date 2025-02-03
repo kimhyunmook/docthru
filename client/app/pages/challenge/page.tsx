@@ -9,28 +9,38 @@ import { useEffect, useState } from "react";
 import { GetChallenge } from "@/app/api/challenge/api";
 import useValue from "@/app/shared/hooks/useValue";
 import type { Challenge, ChipType } from "@/app/shared/types/common";
+import DropFilter from "@/app/shared/components/dropdown/filter";
 
 export default function Challenge() {
   const [data, setData] = useState([]);
   const filter = useValue("");
+  const [filterOpen, setFilterOpen] = useState(false);
   useEffect(() => {
     GetChallenge({}).then((res) => {
       setData(res.data);
     });
   }, []);
+
+  function filterHandle() {
+    setFilterOpen((prev) => !prev);
+  }
   return (
     <div className={s.challenge}>
       <div className={s.top}>
         <h2>챌린지 목록</h2>
         <Link href={`/pages/challenge/create`}>
-          <Btn.Solid size="l">신규 챌린지 신청 +</Btn.Solid>
+          <Btn.Solid className={s.createBtn} size="l">
+            신규 챌린지 신청 +
+          </Btn.Solid>
         </Link>
       </div>
       <div>
         <div className={s.search_box}>
-          <Dropdown.Sort setValue={filter.set} className={s.filter}>
-            필터
-          </Dropdown.Sort>
+          <DropFilter
+            open={filterOpen}
+            setOpen={setFilterOpen}
+            onClick={filterHandle}
+          />
           <SearchInput className={s.search}></SearchInput>
         </div>
         <ul className={s.list}>
