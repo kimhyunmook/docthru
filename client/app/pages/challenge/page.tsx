@@ -44,17 +44,20 @@ export default function Challenge() {
             data.map((v: ChallengeProps, i) => {
               console.log(v);
               return (
-                <li key={i}>
-                  <Card
-                    field={v.field as ChipType}
-                    documentType={"블로그"}
-                    state={<Chip.Card.Compolete />}
-                    className={``}
-                    date="0000년 00월 00일"
-                    current={v.current}
-                    total={v.maximum}
-                  ></Card>
-                </li>
+                <Link href={`/pages/challenge/id=${v.id}`}>
+                  <li key={i}>
+                    <Card
+                      field={v.field as ChipType}
+                      documentType={"블로그"}
+                      state={<Chip.Card.Compolete />}
+                      className={``}
+                      date="0000년 00월 00일"
+                      current={v.current}
+                      total={v.maximum}
+                      children={v.title}
+                    ></Card>
+                  </li>
+                </Link>
               );
             })
           )}

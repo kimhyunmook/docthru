@@ -46,4 +46,23 @@ challenge.patch(
   }
 );
 
+// challenge.post("/detail", async (req: Request, res: Response) => {
+//   try {
+//     const data = await prisma.challenge.findMany({
+//       where: { id },
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
+
+challenge.get("/", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.query;
+    console.log("야야", id);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 export default challenge;
