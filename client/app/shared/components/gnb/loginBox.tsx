@@ -44,7 +44,7 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
       alt: "아이콘",
       width: 32,
       height: 32,
-      modal: <Dropdown.Login className={styles.modal} user={user} />,
+      modal: <Dropdown.Login className={styles.modal} />,
       onClick: () => {
         openModal({ type: "user" });
       },
@@ -60,7 +60,7 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
           alt: "아이콘",
           width: 32,
           height: 32,
-          modal: <Dropdown.Login className={styles.modal} user={user} />,
+          modal: <Dropdown.Login className={styles.modal} />,
           onClick: () => {
             openModal({ type: "user" });
           },

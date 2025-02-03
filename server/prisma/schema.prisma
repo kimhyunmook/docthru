@@ -41,6 +41,7 @@ model challenge {
   current      Int      @default(0)
   maximum      Int
   content      String
+  state        String   @default("inProgress")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   user         user     @relation(fields: [userId], references: [id])

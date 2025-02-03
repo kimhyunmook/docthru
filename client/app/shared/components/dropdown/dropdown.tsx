@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { PropsWithClassName } from "../../types/common";
-import { User } from "../../types/user";
 import { useAuth } from "../../provider/authProvider";
 
 const type = ["Next.js", "API", "Career", "Modern JS", "Web"];
@@ -86,43 +85,42 @@ function Sort({ className, setValue }: DropdwonProps) {
   );
 }
 
-type login = PropsWithClassName & {
-  user: User;
-};
-function Login({ className, user }: login) {
-  const { logout } = useAuth();
-  return (
-    <div className={`${styles.login} ${className}`}>
-      <div className={styles.top}>
-        <Image
-          src="/img/icon/profile_member.svg"
-          alt="프로필"
-          width={32}
-          height={32}
-        />
-        <div className={styles.text}>
-          <h3>{user?.name}</h3>
-          <p>{user?.grade}</p>
+type login = PropsWithClassName & {};
+function Login({ className }: login) {
+  const { logout, user } = useAuth();
+  if (user !== null)
+    return (
+      <div className={`${styles.login} ${className}`}>
+        <div className={styles.top}>
+          <Image
+            src="/img/icon/profile_member.svg"
+            alt="프로필"
+            width={32}
+            height={32}
+          />
+          <div className={styles.text}>
+            <h3>{user?.nickname}</h3>
+            <p>{user?.grade}</p>
+          </div>
         </div>
+        <ul className={styles.list}>
+          <li>
+            <Link href="#">나의 챌린지</Link>
+          </li>
+          <li>
+            <Link
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                logout();
+              }}
+            >
+              로그아웃
+            </Link>
+          </li>
+        </ul>
       </div>
-      <ul className={styles.list}>
-        <li>
-          <Link href="#">나의 챌린지</Link>
-        </li>
-        <li>
-          <Link
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              logout();
-            }}
-          >
-            로그아웃
-          </Link>
-        </li>
-      </ul>
-    </div>
-  );
+    );
 }
 
 Dropdown.Sort = Sort;

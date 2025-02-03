@@ -18,10 +18,17 @@
   justify-content: space-between;
   cursor: pointer;
 }
+.dropdown.filtering {
+  background-color: var(--gray800);
+}
+.dropdown.filtering .label {
+  color: #fff;
+}
 .filterBox {
+  z-index: 99;
   position: absolute;
-  top: 110%;
-  left: 0%;
+  top: 120%;
+  left: -3%;
   width: 343px;
   padding: 16px 0;
   background-color: #fff;
@@ -44,7 +51,7 @@
   padding: 12px 16px 14px;
   border-bottom: 1px solid var(--gray200);
 }
-.listCover:last-child {
+.listCover:last-of-type {
   border-bottom: 0;
 }
 .listCover .title {
@@ -59,7 +66,11 @@
 .listCover li:last-child {
   margin-bottom: 0px;
 }
+.listCover li label {
+  display: flex;
+}
 .listCover li .chk {
+  display: block;
   width: 18px;
   height: 18px;
   border-radius: 2px;
@@ -70,7 +81,7 @@
   margin-right: 4px;
 }
 .listCover li input {
-  /* display: none; */
+  display: none;
 }
 .listCover li .chk img {
   position: absolute;
@@ -79,16 +90,13 @@
   transform: translate(-50%, -50%);
 }
 
-.radio {
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  border: 1px solid var(--gray300);
-  background-color: var(--gray100);
-  overflow: hidden;
-  margin-right: 4px;
+.btnArea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 0 16px;
 }
-
-.radio.on {
-  background-color: var(--gray800);
+.btnArea button {
+  width: 49%;
 }

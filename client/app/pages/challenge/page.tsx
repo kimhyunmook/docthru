@@ -1,31 +1,71 @@
 "use client";
 import Btn from "@/app/shared/components/btn/btn";
 import s from "./challenge.module.css";
-import Dropdown from "@/app/shared/components/dropdown/dropdown";
 import SearchInput from "@/app/shared/components/search";
 import Card from "@/app/shared/components/card/card";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GetChallenge } from "@/app/api/challenge/api";
-import useValue from "@/app/shared/hooks/useValue";
 import type { Challenge, ChipType } from "@/app/shared/types/common";
 import DropFilter from "@/app/shared/components/dropdown/filter";
+import useValue from "@/app/shared/hooks/useValue";
 
 export default function Challenge() {
-  const [data, setData] = useState([]);
-  const filter = useValue("");
+  const [data, setData] = useState<Challenge[]>([]);
   const [filterOpen, setFilterOpen] = useState(false);
+  const page = useValue(1);
+  const pageSize = useValue(10);
+  const orderby = useValue("createdAt");
+  const keyword = useValue("");
+  const total = useValue(0);
+  const challenge = useRef<HTMLDivElement>(null);
+  const isFatching = useValue(false);
+  // const pageNation = Array.from(
+  //   {
+  //     length: Math.ceil(total.value / pageSize.value),
+  //   },
+  //   (_, i) => i + 1
+  // );
+
   useEffect(() => {
-    GetChallenge({}).then((res) => {
-      setData(res.data);
+    console.log(page.value);
+    GetChallenge({
+      page: page.value,
+      pageSize: pageSize.value,
+      orderby: orderby.value,
+      keyword: keyword.value,
+    }).then((res) => {
+      total.set(res.total);
+      isFatching.set(true);
+      setData((prev) => [...prev, ...res.data]);
     });
-  }, []);
+  }, [page.value, pageSize.value, orderby.value, keyword.value]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollLine = window.innerHeight + window.scrollY + 200;
+      if (!!!challenge.current) return; 
+      const listHeight = challenge.current.getBoundingClientRect().height;
+      if (data.length === total.value) return;
+      if (scrollLine >= listHeight && isFatching.value) {
+        page.set((prev: number) => prev + 1);
+        isFatching.set(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isFatching.value, total.value]);
 
   function filterHandle() {
     setFilterOpen((prev) => !prev);
   }
+  // function previous() {}
+  // function next() {}
   return (
-    <div className={s.challenge}>
+    <div ref={challenge} className={s.challenge} style={{}}>
       <div className={s.top}>
         <h2>챌린지 목록</h2>
         <Link href={`/pages/challenge/create`}>
@@ -34,7 +74,7 @@ export default function Challenge() {
           </Btn.Solid>
         </Link>
       </div>
-      <div>
+      <div className={s.content}>
         <div className={s.search_box}>
           <DropFilter
             open={filterOpen}
@@ -50,7 +90,6 @@ export default function Challenge() {
             </li>
           ) : (
             data.map((v: Challenge, i) => {
-              console.log(v);
               return (
                 <li key={i}>
                   <Card
@@ -69,6 +108,19 @@ export default function Challenge() {
             })
           )}
         </ul>
+        {/* <div className={s.pageNavigation}>
+          <button onClick={previous}>{`<`}</button>
+          <ul className={s.number}>
+            {pageNation.map((v, i) => {
+              return (
+                <li key={`${v} ${i}`}>
+                  <Link href={`${v}`}>{v}</Link>
+                </li>
+              );
+            })}
+          </ul>
+          <button onClick={next}>{`>`}</button>
+        </div> */}
       </div>
     </div>
   );

@@ -5,15 +5,17 @@ interface GetChallengeProps {
   page?: string | number;
   pageSize?: string | number;
   orderby?: string;
+  keyword?: string;
 }
 
 export async function GetChallenge({
-  page,
-  pageSize,
-  orderby,
+  page = 1,
+  pageSize = 10,
+  orderby = "createdAt",
+  keyword = "",
 }: GetChallengeProps) {
   const res = await instance.get(
-    `/api/challenge/?page=${page}&pageSize=${pageSize}&orderby=${orderby}`
+    `/api/challenge/?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
   );
   return await res.data;
 }

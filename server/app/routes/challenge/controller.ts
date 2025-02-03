@@ -5,9 +5,23 @@ import authMiddleware from "../../middlewares/auth";
 const challenge = Router();
 
 challenge.get("/", async (req: Request, res: Response) => {
-  const { page, pageSize, orderby } = req.query;
-  const data = await prisma.challenge.findMany();
-  res.status(200).send({ data });
+  const page = parseInt(req.query.page as string);
+  const pageSize = parseInt(req.query.pageSize as string);
+  let orderby = req.query.orderby as string;
+  try {
+    const data = await prisma.challenge.findMany({
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      orderBy: {
+        [orderby]: "desc",
+      },
+    });
+    const total = (await prisma.challenge.findMany()).length;
+    res.status(200).send({ data, total });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err });
+  }
 });
 
 challenge.post(

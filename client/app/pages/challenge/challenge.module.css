@@ -62,6 +62,15 @@
   font-weight: 600;
   padding: 0 13px;
 }
+.pageNavigation {
+  display: flex;
+}
+.pageNavigation button {
+}
+.pageNavigation button:first-of-type {
+}
+.pageNavigation button:last-of-type {
+}
 @media screen and (max-width: 1199px) {
   .challenge {
     width: 89%;

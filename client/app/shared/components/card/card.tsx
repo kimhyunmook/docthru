@@ -18,7 +18,7 @@ type CardProps = PropsWithClassName & {
   maximum: number;
 };
 
-function Card({
+function Card({ 
   href = "#",
   field = null,
   documentType = null,
