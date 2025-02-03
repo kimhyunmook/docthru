@@ -69,8 +69,8 @@ export default function Application({
         field: field.value,
       }).then((res) => {
         if (res.success) {
-          // alert("챌린지 생성에 성공했습니다.");
-          // router.push("/pages/challenge");
+          alert("챌린지 생성에 성공했습니다.");
+          router.push("/pages/challenge");
           return;
         }
         alert("실패");

@@ -20,30 +20,73 @@ model example {
 }
 
 model user {
-  id        String      @id @default(uuid())
-  email     String      @unique
-  password  String
-  nickname  String      @unique
-  grade     String      @default("일반")
-  like      Int         @default(0)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  challenge challenge[]
+  id                     String                   @id @default(uuid())
+  email                  String                   @unique
+  password               String
+  nickname               String                   @unique
+  grade                  String                   @default("일반")
+  like                   Int                      @default(0)
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  challenge              challenge[]
+  participants           participant[]
+  challengework          challengework[]
+  challengework_feedback challengework_feedback[]
+  alarm                  alarm[]
+}
+
+model alarm {
+  id        Int      @id @default(autoincrement())
+  content   String
+  read      Boolean  @default(false)
+  user      user     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
 }
 
 model challenge {
-  id           Int      @id @default(autoincrement())
-  title        String   @default("")
-  originalLink String   @default("")
-  field        String   @default("")
-  documentType String   @default("")
-  date         DateTime
-  current      Int      @default(0)
-  maximum      Int
-  content      String
-  state        String   @default("inProgress")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  user         user     @relation(fields: [userId], references: [id])
-  userId       String
+  id            Int             @id @default(autoincrement())
+  title         String          @default("")
+  originalLink  String          @default("")
+  field         String          @default("")
+  documentType  String          @default("")
+  date          DateTime
+  current       Int             @default(0)
+  maximum       Int
+  content       String
+  state         String          @default("inProgress")
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  user          user            @relation(fields: [userId], references: [id])
+  userId        String
+  participants  participant[]
+  challengework challengework[]
+}
+
+model challengework {
+  id          Int       @id @default(autoincrement())
+  content     String
+  user        user      @relation(fields: [userId], references: [id])
+  userId      String
+  challenge   challenge @relation(fields: [challengeId], references: [id])
+  challengeId Int
+}
+
+model challengework_feedback {
+  id        Int      @id @default(autoincrement())
+  content   String
+  user      user     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model participant {
+  id              Int       @id @default(autoincrement())
+  users           user[]
+  userId          String[]
+  applicationDate DateTime  @default(now())
+  participantDate DateTime  @updatedAt
+  challenge       challenge @relation(fields: [challengeId], references: [id])
+  challengeId     Int
 }

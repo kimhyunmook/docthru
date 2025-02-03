@@ -39,12 +39,12 @@ export default function Challenge() {
       isFatching.set(true);
       setData((prev) => [...prev, ...res.data]);
     });
-  }, [page.value, pageSize.value, orderby.value, keyword.value]);
+  }, [page.value, pageSize.value, orderby.value]);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollLine = window.innerHeight + window.scrollY + 200;
-      if (!!!challenge.current) return; 
+      if (!!!challenge.current) return;
       const listHeight = challenge.current.getBoundingClientRect().height;
       if (data.length === total.value) return;
       if (scrollLine >= listHeight && isFatching.value) {
@@ -61,6 +61,17 @@ export default function Challenge() {
 
   function filterHandle() {
     setFilterOpen((prev) => !prev);
+  }
+  function search() {
+    GetChallenge({
+      page: page.value,
+      pageSize: pageSize.value,
+      orderby: orderby.value,
+      keyword: keyword.value,
+    }).then((res) => {
+      total.set(res.total);
+      setData(() => [...res.data]);
+    });
   }
   // function previous() {}
   // function next() {}
@@ -81,13 +92,16 @@ export default function Challenge() {
             setOpen={setFilterOpen}
             onClick={filterHandle}
           />
-          <SearchInput className={s.search}></SearchInput>
+          <SearchInput
+            value={keyword.value}
+            setValue={keyword.set}
+            className={s.search}
+            onClick={search}
+          ></SearchInput>
         </div>
         <ul className={s.list}>
           {data.length === 0 ? (
-            <li className={s.noList}>
-              아직 챌린지가 없어요, <br /> 지금 바로 챌린지를 신청해보세요
-            </li>
+            <li className={s.noList}>챌린지가 없어요</li>
           ) : (
             data.map((v: Challenge, i) => {
               return (

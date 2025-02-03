@@ -71,6 +71,8 @@
 }
 .pageNavigation button:last-of-type {
 }
+
+
 @media screen and (max-width: 1199px) {
   .challenge {
     width: 89%;

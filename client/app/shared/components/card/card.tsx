@@ -40,7 +40,7 @@ function Card({
       case "career":
         chipElement.set(<Chip.CareerChip />);
         break;
-      case "modern":
+      case "modern js":
         chipElement.set(<Chip.ModernChip />);
         break;
       case "web":
