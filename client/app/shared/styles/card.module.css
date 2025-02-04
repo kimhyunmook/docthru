@@ -27,6 +27,7 @@ ul.state li:last-child {
 }
 .title {
   font-weight: 600;
+  display: block;
   font-size: 22px;
   color: var(--gray700);
   margin-bottom: 14px;
@@ -42,7 +43,10 @@ ul.state li:last-child {
 .chip span:last-child {
   margin-right: 0;
 }
-
+.bottom {
+  display: flex;
+  justify-content: space-between;
+}
 .info {
   display: flex;
 }
@@ -55,4 +59,10 @@ ul.state li:last-child {
   top: 0;
   right: 0;
   cursor: pointer;
+}
+
+.bottom .countinueBtn button {
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 20px;
 }

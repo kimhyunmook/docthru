@@ -21,8 +21,6 @@ interface bodyProps extends PropsWithChildren {
 export interface Form {
   title: string;
   originalLink: string;
-  date: string;
-  maximum: string;
   content: string;
 }
 
@@ -36,11 +34,10 @@ export default function Application({
   const [form, setForm] = useState<Form>({
     title: "",
     originalLink: "",
-    date: "",
-    maximum: "",
     content: "",
   });
-
+  const date = useValue("");
+  const maximum = useValue("");
   const field = useValue("");
   const documentType = useValue("");
 
@@ -65,6 +62,8 @@ export default function Application({
     else {
       PostChallenge({
         ...form,
+        date: date.value,
+        maximum: maximum.value,
         documentType: documentType.value,
         field: field.value,
       }).then((res) => {
@@ -78,6 +77,7 @@ export default function Application({
       });
     }
   }
+  console.log(documentType.value);
 
   const allErrorCondtion = [
     form.title.length >= 5,
@@ -118,13 +118,23 @@ export default function Application({
         setValue={documentType.set}
         list={["블로그", "공식문서"]}
       />
-      <Input.Date name="date" onChange={handleChange} />
-      <Input
+      <Input.Date
+        name="date"
+        value={date.value}
+        onInput={(e) => {
+          const now = new Date();
+          const { value } = e.currentTarget;
+          const targetDate = new Date(value);
+          if (targetDate < now) return alert("마감 기한은 최소 +1일 입니다.");
+          date.set(value);
+        }}
+      />
+      <Input.Number
         label="최대 인원"
         name="maximum"
-        value={form.maximum}
+        value={maximum.value}
+        setValue={maximum.set}
         placeholder="인원을 입력해주세요"
-        onChange={handleChange}
       />
       <div className={s.constent_box}>
         <span>내용</span>

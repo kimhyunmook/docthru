@@ -1,5 +1,8 @@
 import instance from "../instance";
-import type { ChallengeProps } from "@/app/shared/types/common";
+import type {
+  ChallengeProps,
+  MyChallengeProps,
+} from "@/app/shared/types/common";
 
 interface GetChallengeProps {
   page?: string | number;
@@ -30,7 +33,7 @@ export async function PatchCallenge(body: ChallengeProps) {
   return res.data;
 }
 
-export async function MyChallengeApi(type: "participating" | "finish" | "apply") {
+export async function MyChallengeApi(type: MyChallengeProps) {
   try {
     const res = await instance.get(`/api/challenge/${type}`);
     return await res.data;

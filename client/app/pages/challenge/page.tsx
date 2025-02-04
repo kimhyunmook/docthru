@@ -9,6 +9,7 @@ import { GetChallenge } from "@/app/api/challenge/api";
 import type { Challenge, ChipType } from "@/app/shared/types/common";
 import DropFilter from "@/app/shared/components/dropdown/filter";
 import useValue from "@/app/shared/hooks/useValue";
+import { useRouter } from "next/navigation";
 
 export default function Challenge() {
   const [data, setData] = useState<Challenge[]>([]);
@@ -20,27 +21,13 @@ export default function Challenge() {
   const total = useValue(0);
   const challenge = useRef<HTMLDivElement>(null);
   const isFatching = useValue(false);
+  const router = useRouter();
   // const pageNation = Array.from(
   //   {
   //     length: Math.ceil(total.value / pageSize.value),
   //   },
   //   (_, i) => i + 1
   // );
-
-  useEffect(() => {
-    console.log(page.value);
-    GetChallenge({
-      page: page.value,
-      pageSize: pageSize.value,
-      orderby: orderby.value,
-      keyword: keyword.value,
-    }).then((res) => {
-      total.set(res.total);
-      isFatching.set(true);
-      setData((prev) => [...prev, ...res.data]);
-    });
-  }, [page.value, pageSize.value, orderby.value]);
-
   useEffect(() => {
     const handleScroll = () => {
       const scrollLine = window.innerHeight + window.scrollY + 200;
@@ -58,6 +45,19 @@ export default function Challenge() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isFatching.value, total.value]);
+
+  useEffect(() => {
+    GetChallenge({
+      page: page.value,
+      pageSize: pageSize.value,
+      orderby: orderby.value,
+      keyword: keyword.value,
+    }).then((res) => {
+      total.set(res.total);
+      isFatching.set(true);
+      setData((prev) => [...prev, ...res.data]);
+    });
+  }, [page.value, pageSize.value, orderby.value]);
 
   function filterHandle() {
     setFilterOpen((prev) => !prev);
@@ -109,7 +109,7 @@ export default function Challenge() {
                   <Card
                     href={`${v.id}`}
                     field={v.field as ChipType}
-                    documentType={"블로그"}
+                    documentType={v.documentType}
                     className={``}
                     date={v.date}
                     current={v.current}

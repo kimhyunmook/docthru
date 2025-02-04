@@ -22,10 +22,10 @@ export default function Edit() {
 
   function handleClick() {
     console.log(form);
-    PatchCallenge(form);
+    // PatchCallenge(form);
   }
   return (
-    <Application mainTitle="챌린지 수정" setData={setForm}>
+    <Application mainTitle="챌린지 수정">
       <Btn.Solid.Large onClick={handleClick} className={s.bt_l} width="100%">
         수정하기
       </Btn.Solid.Large>

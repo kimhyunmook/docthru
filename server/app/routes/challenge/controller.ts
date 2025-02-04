@@ -45,7 +45,15 @@ challenge.post(
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
     try {
-      const { title, originalLink, field, date, maximum, content } = req.body;
+      const {
+        title,
+        originalLink,
+        field,
+        date,
+        maximum,
+        content,
+        documentType,
+      } = req.body;
       const data = await prisma.challenge.create({
         data: {
           title,
@@ -53,8 +61,8 @@ challenge.post(
           field,
           date: new Date(date),
           maximum: parseInt(maximum),
+          documentType,
           content,
-          // onerId: req.user.id,
           onerId: req.user.id,
         },
       });
@@ -82,16 +90,20 @@ challenge.get(
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
     const { type } = req.params;
-    const id = req.user.id;
-    console.log(type);
+    const userId = req.user.id;
     try {
-      const data = await prisma.challenge.findMany({
+      const data = await prisma.participant.findMany({
         where: {
-          userId: id,
+          userId,
+        },
+        include: {
+          challenge: true,
         },
       });
-      console.log(data);
-      res.status(200).json({ data });
+      const challenge = data.map((v) => {
+        return v.challenge;
+      });
+      res.status(200).json({ data, challenge });
     } catch (err) {}
   }
 );

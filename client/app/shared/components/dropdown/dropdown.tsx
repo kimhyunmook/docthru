@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PropsWithClassName } from "../../types/common";
 import { useAuth } from "../../provider/authProvider";
+import { useRouter } from "next/navigation";
 
 const type = ["Next.js", "API", "Career", "Modern JS", "Web"];
 const state = [
@@ -88,6 +89,8 @@ function Sort({ className, setValue }: DropdwonProps) {
 type login = PropsWithClassName & {};
 function Login({ className }: login) {
   const { logout, user } = useAuth();
+  const router = useRouter();
+
   if (user !== null)
     return (
       <div className={`${styles.login} ${className}`}>
@@ -105,7 +108,15 @@ function Login({ className }: login) {
         </div>
         <ul className={styles.list}>
           <li>
-            <Link href="/pages/challenge/my">나의 챌린지</Link>
+            <Link
+              href="/pages/challenge/my"
+              onClick={(e) => {
+                e.preventDefault();
+                router.replace(e.currentTarget.href);
+              }}
+            >
+              나의 챌린지
+            </Link>
           </li>
           <li>
             <Link

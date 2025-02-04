@@ -6,6 +6,7 @@ function InputDate({
   value,
   onChange,
   className,
+  onInput,
 }: InputProps) {
   const inputAtt = {
     label,
@@ -14,6 +15,7 @@ function InputDate({
     value,
     onChange,
     className,
+    onInput,
   };
   return <Input type={"date"} {...inputAtt}></Input>;
 }

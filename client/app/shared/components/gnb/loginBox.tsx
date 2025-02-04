@@ -6,6 +6,7 @@ import LinkImg from "../LinkImg";
 import Dropdown from "../dropdown/dropdown";
 import type { User } from "../../types/user";
 import useValue from "../../hooks/useValue";
+import { usePathname } from "next/navigation";
 
 type LoginBoxT = {
   user: User;
@@ -26,6 +27,14 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
   function openModal({ type }: { type: string }) {
     setModalState((prev) => ({ ...prev, [type]: !prev[type] }));
   }
+
+  const path = usePathname();
+  useEffect(() => {
+    setModalState({
+      alram: false,
+      user: false,
+    });
+  }, [path]);
 
   const [state, setState] = useState([
     {
