@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import Chip from "../chip/chip";
 import type { ChipType, DocumentType } from "../../types/common";
 import Link from "next/link";
+import Btn from "../btn/btn";
 
 type CardProps = PropsWithClassName & {
   field?: ChipType;
@@ -16,16 +17,18 @@ type CardProps = PropsWithClassName & {
   href: string;
   current: number;
   maximum: number;
+  continueBtn?: boolean;
 };
 
 function Card({
   href = "#",
   field = null,
-  documentType = null,
+  documentType,
   className = "",
   date,
   current = 0,
   maximum = 0,
+  continueBtn = false,
   children,
 }: CardProps) {
   const chipElement = useValue(null);
@@ -40,7 +43,7 @@ function Card({
       case "career":
         chipElement.set(<Chip.CareerChip />);
         break;
-      case "modern":
+      case "modern js":
         chipElement.set(<Chip.ModernChip />);
         break;
       case "web":
@@ -64,7 +67,7 @@ function Card({
   }, [date]);
 
   return (
-    <Link href={href} className={`${styles.card} ${className}`}>
+    <div className={`${styles.card} ${className}`}>
       <div className={styles.top}>
         {complte.value ||
           (finish.value && (
@@ -81,7 +84,9 @@ function Card({
               )}
             </ul>
           ))}
-        <h3 className={styles.title}>{children}</h3>
+        <Link href={href} className={styles.title}>
+          {children}
+        </Link>
         {!!field || !!documentType ? (
           <div className={styles.chip}>
             <span>{chipElement.value}</span>
@@ -99,10 +104,19 @@ function Card({
           />
         </div>
       </div>
-      <div className={styles.info}>
-        <Info date={date} current={current} total={maximum} />
+      <div className={styles.bottom}>
+        <div className={styles.info}>
+          <Info date={date} current={current} total={maximum} />
+        </div>
+        {continueBtn && (
+          <Link href={href} className={styles.countinueBtn}>
+            <Btn.Outline.Small icon="/img/icon/arrow_right.svg">
+              도전 계속하기
+            </Btn.Outline.Small>
+          </Link>
+        )}
       </div>
-    </Link>
+    </div>
   );
 }
 

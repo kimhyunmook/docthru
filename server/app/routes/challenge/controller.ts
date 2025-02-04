@@ -5,9 +5,39 @@ import authMiddleware from "../../middlewares/auth";
 const challenge = Router();
 
 challenge.get("/", async (req: Request, res: Response) => {
-  const { page, pageSize, orderby } = req.query;
-  const data = await prisma.challenge.findMany();
-  res.status(200).send({ data });
+  const page = parseInt(req.query.page as string);
+  const pageSize = parseInt(req.query.pageSize as string);
+  let orderby = req.query.orderby as string;
+  const keyword = req.query.keyword as string;
+  try {
+    const data = await prisma.challenge.findMany({
+      where: {
+        OR: [
+          { title: { contains: keyword, mode: "insensitive" } },
+          { content: { contains: keyword, mode: "insensitive" } },
+        ],
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      orderBy: {
+        [orderby]: "desc",
+      },
+    });
+    const total = (
+      await prisma.challenge.findMany({
+        where: {
+          OR: [
+            { title: { contains: keyword, mode: "insensitive" } },
+            { content: { contains: keyword, mode: "insensitive" } },
+          ],
+        },
+      })
+    ).length;
+    res.status(200).send({ data, total });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err });
+  }
 });
 
 challenge.post(
@@ -15,7 +45,15 @@ challenge.post(
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
     try {
-      const { title, originalLink, field, date, maximum, content } = req.body;
+      const {
+        title,
+        originalLink,
+        field,
+        date,
+        maximum,
+        content,
+        documentType,
+      } = req.body;
       const data = await prisma.challenge.create({
         data: {
           title,
@@ -23,8 +61,9 @@ challenge.post(
           field,
           date: new Date(date),
           maximum: parseInt(maximum),
+          documentType,
           content,
-          userId: req.user.id,
+          onerId: req.user.id,
         },
       });
       res.status(201).send({ success: true, data });
@@ -43,6 +82,29 @@ challenge.patch(
     // const data = await prisma.challenge.update({
     // });
     // res.status(202).send({ data });
+  }
+);
+
+challenge.get(
+  "/:type",
+  authMiddleware.verifyAT,
+  async (req: Request, res: Response) => {
+    const { type } = req.params;
+    const userId = req.user.id;
+    try {
+      const data = await prisma.participant.findMany({
+        where: {
+          userId,
+        },
+        include: {
+          challenge: true,
+        },
+      });
+      const challenge = data.map((v) => {
+        return v.challenge;
+      });
+      res.status(200).json({ data, challenge });
+    } catch (err) {}
   }
 );
 

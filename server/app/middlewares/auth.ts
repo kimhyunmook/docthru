@@ -26,7 +26,6 @@ const refreshTokenChk = async (
   const { refreshToken } = req.cookies;
   const { authorization } = req.headers;
   const accessToken = authorization;
-  console.log(accessToken);
   if (refreshToken && !!!accessToken) return next();
 };
 
