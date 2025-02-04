@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import LinkImg from "../LinkImg";
 import Dropdown from "../dropdown/dropdown";
 import type { User } from "../../types/user";
+import useValue from "../../hooks/useValue";
+import { usePathname } from "next/navigation";
 
 type LoginBoxT = {
   user: User;
@@ -26,6 +28,14 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
     setModalState((prev) => ({ ...prev, [type]: !prev[type] }));
   }
 
+  const path = usePathname();
+  useEffect(() => {
+    setModalState({
+      alram: false,
+      user: false,
+    });
+  }, [path]);
+
   const [state, setState] = useState([
     {
       href: "#",
@@ -33,7 +43,7 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
       alt: "알람",
       width: 18,
       height: 18,
-      modal: "",
+      modal: <Alarm />,
       onClick: () => {
         openModal({ type: "alram" });
       },
@@ -44,7 +54,7 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
       alt: "아이콘",
       width: 32,
       height: 32,
-      modal: <Dropdown.Login className={styles.modal} user={user} />,
+      modal: <Dropdown.Login className={styles.modal} />,
       onClick: () => {
         openModal({ type: "user" });
       },
@@ -60,7 +70,7 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
           alt: "아이콘",
           width: 32,
           height: 32,
-          modal: <Dropdown.Login className={styles.modal} user={user} />,
+          modal: <Dropdown.Login className={styles.modal} />,
           onClick: () => {
             openModal({ type: "user" });
           },
@@ -81,8 +91,6 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
         state.map((v, i: number) => {
           const { src, alt, width, height, href, onClick } = v;
 
-          if (alt === "아이콘") {
-          }
           return (
             <div key={src + i} className={styles.itemBox}>
               <LinkImg
@@ -93,11 +101,59 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
                 height={height}
                 onClick={onClick}
               />
-              {alt === "아이콘" ? modalState.user && v.modal : ""}
+              {alt === "아이콘"
+                ? modalState.user && v.modal
+                : modalState.alram && v.modal}
             </div>
           );
         })
       )}
+    </div>
+  );
+}
+
+interface AlarmProps {
+  content: string;
+  date: string;
+}
+function Alarm() {
+  const isRead = useValue(false);
+  const data: AlarmProps[] = [
+    {
+      content: "testing alarm",
+      date: "1234.11.11",
+    },
+    {
+      content: "1234",
+      date: "1234.11.11",
+    },
+  ];
+  function read() {
+    isRead.set(true);
+  }
+  return (
+    <div className={styles.alarm}>
+      <h2>알람</h2>
+      <ul>
+        {!!data.length ? (
+          data.map((v, i) => {
+            return (
+              <li
+                className={`${styles.list} ${isRead.value ? styles.read : ""}`}
+                key={v.content + i}
+                onClick={read}
+              >
+                <p className={styles.content}>{v.content}</p>
+                <p className={styles.date}>{v.date}</p>
+              </li>
+            );
+          })
+        ) : (
+          <li className={styles.noList}>
+            <p>알람이 없어요</p>
+          </li>
+        )}
+      </ul>
     </div>
   );
 }

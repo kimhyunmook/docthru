@@ -56,6 +56,22 @@
   color: var(--gray500);
   text-align: center;
 }
+.challenge .createBtn {
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 0 13px;
+}
+.pageNavigation {
+  display: flex;
+}
+.pageNavigation button {
+}
+.pageNavigation button:first-of-type {
+}
+.pageNavigation button:last-of-type {
+}
+
 
 @media screen and (max-width: 1199px) {
   .challenge {

@@ -1,0 +1,29 @@
+.container {
+  max-width: 996px;
+  margin: auto;
+  padding-top: 24px;
+}
+.container h2 {
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--gray800);
+  margin-bottom: 12px;
+}
+.tabBox {
+  display: flex;
+  border-bottom: 1px solid var(--gray300);
+  margin-bottom: 24px;
+}
+.tabBox .tab {
+  width: 100%;
+  max-width: 146px;
+  height: 53px;
+  cursor: pointer;
+  padding: 0;
+}
+.container .top {
+  margin-bottom: 24px;
+}
+.container .top .search {
+  max-width: 100%;
+}

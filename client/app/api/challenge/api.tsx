@@ -1,19 +1,24 @@
 import instance from "../instance";
-import type { ChallengeProps } from "@/app/shared/types/common";
+import type {
+  ChallengeProps,
+  MyChallengeProps,
+} from "@/app/shared/types/common";
 
 interface GetChallengeProps {
   page?: string | number;
   pageSize?: string | number;
   orderby?: string;
+  keyword?: string;
 }
 
 export async function GetChallenge({
-  page,
-  pageSize,
-  orderby,
+  page = 1,
+  pageSize = 10,
+  orderby = "createdAt",
+  keyword = "",
 }: GetChallengeProps) {
   const res = await instance.get(
-    `/api/challenge/?page=${page}&pageSize=${pageSize}&orderby=${orderby}`
+    `/api/challenge/?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
   );
   return await res.data;
 }
@@ -28,8 +33,11 @@ export async function PatchCallenge(body: ChallengeProps) {
   return res.data;
 }
 
-export async function DetailCallenge({ id }: { id: string }) {
-  const res = await instance.get(`api/challenge/${id}`);
-  // console.log(id);
-  return res.data;
+export async function MyChallengeApi(type: MyChallengeProps) {
+  try {
+    const res = await instance.get(`/api/challenge/${type}`);
+    return await res.data;
+  } catch (err) {
+    console.log(err);
+  }
 }
