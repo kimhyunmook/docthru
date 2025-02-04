@@ -54,7 +54,8 @@ challenge.post(
           date: new Date(date),
           maximum: parseInt(maximum),
           content,
-          userId: req.user.id,
+          // onerId: req.user.id,
+          onerId: req.user.id,
         },
       });
       res.status(201).send({ success: true, data });
@@ -73,6 +74,25 @@ challenge.patch(
     // const data = await prisma.challenge.update({
     // });
     // res.status(202).send({ data });
+  }
+);
+
+challenge.get(
+  "/:type",
+  authMiddleware.verifyAT,
+  async (req: Request, res: Response) => {
+    const { type } = req.params;
+    const id = req.user.id;
+    console.log(type);
+    try {
+      const data = await prisma.challenge.findMany({
+        where: {
+          userId: id,
+        },
+      });
+      console.log(data);
+      res.status(200).json({ data });
+    } catch (err) {}
   }
 );
 

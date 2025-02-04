@@ -105,7 +105,7 @@ function Login({ className }: login) {
         </div>
         <ul className={styles.list}>
           <li>
-            <Link href="#">나의 챌린지</Link>
+            <Link href="/pages/challenge/my">나의 챌린지</Link>
           </li>
           <li>
             <Link

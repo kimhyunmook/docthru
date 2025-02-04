@@ -57,8 +57,8 @@ model challenge {
   state         String          @default("inProgress")
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  user          user            @relation(fields: [userId], references: [id])
-  userId        String
+  oner          user            @relation(fields: [onerId], references: [id])
+  onerId        String
   participants  participant[]
   challengework challengework[]
 }
@@ -83,8 +83,9 @@ model challengework_feedback {
 
 model participant {
   id              Int       @id @default(autoincrement())
-  users           user[]
-  userId          String[]
+  users           user      @relation(fields: [userId], references: [id])
+  userId          String
+  state           String    @default("pending")
   applicationDate DateTime  @default(now())
   participantDate DateTime  @updatedAt
   challenge       challenge @relation(fields: [challengeId], references: [id])
