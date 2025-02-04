@@ -6,16 +6,29 @@ import s from "./detail.module.css";
 import Container from "@/app/shared/components/container/container";
 import { useEffect, useState } from "react";
 import { DetailCallenge } from "@/app/api/challenge/api";
+import { useParams } from "next/navigation";
+import { PropsWithClassName } from "@/app/shared/types/common";
 
 export default function Detail() {
-  DetailCallenge({"779bf023-6bf0-4011-bf4d-49f50bc55ca6"}).then;
+  const params = useParams();
+  const { id } = params;
+
+  const [data, setData] = useState({ title: "", field: "", content: "" });
+  const [abc, setAbc] = useState<any>({ value: "", bg: "", label: "" });
+
+  useEffect(() => {
+    DetailCallenge({ id: `${id}` }).then((res) => {
+      console.log(res.data);
+      setData(res.data);
+    });
+  }, []);
 
   return (
     <div className={s.total}>
       <div className={s.inner}>
         <div className={s.content_box}>
           <div className={s.title_box}>
-            <h2>제목</h2>
+            <h2>{data?.title}</h2>
             <Image
               src="/img/icon/menu_bar.svg"
               alt="메뉴"
@@ -28,11 +41,7 @@ export default function Detail() {
             <Chip.Categori>공식문서</Chip.Categori>
           </div>
           <div className={s.text_box}>
-            <p>
-              Next.js App Router 공식 문서 중 Routing Fundamentals 내용입니다!
-              라우팅에 따른 폴더와 파일이 구성되는 법칙과 컨벤션 등에 대해
-              공부할 수 있을 것 같아요~! 다들 챌린지 많이 참여해 주세요 :)
-            </p>
+            <p>{data.content}</p>
             <div className={`${s.content}`}>
               <Image
                 src="/img/icon/profile_member.svg"
@@ -54,5 +63,24 @@ export default function Detail() {
         <div className={s.list_box}></div>
       </div>
     </div>
+  );
+}
+
+type ChipProps = PropsWithClassName & {
+  bg?: string;
+  color?: string;
+};
+
+function Abc({ bg, color, children, className }: ChipProps) {
+  return (
+    <p
+      className={`${s.chip} ${className}`}
+      style={{
+        backgroundColor: bg,
+        color,
+      }}
+    >
+      {children}
+    </p>
   );
 }

@@ -29,7 +29,7 @@ export async function PatchCallenge(body: ChallengeProps) {
 }
 
 export async function DetailCallenge({ id }: { id: string }) {
-  const res = await instance.get(`api/challenge/?id=${id}`);
-  console.log(id);
+  const res = await instance.get(`api/challenge/${id}`);
+  // console.log(id);
   return res.data;
 }

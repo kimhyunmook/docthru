@@ -56,10 +56,16 @@ challenge.patch(
 //   }
 // });
 
-challenge.get("/", async (req: Request, res: Response) => {
+challenge.get("/:id", async (req: Request, res: Response) => {
   try {
-    const { id } = req.query;
-    console.log("야야", id);
+    const { id } = req.params;
+    // console.log("야야", id);
+    const data = await prisma.challenge.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+    res.status(201).send({ data });
   } catch (err) {
     console.log(err);
   }

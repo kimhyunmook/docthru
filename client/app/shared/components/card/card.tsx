@@ -64,7 +64,10 @@ function Card({
   }, [date]);
 
   return (
-    <Link href={href} className={`${styles.card} ${className}`}>
+    <Link
+      href={"/pages/challenge/" + href}
+      className={`${styles.card} ${className}`}
+    >
       <div className={styles.top}>
         {complte.value ||
           (finish.value && (

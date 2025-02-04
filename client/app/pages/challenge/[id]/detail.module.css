@@ -71,3 +71,10 @@
   border-radius: 16px;
   height: 350px;
 }
+
+.chip {
+  display: inline-block;
+  text-align: center;
+  padding: 3px 12px;
+  border-radius: 8px;
+}
