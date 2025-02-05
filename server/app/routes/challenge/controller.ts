@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import prisma from "../../repositorys/prisma";
 import authMiddleware from "../../middlewares/auth";
 import cron from "node-cron";
+import { ParticiPant } from "../../types/common";
 
 const challenge = Router();
 
@@ -45,6 +46,7 @@ challenge.post(
   "/create",
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
+    const userId = req.user.id;
     try {
       const {
         title,
@@ -64,10 +66,20 @@ challenge.post(
           maximum: parseInt(maximum),
           documentType,
           content,
-          onerId: req.user.id,
+          onerId: userId,
         },
       });
-      res.status(201).send({ success: true, data });
+      const participantData: ParticiPant = {
+        userId,
+        challengeId: data.id,
+        state: "paticipate",
+      };
+      const participant = await prisma.participant.create({
+        data: participantData,
+      });
+      res
+        .status(201)
+        .send({ success: true, data: !!data, participant: !!participant });
     } catch (err) {
       console.log(err);
     }

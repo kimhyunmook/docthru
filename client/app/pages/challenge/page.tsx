@@ -9,7 +9,6 @@ import { GetChallenge } from "@/app/api/challenge/api";
 import type { Challenge, ChipType } from "@/app/shared/types/common";
 import DropFilter from "@/app/shared/components/dropdown/filter";
 import useValue from "@/app/shared/hooks/useValue";
-import { useRouter } from "next/navigation";
 
 export default function Challenge() {
   const [data, setData] = useState<Challenge[]>([]);
@@ -21,7 +20,6 @@ export default function Challenge() {
   const total = useValue(0);
   const challenge = useRef<HTMLDivElement>(null);
   const isFatching = useValue(false);
-  const router = useRouter();
   // const pageNation = Array.from(
   //   {
   //     length: Math.ceil(total.value / pageSize.value),
