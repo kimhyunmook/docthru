@@ -137,16 +137,16 @@ export default function ComponentsUse() {
           <CloseBtn width={30} height={30} />
         </CrystalLayout>
         <CrystalLayout title="tab">
-          <Tab.Middle className="" active={false}>
+          <Tab.Middle href="#" className="" active={false}>
             진행중인 챌린지
           </Tab.Middle>
-          <Tab.Middle className="" active={true}>
+          <Tab.Middle href="" className="" active={true}>
             진행중인 챌린지
           </Tab.Middle>
-          <Tab.Top className="" active={true}>
+          <Tab.Top href="" className="" active={true}>
             탭1
           </Tab.Top>
-          <Tab.Top className="" active={false}>
+          <Tab.Top href="" className="" active={false}>
             탭1
           </Tab.Top>
         </CrystalLayout>

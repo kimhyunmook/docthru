@@ -58,7 +58,7 @@
   /* border: 1px solid blue; */
 }
 
-.bottom span {
+.bottom > span {
   border: 1px solid var(--gray100);
   width: 100%;
   position: absolute;
@@ -69,12 +69,64 @@
   border: 2px solid var(--gray800);
   width: 100%;
   border-radius: 16px;
-  height: 350px;
+  max-height: 350px;
+  padding: 16px 24px 14px;
 }
 
-.chip {
-  display: inline-block;
-  text-align: center;
-  padding: 3px 12px;
-  border-radius: 8px;
+.list_top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.list_top > h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.top_right {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+.list_page_num {
+  width: 62px;
+  height: 24px;
+  border-radius: 13px;
+  background-color: var(--gray50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list_page_num > span {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.arrow {
+  display: flex;
+  gap: 20px;
+}
+
+.arrow .right {
+  display: block;
+  margin-left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  border-bottom: 2px solid var(--gray800);
+  border-left: 2px solid var(--gray800);
+  transform: rotate(-135deg);
+}
+
+.arrow .left {
+  display: block;
+  margin-left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  border-bottom: 2px solid var(--gray400);
+  border-left: 2px solid var(--gray400);
+  transform: rotate(53deg);
 }
