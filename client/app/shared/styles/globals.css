@@ -37,7 +37,7 @@
 }
 
 body {
-  background-color: var(--gray50);
+  /* background-color: var(--gray50); */
 }
 body:has(#header) {
   padding-top: var(--headerHeight);

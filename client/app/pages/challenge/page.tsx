@@ -107,7 +107,7 @@ export default function Challenge() {
               return (
                 <li key={i}>
                   <Card
-                    href={`${v.id}`}
+                    href={`/pages/challenge/${v.id}`}
                     field={v.field as ChipType}
                     documentType={v.documentType}
                     className={``}
