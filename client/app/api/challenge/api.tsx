@@ -43,3 +43,9 @@ export async function MyChallengeApi({
     console.log(err);
   }
 }
+
+export async function DetailCallenge({ id }: { id: string }) {
+  const res = await instance.get(`api/challenge/${id}`);
+  // console.log(id);
+  return res.data;
+}

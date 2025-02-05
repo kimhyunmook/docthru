@@ -4,7 +4,6 @@
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid var(--gray200);
-  max-width: 690px;
 }
 
 .number {
@@ -15,11 +14,13 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--brand_yellow);
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0 11px;
   margin-right: 24px;
 }
+
 .number span {
 }
 .number img {

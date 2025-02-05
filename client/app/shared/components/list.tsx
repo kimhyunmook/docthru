@@ -7,13 +7,26 @@ import { User } from "../types/user";
 type ListProps = {
   number: number;
   user: User;
+  isLast: boolean;
 };
-function List({ number, user }: ListProps) {
+function List({ number, user, isLast }: ListProps) {
   return (
-    <div className={`${styles.list}`}>
+    <div
+      className={`${styles.list}`}
+      style={{
+        borderBottom: isLast ? "none" : "1px solid #ddd",
+      }}
+    >
       <p className={`${styles.number}`}>
-        <Image src="/img/icon/crown.svg" alt="number" width={20} height={20} />
-        <span>{number}</span>
+        {number === 1 && (
+          <Image
+            src="/img/icon/crown.svg"
+            alt="number"
+            width={16}
+            height={16}
+          />
+        )}
+        <span>0{number}</span>
       </p>
       <div className={`${styles.content}`}>
         <Image
@@ -23,16 +36,16 @@ function List({ number, user }: ListProps) {
           height={30}
         />
         <p className={styles.user}>
-          {user.name}
-          <span>{user.grade}</span>
+          {user?.nickname}
+          <span>{user?.grade}</span>
         </p>
       </div>
       <div className={styles.right}>
         <p className={`${styles.heart}`}>
           <Image src="/img/icon/heart.svg" alt="하트" width={20} height={20} />
-          <span>{user.heart}</span>
+          <span>{user?.like}</span>
         </p>
-        <Link className={styles.link} href={`/user/${user.id}`}>
+        <Link className={styles.link} href={`/user/${user?.id}`}>
           작업물 보기
           <span></span>
         </Link>
