@@ -39,6 +39,7 @@
   height: 48px;
 }
 .textarea {
+  font-size: 16px;
   margin-top: 8px;
   border: 1px solid #d4d4d4;
   height: 220px;
@@ -46,6 +47,9 @@
   border-radius: 6px;
   padding: 20px;
   background-color: #fff;
+}
+.textarea:focus {
+  border: 2px solid var(--gray800);
 }
 
 @media screen and (max-width: 1199px) {

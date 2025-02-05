@@ -35,7 +35,7 @@ function Dropdown({
   children = "카테고리",
   list = type,
 }: DropdwonProps) {
-  const [child, setChild] = useState<React.ReactNode>(children);
+  const [child, setChild] = useState<React.ReactNode>("");
   const [on, setOn] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -50,17 +50,24 @@ function Dropdown({
   }
   return (
     <div className={`${styles.dropdown} ${className}`.trim()}>
-      <input
+      {/* <input
         type="hidden"
         name={name}
         value={child as string}
         onChange={onChange}
-      />
+      /> */}
       <div
         className={`${styles.default} ${on} ${open ? styles.open : ""} `.trim()}
         onClick={openHandle}
       >
-        {child}
+        <input
+          type="text"
+          name={name}
+          value={child as string}
+          placeholder={children as string}
+          onChange={onChange}
+          readOnly
+        />
       </div>
       {open && (
         <DropList
@@ -109,7 +116,7 @@ function Login({ className }: login) {
         <ul className={styles.list}>
           <li>
             <Link
-              href="/pages/challenge/my"
+              href="/pages/challenge/my/participating"
               onClick={(e) => {
                 e.preventDefault();
                 router.replace(e.currentTarget.href);

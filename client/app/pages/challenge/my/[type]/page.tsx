@@ -1,8 +1,9 @@
 "use client";
 import { useEffect } from "react";
-import Participating from "./participating";
 import { useParams } from "next/navigation";
 import useValue from "@/app/shared/hooks/useValue";
+import Participating from "./participating";
+import Finish from "./finish";
 
 export default function MyType() {
   const params = useParams();
@@ -14,7 +15,7 @@ export default function MyType() {
         element.set(<Participating />);
         break;
       case "finish":
-        element.set(<></>);
+        element.set(<Finish />);
         break;
       case "apply":
         element.set(<></>);

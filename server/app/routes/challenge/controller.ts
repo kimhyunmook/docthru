@@ -63,6 +63,7 @@ challenge.post(
           originalLink,
           field,
           date: new Date(date),
+          current: 1,
           maximum: parseInt(maximum),
           documentType,
           content,
@@ -105,22 +106,26 @@ challenge.get(
     const { type } = req.params;
     const userId = req.user.id;
     try {
-      switch (type) {
-        case "participating":
-          const data = await prisma.participant.findMany({
-            where: {
-              userId,
-            },
-            include: {
-              challenge: true,
-            },
-          });
-          const challenge = data.map((v) => v.challenge);
-
-          res.status(200).json({ data, challenge });
-          break;
+      if (type === "participating" || type === "finish") {
+        const data = await prisma.participant.findMany({
+          where: {
+            userId,
+            state: "paticipate",
+          },
+          include: {
+            challenge: true,
+          },
+        });
+        let challenge = data.map((v) => v.challenge);
+        if (type === "finish") {
+          challenge = challenge.filter((x) => x.state === "finish");
+        }
+        res.status(200).json({ data, challenge });
+        return;
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 

@@ -22,4 +22,13 @@ export interface Challenge extends ChallengeProps {
   maximum: number;
 }
 
-export type MyChallengeProps = "participating" | "finish" | "apply";
+export interface GetChallengeProps {
+  page?: string | number;
+  pageSize?: string | number;
+  orderby?: string;
+  keyword?: string;
+}
+
+export interface MyChallengeProps extends GetChallengeProps {
+  type: "participating" | "finish" | "apply";
+}
