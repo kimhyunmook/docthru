@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import prisma from "../../repositorys/prisma";
 import authMiddleware from "../../middlewares/auth";
+import cron from "node-cron";
 
 const challenge = Router();
 
@@ -92,20 +93,38 @@ challenge.get(
     const { type } = req.params;
     const userId = req.user.id;
     try {
-      const data = await prisma.participant.findMany({
-        where: {
-          userId,
-        },
-        include: {
-          challenge: true,
-        },
-      });
-      const challenge = data.map((v) => {
-        return v.challenge;
-      });
-      res.status(200).json({ data, challenge });
+      switch (type) {
+        case "participating":
+          const data = await prisma.participant.findMany({
+            where: {
+              userId,
+            },
+            include: {
+              challenge: true,
+            },
+          });
+          const challenge = data.map((v) => v.challenge);
+
+          res.status(200).json({ data, challenge });
+          break;
+      }
     } catch (err) {}
   }
 );
+
+cron.schedule("0 0 * * *", async () => {
+  console.log("매일 자정에 실행됨:", new Date().toLocaleString());
+  // 여기에 실행할 작업 추가
+  await prisma.challenge.updateMany({
+    where: {
+      createdAt: {
+        lt: new Date(), // 현재 시간보다 작은 경우만 필터링
+      },
+    },
+    data: {
+      state: "finish",
+    },
+  });
+});
 
 export default challenge;
