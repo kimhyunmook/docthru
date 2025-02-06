@@ -10,12 +10,13 @@ export default function Participating({}) {
   // const data = useValue([]);
   const challenge = useValue([]);
   const page = useValue(1);
-  const pageSize = useValue(10);
+  const pageSize = useValue(5);
   const orderby = useValue("createdAt");
   const keyword = useValue("");
   const total = useValue(0);
   const scrollEl = useRef<HTMLUListElement>(null);
   const isFatching = useValue(false);
+
   useEffect(() => {
     MyChallengeApi({
       page: page.value,
@@ -25,13 +26,15 @@ export default function Participating({}) {
       type: "participating",
     }).then((res) => {
       // data.set(res.data);
-      challenge.set(res.challenge);
+      total.set(res.total);
+      isFatching.set(true);
+      challenge.set((prev: Challenge[]) => [...prev, ...res.challenge]);
     });
-  }, []);
+  }, [page.value, orderby.value, keyword.value]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollLine = window.innerHeight + window.scrollY + 200;
+      const scrollLine = window.innerHeight + window.scrollY - 150;
       if (!!!scrollEl.current) return;
       const listHeight = scrollEl.current.getBoundingClientRect().height;
       if (challenge.value.length === total.value) return;
@@ -59,6 +62,7 @@ export default function Participating({}) {
                 field={v.field as ChipType}
                 documentType={v.documentType}
                 className={``}
+                state={v.state}
                 date={v.date}
                 current={v.current}
                 maximum={v.maximum}

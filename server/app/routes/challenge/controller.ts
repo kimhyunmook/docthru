@@ -25,6 +25,19 @@ challenge.get("/", async (req: Request, res: Response) => {
         [orderby]: "desc",
       },
     });
+
+    await prisma.challenge.updateMany({
+      where: {
+        state: "inProgress",
+        date: {
+          lt: new Date(), // 현재 시간보다 작은 경우만 필터링
+        },
+      },
+      data: {
+        state: "finish",
+      },
+    });
+
     const total = (
       await prisma.challenge.findMany({
         where: {
@@ -100,11 +113,59 @@ challenge.patch(
 );
 
 challenge.get(
+  "/apply",
+  authMiddleware.verifyAT,
+  async (req: Request, res: Response) => {
+    const userId = req.user.id;
+    const page = parseInt(req.query.page as string);
+    const pageSize = parseInt(req.query.pageSize as string);
+    let orderby = req.query.orderby as string;
+    const keyword = req.query.keyword as string;
+    console.log("123");
+    try {
+      const data = await prisma.participant.findMany({
+        where: {
+          userId: {
+            not: userId,
+          },
+          state: "pending",
+        },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+        orderBy: {
+          [orderby]: "desc",
+        },
+      });
+      const challengeId = data.map((v) => {
+        return v.challengeId;
+      });
+      const challenge = await prisma.challenge.findMany({
+        where: {
+          id: { in: [...challengeId] },
+          OR: [
+            { title: { contains: keyword, mode: "insensitive" } },
+            { content: { contains: keyword, mode: "insensitive" } },
+          ],
+        },
+      });
+      res.status(200).json({ data, challenge });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+challenge.get(
   "/:type",
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
     const { type } = req.params;
     const userId = req.user.id;
+    const page = parseInt(req.query.page as string);
+    const pageSize = parseInt(req.query.pageSize as string);
+    let orderby = req.query.orderby as string;
+    const keyword = req.query.keyword as string;
+
     try {
       if (type === "participating" || type === "finish") {
         const data = await prisma.participant.findMany({
@@ -112,15 +173,40 @@ challenge.get(
             userId,
             state: "paticipate",
           },
-          include: {
-            challenge: true,
+          select: {
+            challengeId: true,
           },
         });
-        let challenge = data.map((v) => v.challenge);
-        if (type === "finish") {
-          challenge = challenge.filter((x) => x.state === "finish");
-        }
-        res.status(200).json({ data, challenge });
+        const challengeId = data.map((v) => {
+          return v.challengeId;
+        });
+        let challenge = await prisma.challenge.findMany({
+          where: {
+            id: { in: [...challengeId] },
+            OR: [
+              { title: { contains: keyword, mode: "insensitive" } },
+              { content: { contains: keyword, mode: "insensitive" } },
+            ],
+            state: type === "finish" ? "finish" : undefined,
+          },
+          skip: (page - 1) * pageSize,
+          take: pageSize,
+          orderBy: {
+            [orderby]: "desc",
+          },
+        });
+        const total = (
+          await prisma.challenge.findMany({
+            where: {
+              OR: [
+                { title: { contains: keyword, mode: "insensitive" } },
+                { content: { contains: keyword, mode: "insensitive" } },
+              ],
+            },
+          })
+        ).length;
+
+        res.status(200).json({ data, challenge, total });
         return;
       }
     } catch (err) {

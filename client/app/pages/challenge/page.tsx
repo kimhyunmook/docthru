@@ -20,12 +20,7 @@ export default function Challenge() {
   const total = useValue(0);
   const challenge = useRef<HTMLDivElement>(null);
   const isFatching = useValue(false);
-  // const pageNation = Array.from(
-  //   {
-  //     length: Math.ceil(total.value / pageSize.value),
-  //   },
-  //   (_, i) => i + 1
-  // );
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollLine = window.innerHeight + window.scrollY + 200;
@@ -71,8 +66,7 @@ export default function Challenge() {
       setData(() => [...res.data]);
     });
   }
-  // function previous() {}
-  // function next() {}
+
   return (
     <div ref={challenge} className={s.challenge} style={{}}>
       <div className={s.top}>
@@ -109,6 +103,7 @@ export default function Challenge() {
                     field={v.field as ChipType}
                     documentType={v.documentType}
                     className={``}
+                    state={v.state}
                     date={v.date}
                     current={v.current}
                     maximum={v.maximum}
@@ -120,19 +115,6 @@ export default function Challenge() {
             })
           )}
         </ul>
-        {/* <div className={s.pageNavigation}>
-          <button onClick={previous}>{`<`}</button>
-          <ul className={s.number}>
-            {pageNation.map((v, i) => {
-              return (
-                <li key={`${v} ${i}`}>
-                  <Link href={`${v}`}>{v}</Link>
-                </li>
-              );
-            })}
-          </ul>
-          <button onClick={next}>{`>`}</button>
-        </div> */}
       </div>
     </div>
   );

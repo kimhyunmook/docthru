@@ -1,4 +1,3 @@
-"use client";
 import {
   loginApi,
   LoginProps,
@@ -29,7 +28,9 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 const expired = 60 * 60 * 1000;
 
-export function AuthProvider({ children }: PropsWithChildren) {
+interface AuthProvider extends PropsWithChildren {}
+
+export function AuthProvider({ children }: AuthProvider) {
   const router = useRouter();
   const storage = useLocalStorage();
   const queryClient = useQueryClient();
@@ -38,13 +39,15 @@ export function AuthProvider({ children }: PropsWithChildren) {
     data: user,
     isStale,
     isFetching,
-    // isLoading,
+    isLoading,
     refetch: userRefetch,
   } = useQuery({
     queryKey: ["user", token],
     queryFn: getUserAPi,
     enabled: !!token,
     staleTime: expired, // 한 시간
+    refetchInterval: 60 * 1000,
+    refetchOnWindowFocus: true,
   });
 
   useEffect(() => {

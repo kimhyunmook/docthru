@@ -1,4 +1,3 @@
-import MyChallenge from "@/app/pages/challenge/my/page";
 import { PropsWithChildren } from "react";
 
 export interface PropsWithClassName extends PropsWithChildren {
@@ -18,6 +17,7 @@ export interface ChallengeProps {
 }
 export interface Challenge extends ChallengeProps {
   id: string;
+  state: "inProgress" | "finish";
   current: number;
   maximum: number;
 }

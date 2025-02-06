@@ -15,6 +15,7 @@ type CardProps = PropsWithClassName & {
   documentType?: DocumentType;
   date: string;
   href: string;
+  state: "inProgress" | "finish";
   current: number;
   maximum: number;
   continueBtn?: boolean;
@@ -26,6 +27,7 @@ function Card({
   documentType,
   className = "",
   date,
+  state,
   current = 0,
   maximum = 0,
   continueBtn = false,
@@ -58,32 +60,36 @@ function Card({
     else complte.set(false);
   }, [current, maximum]);
 
-  const finish = useValue(false);
-  useEffect(() => {
-    const now = new Date();
-    const finishDate = new Date(date);
-    if (finishDate <= now) finish.set(true);
-    else finish.set(false);
-  }, [date]);
-
+  // const finish = useValue(false);
+  // useEffect(() => {
+  //   const now = new Date();
+  //   const finishDate = new Date(date);
+  //   if (finishDate <= now) finish.set(true);
+  //   else finish.set(false);
+  // }, [date]);
   return (
     <div className={`${styles.card} ${className}`}>
       <div className={styles.top}>
-        {complte.value ||
-          (finish.value && (
+        {complte.value ? (
+          <ul className={styles.state}>
+            <li>
+              <Chip.Card.Compolete />
+            </li>
+            {state === "finish" && (
+              <li>
+                <Chip.Card.Finish />
+              </li>
+            )}
+          </ul>
+        ) : (
+          state === "finish" && (
             <ul className={styles.state}>
-              {complte.value && (
-                <li>
-                  <Chip.Card.Compolete />
-                </li>
-              )}
-              {finish.value && (
-                <li>
-                  <Chip.Card.Finish />
-                </li>
-              )}
+              <li>
+                <Chip.Card.Finish />
+              </li>
             </ul>
-          ))}
+          )
+        )}
         <Link href={href} className={styles.title}>
           {children}
         </Link>

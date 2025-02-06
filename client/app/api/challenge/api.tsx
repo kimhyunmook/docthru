@@ -29,7 +29,7 @@ export async function PatchCallenge(body: ChallengeProps) {
 
 export async function MyChallengeApi({
   page = 1,
-  pageSize = 10,
+  pageSize = 5,
   orderby = "createdAt",
   keyword = "",
   type = "participating",
@@ -38,6 +38,22 @@ export async function MyChallengeApi({
     const res = await instance.get(
       `/api/challenge/${type}?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
     );
+    return await res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+export async function MyApplyApi({
+  page = 1,
+  pageSize = 10,
+  orderby = "",
+  keyword = "",
+}: Omit<MyChallengeProps, "type">) {
+  try {
+    const res = await instance.get(
+      `/api/challenge/apply?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
+    );
+    console.log(res);
     return await res.data;
   } catch (err) {
     console.log(err);
