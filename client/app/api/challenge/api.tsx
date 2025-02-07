@@ -53,7 +53,6 @@ export async function MyApplyApi({
     const res = await instance.get(
       `/api/challenge/apply?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
     );
-    console.log(res);
     return await res.data;
   } catch (err) {
     console.log(err);

@@ -121,19 +121,13 @@ challenge.get(
     const pageSize = parseInt(req.query.pageSize as string);
     let orderby = req.query.orderby as string;
     const keyword = req.query.keyword as string;
-    console.log("123");
     try {
       const data = await prisma.participant.findMany({
         where: {
           userId: {
             not: userId,
           },
-          state: "pending",
-        },
-        skip: (page - 1) * pageSize,
-        take: pageSize,
-        orderBy: {
-          [orderby]: "desc",
+          // state: "pending",
         },
       });
       const challengeId = data.map((v) => {
@@ -147,8 +141,14 @@ challenge.get(
             { content: { contains: keyword, mode: "insensitive" } },
           ],
         },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+        orderBy: {
+          [orderby]: "desc",
+        },
       });
-      res.status(200).json({ data, challenge });
+
+      res.status(200).json({ data, challenge, total: data.length });
     } catch (err) {
       console.log(err);
     }

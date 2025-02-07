@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function useValue(value: any) {
-  const [v, setV] = useState(value);
+  const [v, setV] = useState<typeof value>(value);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { value } = e.target;
@@ -11,7 +11,7 @@ export default function useValue(value: any) {
   };
   return {
     value: v,
-    set: (t: any) => {
+    set: (t: typeof v) => {
       setV(t);
     },
     onChange,
