@@ -6,16 +6,16 @@ import { PropsWithClassName } from "../../types/common";
 import useValue from "../../hooks/useValue";
 import { useEffect } from "react";
 import Chip from "../chip/chip";
-import type { ChipType, DocumentType } from "../../types/common";
+import type { FieldType, DocumentType, StateType } from "../../types/common";
 import Link from "next/link";
 import Btn from "../btn/btn";
 
 type CardProps = PropsWithClassName & {
-  field?: ChipType;
+  field?: FieldType;
   documentType?: DocumentType;
   date: string;
   href: string;
-  state: "inProgress" | "finish";
+  state: StateType;
   current: number;
   maximum: number;
   continueBtn?: boolean;

@@ -10,10 +10,19 @@ export async function GetChallenge({
   pageSize = 10,
   orderby = "createdAt",
   keyword = "",
+  filter = {
+    documentType: [],
+    field: [],
+    state: [],
+  },
 }: GetChallengeProps) {
-  const res = await instance.get(
-    `/api/challenge/?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
-  );
+  let endpoint = `/api/challenge/?page=${page}&pageSize=${pageSize}&orderby=${orderby}`;
+  if (!!keyword) endpoint += `&keyword=${keyword}`;
+  if (!!filter.documentType?.length)
+    endpoint += `&documentType=${filter.documentType}`;
+  if (!!filter.field?.length) endpoint += `&field=${filter.field}`;
+  if (!!filter.state.length) endpoint += `&state=${filter.state}`;
+  const res = await instance.get(endpoint);
   return await res.data;
 }
 

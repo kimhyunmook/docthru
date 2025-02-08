@@ -3,29 +3,70 @@ import prisma from "../../repositorys/prisma";
 import authMiddleware from "../../middlewares/auth";
 import cron from "node-cron";
 import { ParticiPant } from "../../types/common";
+import { Prisma } from "@prisma/client";
 
 const challenge = Router();
 
 challenge.get("/", async (req: Request, res: Response) => {
-  const page = parseInt(req.query.page as string);
-  const pageSize = parseInt(req.query.pageSize as string);
-  let orderby = req.query.orderby as string;
+  const page = parseInt(req.query.page as string) || 1;
+  const pageSize = parseInt(req.query.pageSize as string) || 10;
+  let orderby = (req.query.orderby as string) || "createdAt";
   const keyword = req.query.keyword as string;
+  const fieldQuery = req.query.field as string;
+  const documentTypeQuery = req.query.documentType as string;
+  const stateQuery = req.query.state as string;
+
   try {
+    let where: Prisma.challengeWhereInput = {};
+    let AND: Prisma.challengeWhereInput[] = [];
+    let OR: Prisma.challengeWhereInput[] = [];
+    const keyword_OR: Prisma.challengeWhereInput[] = [];
+    const filter_OR: Prisma.challengeWhereInput[] = [];
+    if (!!keyword)
+      keyword_OR.push(
+        { title: { contains: keyword, mode: "insensitive" } },
+        { content: { contains: keyword, mode: "insensitive" } }
+      );
+    if (!!fieldQuery) {
+      const field = fieldQuery.split(",");
+      field.forEach((value) => {
+        filter_OR.push({ field: { contains: value, mode: "insensitive" } });
+      });
+    }
+    if (!!documentTypeQuery) {
+      const documentType = documentTypeQuery.split(",");
+      documentType.forEach((value) => {
+        filter_OR.push({
+          documentType: { contains: value, mode: "insensitive" },
+        });
+      });
+    }
+    if (!!stateQuery) {
+      const state = stateQuery.split(",");
+      state.forEach((value) => {
+        filter_OR.push({ state: { contains: value, mode: "insensitive" } });
+      });
+    }
+
+    if (!!keyword_OR.length && !!filter_OR) {
+      AND = [{ OR: keyword_OR }, { OR: filter_OR }];
+      where = { ...where, AND };
+    } else if (!!keyword_OR.length) {
+      OR = [...keyword_OR];
+      where = { ...where, OR };
+    } else if (!!filter_OR.length) {
+      OR = [...filter_OR];
+      where = { ...where, OR };
+    }
+
     const data = await prisma.challenge.findMany({
-      where: {
-        OR: [
-          { title: { contains: keyword, mode: "insensitive" } },
-          { content: { contains: keyword, mode: "insensitive" } },
-        ],
-      },
+      where,
       skip: (page - 1) * pageSize,
       take: pageSize,
       orderBy: {
         [orderby]: "desc",
       },
     });
-
     await prisma.challenge.updateMany({
       where: {
         state: "inProgress",
@@ -40,14 +81,11 @@ challenge.get("/", async (req: Request, res: Response) => {
 
     const total = (
       await prisma.challenge.findMany({
-        where: {
-          OR: [
-            { title: { contains: keyword, mode: "insensitive" } },
-            { content: { contains: keyword, mode: "insensitive" } },
-          ],
-        },
+        where,
       })
     ).length;
+    // console.log(data, total);
+
     res.status(200).send({ data, total });
   } catch (err) {
     console.log(err);

@@ -1,5 +1,5 @@
 "use client";
-import type { Challenge, ChipType } from "@/app/shared/types/common";
+import type { Challenge, FieldType } from "@/app/shared/types/common";
 import Card from "@/app/shared/components/card/card";
 import useValue from "@/app/shared/hooks/useValue";
 import { useEffect, useRef } from "react";
@@ -59,7 +59,7 @@ export default function Participating({}) {
             <li key={i}>
               <Card
                 href={`${v.id}`}
-                field={v.field as ChipType}
+                field={v.field as FieldType}
                 documentType={v.documentType}
                 className={``}
                 state={v.state}
