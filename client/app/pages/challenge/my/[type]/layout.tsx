@@ -6,26 +6,34 @@ import SearchInput from "@/app/shared/components/search";
 import useValue from "@/app/shared/hooks/useValue";
 import { useAuth } from "@/app/shared/provider/authProvider";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { MyChallengeProps } from "@/app/shared/types/common";
+import Btn from "@/app/shared/components/btn/btn";
+import Link from "next/link";
 
 export default function MyChallengeLayout({ children }: PropsWithChildren) {
   const keyword = useValue("");
-  const { user, isFetching } = useAuth();
+  const { user, isFetching, isLoading } = useAuth();
   const router = useRouter();
   const path = usePathname();
   const params = useParams();
 
   function search() {}
   useEffect(() => {
-    // if (!!!user && isFetching) router.push("/");
+    if (isLoading) return;
+    if (!!!user && isFetching) router.push("/");
   }, []);
 
-  function active(type: MyChallengeProps) {
-    return type === params.type;
+  function active(type: string) {
+    return type === String(params.type);
   }
+
   return (
     <div className={s.container}>
-      <h2>나의 챌린지</h2>
+      <div className={s.title}>
+        <h2>나의 챌린지</h2>
+        <Link href="/pages/challenge/create">
+          <Btn.Solid.Regular>+ 챌린지 신청하기</Btn.Solid.Regular>
+        </Link>
+      </div>
       <div className={s.tabBox}>
         <Tab.Middle
           href="participating"

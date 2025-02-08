@@ -61,6 +61,11 @@ export default function Challenge() {
   }, [page.value, pageSize.value, orderby.value]);
 
   useEffect(() => {
+    // if (
+    //   !!filter.value.documentType?.length ||
+    //   !!filter.value.field?.length ||
+    //   !!filter.value.state.length
+    // )
     getData();
   }, [filter.value]);
 

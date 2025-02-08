@@ -9,6 +9,7 @@ import { isValidURL } from "@/lib/utils/convenience";
 import { useRouter } from "next/navigation";
 import Dropdown from "@/app/shared/components/dropdown/dropdown";
 import useValue from "@/app/shared/hooks/useValue";
+import { DocumentType } from "@/app/shared/types/common";
 
 interface bodyProps extends PropsWithChildren {
   mainTitle: string;
@@ -39,7 +40,7 @@ export default function Application({
   const date = useValue("");
   const maximum = useValue("");
   const field = useValue("");
-  const documentType = useValue("");
+  const documentType = useValue("블로그");
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -64,7 +65,7 @@ export default function Application({
         ...form,
         date: date.value,
         maximum: maximum.value,
-        documentType: documentType.value,
+        documentType: documentType.value as DocumentType,
         field: field.value,
       }).then((res) => {
         if (res.success) {

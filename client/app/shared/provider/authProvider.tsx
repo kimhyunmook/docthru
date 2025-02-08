@@ -22,6 +22,7 @@ interface AuthContextType {
   refreshToken: () => Promise<void>;
   logout: () => Promise<void>;
   user: User;
+  isLoading: boolean;
   isFetching: boolean;
 }
 
@@ -96,7 +97,7 @@ export function AuthProvider({ children }: AuthProvider) {
 
   return (
     <AuthContext.Provider
-      value={{ login, refreshToken, isFetching, logout, user }}
+      value={{ login, refreshToken, isLoading, isFetching, logout, user }}
     >
       {children}
     </AuthContext.Provider>
