@@ -1,12 +1,18 @@
-import MyChallenge from "@/app/pages/challenge/my/page";
 import { PropsWithChildren } from "react";
 
 export interface PropsWithClassName extends PropsWithChildren {
   className?: string;
 }
 
-export type ChipType = "next.js" | "api" | "career" | "modern" | "web" | null;
+export type FieldType =
+  | "Next.js"
+  | "API"
+  | "Career"
+  | "Modern JS"
+  | "Web"
+  | null;
 export type DocumentType = "블로그" | "공식문서";
+export type StateType = "inProgress" | "finish" | "delete" | "reject";
 export interface ChallengeProps {
   title: string;
   originalLink: string;
@@ -18,8 +24,24 @@ export interface ChallengeProps {
 }
 export interface Challenge extends ChallengeProps {
   id: string;
+  state: StateType;
   current: number;
   maximum: number;
 }
 
-export type MyChallengeProps = "participating" | "finish" | "apply";
+export type ChallengeFilterProps = {
+  field?: FieldType[];
+  documentType?: DocumentType[];
+  state: Omit<StateType, "delete,reject">[];
+};
+export interface GetChallengeProps {
+  page?: string | number;
+  pageSize?: string | number;
+  orderby?: string;
+  keyword?: string;
+  filter?: ChallengeFilterProps;
+}
+
+export interface MyChallengeProps extends GetChallengeProps {
+  type: "participating" | "finish" | "apply";
+}

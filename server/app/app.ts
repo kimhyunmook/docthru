@@ -1,16 +1,17 @@
 import express from "express";
-import { PORT } from "../config/config";
 import router from "./routes/route";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-const SERVICE_PORT = PORT || 8000;
+const SERVICE_PORT = process.env.PORT || 8000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );

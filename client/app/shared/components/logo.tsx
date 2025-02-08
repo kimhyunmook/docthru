@@ -9,7 +9,7 @@ export default function Logo({
   className,
   width,
   height,
-  href = "/",
+  href = "/pages",
 }: LogoProps) {
   return (
     <LinkImg

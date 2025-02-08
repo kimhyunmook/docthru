@@ -77,7 +77,6 @@ export default function Application({
       });
     }
   }
-  console.log(documentType.value);
 
   const allErrorCondtion = [
     form.title.length >= 5,
