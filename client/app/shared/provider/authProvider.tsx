@@ -16,6 +16,7 @@ import {
 import { getUserAPi } from "@/app/api/user/api";
 import type { User } from "../types/user";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { useToaster } from "./toasterProvider";
 
 interface AuthContextType {
   login: ({ email, password }: LoginProps) => Promise<void>;
@@ -29,9 +30,8 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 const expired = 60 * 60 * 1000 * 24;
 
-interface AuthProvider extends PropsWithChildren {}
-
-export function AuthProvider({ children }: AuthProvider) {
+export function AuthProvider({ children }: PropsWithChildren) {
+  const toast = useToaster();
   const router = useRouter();
   const storage = useLocalStorage();
   const queryClient = useQueryClient();
@@ -54,16 +54,17 @@ export function AuthProvider({ children }: AuthProvider) {
   useEffect(() => {
     setToken(storage.get("token"));
     if (isLoading) return;
-    console.log("isStale ture됨", isStale);
-    refreshToken();
+    if (isStale) refreshToken();
   }, [isStale, token]);
 
   async function login({ email, password }: LoginProps) {
     const res = await loginApi({ email, password });
     if (!res.success) {
-      alert("id 또는 password 를 확인해주세요");
+      toast("warn", "id 또는 password를 확인해주세요");
+      // alert("id 또는 password 를 확인해주세요");
       return;
     }
+    toast("info", "로그인 되었습니다.");
     router.push("/pages");
     storage.set("token", res.accessToken, expired);
     setToken(res.accessToken);
@@ -84,16 +85,13 @@ export function AuthProvider({ children }: AuthProvider) {
 
   async function logout() {
     await logoutApi();
-    alert("로그아웃 되었습니다.");
+    toast("info", "로그아웃 되었습니다.");
     userRefetch();
     localStorage.clear();
     queryClient.removeQueries({ queryKey: ["user"] });
     router.refresh();
     setToken(null);
   }
-
-  // if (isFetching) return null;
-  // if (isLoading) return "loading...";
 
   return (
     <AuthContext.Provider

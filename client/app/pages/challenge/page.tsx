@@ -57,15 +57,11 @@ export default function Challenge() {
       total.set(res.total);
       isFatching.set(true);
       setData((prev) => [...prev, ...res.data]);
+      console.log(res.data);
     });
   }, [page.value, pageSize.value, orderby.value]);
 
   useEffect(() => {
-    // if (
-    //   !!filter.value.documentType?.length ||
-    //   !!filter.value.field?.length ||
-    //   !!filter.value.state.length
-    // )
     getData();
   }, [filter.value]);
 

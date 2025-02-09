@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import Dropdown from "@/app/shared/components/dropdown/dropdown";
 import useValue from "@/app/shared/hooks/useValue";
 import { DocumentType } from "@/app/shared/types/common";
+import { useToaster } from "@/app/shared/provider/toasterProvider";
 
 interface bodyProps extends PropsWithChildren {
   mainTitle: string;
@@ -41,6 +42,7 @@ export default function Application({
   const maximum = useValue("");
   const field = useValue("");
   const documentType = useValue("블로그");
+  const toast = useToaster();
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -58,7 +60,7 @@ export default function Application({
 
   async function handleClick() {
     if (allErrorCondtion.find((x) => !x) === false)
-      return alert("조건에 안맞습니다.");
+      return toast("warn", "모든 정보를 기입해주세요");
     if (!!clickHanlde) clickHanlde();
     else {
       PostChallenge({
@@ -69,7 +71,7 @@ export default function Application({
         field: field.value,
       }).then((res) => {
         if (res.success) {
-          alert("챌린지 생성에 성공했습니다.");
+          toast("info", "챌린지 생성에 성공했습니다.");
           router.push("/pages/challenge");
           return;
         }

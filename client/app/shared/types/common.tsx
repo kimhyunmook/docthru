@@ -18,7 +18,7 @@ export interface ChallengeProps {
   originalLink: string;
   field: string;
   documentType: DocumentType;
-  date: string;
+  date: Date | string;
   maximum: string | number;
   content: string;
 }
@@ -27,6 +27,7 @@ export interface Challenge extends ChallengeProps {
   state: StateType;
   current: number;
   maximum: number;
+  createdAt: Date;
 }
 
 export type ChallengeFilterProps = {

@@ -58,7 +58,6 @@ challenge.get("/", async (req: Request, res: Response) => {
       OR = [...filter_OR];
       where = { ...where, OR };
     }
-
     const data = await prisma.challenge.findMany({
       where,
       skip: (page - 1) * pageSize,
@@ -67,6 +66,8 @@ challenge.get("/", async (req: Request, res: Response) => {
         [orderby]: "desc",
       },
     });
+    console.log(where, data);
+
     await prisma.challenge.updateMany({
       where: {
         state: "inProgress",
@@ -162,10 +163,11 @@ challenge.get(
     try {
       const data = await prisma.participant.findMany({
         where: {
-          userId: {
-            not: userId,
-          },
+          userId,
           // state: "pending",
+        },
+        select: {
+          challengeId: true,
         },
       });
       const challengeId = data.map((v) => {
@@ -185,7 +187,7 @@ challenge.get(
           [orderby]: "desc",
         },
       });
-
+      // console.log(challengeId, challenge);
       res.status(200).json({ data, challenge, total: data.length });
     } catch (err) {
       console.log(err);
