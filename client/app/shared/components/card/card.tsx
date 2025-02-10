@@ -13,7 +13,7 @@ import Btn from "../btn/btn";
 type CardProps = PropsWithClassName & {
   field?: FieldType;
   documentType?: DocumentType;
-  date: string;
+  date: Date | string;
   href: string;
   state: StateType;
   current: number;
@@ -33,7 +33,7 @@ function Card({
   continueBtn = false,
   children,
 }: CardProps) {
-  const chipElement = useValue(null);
+  const chipElement = useValue<React.ReactNode>(null);
   useEffect(() => {
     switch (field?.toLocaleLowerCase()) {
       case "next.js":

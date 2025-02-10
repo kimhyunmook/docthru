@@ -7,7 +7,6 @@ export async function getUserAPi() {
     const user = await res.data;
     return user;
   } catch (err: any) {
-    console.log("getUser :", err);
-    return null;
+    return err.response.data || null;
   }
 }

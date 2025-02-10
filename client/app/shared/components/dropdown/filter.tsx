@@ -59,7 +59,6 @@ export default function DropFilter({
       documentType: [],
       state: [],
     });
-    setOpen(false);
   }
 
   function filter() {
