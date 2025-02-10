@@ -65,10 +65,22 @@ async function verifyPw({ password, hashPw }: Compare) {
   return compare;
 }
 
+async function jwtDecode(token: string) {
+  try {
+    const decoded = jwt.decode(token);
+    console.log(decoded);
+    return decoded; // 검증 없이 payload만 추출
+  } catch (error) {
+    console.error("Invalid token:", error);
+    return null;
+  }
+}
+
 const service = {
   createToken,
   refreshToken,
   login,
   signup,
+  jwtDecode,
 };
 export default service;

@@ -4,6 +4,7 @@ import {
   logoutApi,
   refreshTokenApi,
 } from "@/app/api/auth/api";
+import { finishUpdateApi } from "@/app/api/challenge/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
@@ -55,6 +56,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     setToken(storage.get("token"));
     if (isLoading) return;
+    if (token) finishUpdateApi();
     if (isStale) refreshToken();
   }, [isStale, token, isLoading]);
 

@@ -9,6 +9,7 @@ import Chip from "../chip/chip";
 import type { FieldType, DocumentType, StateType } from "../../types/common";
 import Link from "next/link";
 import Btn from "../btn/btn";
+import { useAuth } from "../../provider/authProvider";
 
 type CardProps = PropsWithClassName & {
   field?: FieldType;
@@ -18,6 +19,7 @@ type CardProps = PropsWithClassName & {
   state: StateType;
   current: number;
   maximum: number;
+  onerId?: string;
   continueBtn?: boolean;
 };
 
@@ -31,8 +33,10 @@ function Card({
   current = 0,
   maximum = 0,
   continueBtn = false,
+  onerId = "",
   children,
 }: CardProps) {
+  const { user } = useAuth();
   const chipElement = useValue<React.ReactNode>(null);
   useEffect(() => {
     switch (field?.toLocaleLowerCase()) {
@@ -60,13 +64,6 @@ function Card({
     else complte.set(false);
   }, [current, maximum]);
 
-  // const finish = useValue(false);
-  // useEffect(() => {
-  //   const now = new Date();
-  //   const finishDate = new Date(date);
-  //   if (finishDate <= now) finish.set(true);
-  //   else finish.set(false);
-  // }, [date]);
   return (
     <div className={`${styles.card} ${className}`}>
       <div className={styles.top}>
@@ -101,14 +98,16 @@ function Card({
             </span>
           </div>
         ) : null}
-        <div className={styles.menu}>
-          <Image
-            src="/img/icon/menu_bar.svg"
-            alt="메뉴"
-            width={24}
-            height={24}
-          />
-        </div>
+        {user?.id === onerId ? (
+          <div className={styles.menu}>
+            <Image
+              src="/img/icon/menu_bar.svg"
+              alt="메뉴"
+              width={24}
+              height={24}
+            />
+          </div>
+        ) : null}
       </div>
       <div className={styles.bottom}>
         <div className={styles.info}>

@@ -4,24 +4,31 @@ import authMiddleware from "../../middlewares/auth";
 import cron from "node-cron";
 import { ParticiPant } from "../../types/common";
 import { Prisma } from "@prisma/client";
+import challengeService from "./service";
 
 const challenge = Router();
 
 challenge.get("/", async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const pageSize = parseInt(req.query.pageSize as string) || 10;
-  let orderby = (req.query.orderby as string) || "createdAt";
+  let orderby = (req.query.orderby as "createdAt") || "createdAt";
   const keyword = req.query.keyword as string;
   const fieldQuery = req.query.field as string;
   const documentTypeQuery = req.query.documentType as string;
   const stateQuery = req.query.state as string;
+  // const userId = req.user.id;
 
   try {
     let where: Prisma.challengeWhereInput = {};
     let AND: Prisma.challengeWhereInput[] = [];
     let OR: Prisma.challengeWhereInput[] = [];
+    const filter_AND: Prisma.challengeWhereInput[] = [];
     const keyword_OR: Prisma.challengeWhereInput[] = [];
-    const filter_OR: Prisma.challengeWhereInput[] = [];
+
+    const field_OR: Prisma.challengeWhereInput[] = [];
+    const documentType_OR: Prisma.challengeWhereInput[] = [];
+    const state_OR: Prisma.challengeWhereInput[] = [];
+
     if (!!keyword)
       keyword_OR.push(
         { title: { contains: keyword, mode: "insensitive" } },
@@ -30,13 +37,13 @@ challenge.get("/", async (req: Request, res: Response) => {
     if (!!fieldQuery) {
       const field = fieldQuery.split(",");
       field.forEach((value) => {
-        filter_OR.push({ field: { contains: value, mode: "insensitive" } });
+        field_OR.push({ field: { contains: value, mode: "insensitive" } });
       });
     }
     if (!!documentTypeQuery) {
       const documentType = documentTypeQuery.split(",");
       documentType.forEach((value) => {
-        filter_OR.push({
+        documentType_OR.push({
           documentType: { contains: value, mode: "insensitive" },
         });
       });
@@ -44,48 +51,33 @@ challenge.get("/", async (req: Request, res: Response) => {
     if (!!stateQuery) {
       const state = stateQuery.split(",");
       state.forEach((value) => {
-        filter_OR.push({ state: { contains: value, mode: "insensitive" } });
+        state_OR.push({ state: { contains: value, mode: "insensitive" } });
       });
     }
 
-    if (!!keyword_OR.length && !!filter_OR) {
-      AND = [{ OR: keyword_OR }, { OR: filter_OR }];
+    if (!!field_OR.length) filter_AND.push({ OR: field_OR });
+    if (!!documentType_OR.length) filter_AND.push({ OR: documentType_OR });
+    if (!!state_OR.length) filter_AND.push({ OR: state_OR });
+
+    if (!!keyword_OR.length && !!filter_AND.length) {
+      AND = [{ OR: keyword_OR }, { AND: filter_AND }];
       where = { ...where, AND };
     } else if (!!keyword_OR.length) {
       OR = [...keyword_OR];
       where = { ...where, OR };
-    } else if (!!filter_OR.length) {
-      OR = [...filter_OR];
-      where = { ...where, OR };
+    } else if (!!filter_AND.length) {
+      AND = [...filter_AND];
+      where = { ...where, AND };
     }
-    const data = await prisma.challenge.findMany({
+
+    const data = await challengeService.getChallenge({
       where,
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-      orderBy: {
-        [orderby]: "desc",
-      },
-    });
-    console.log(where, data);
-
-    await prisma.challenge.updateMany({
-      where: {
-        state: "inProgress",
-        date: {
-          lt: new Date(), // 현재 시간보다 작은 경우만 필터링
-        },
-      },
-      data: {
-        state: "finish",
-      },
+      page,
+      pageSize,
+      orderBy: orderby,
     });
 
-    const total = (
-      await prisma.challenge.findMany({
-        where,
-      })
-    ).length;
-    // console.log(data, total);
+    const total = challengeService.total({ where });
 
     res.status(200).send({ data, total });
   } catch (err) {
@@ -93,6 +85,21 @@ challenge.get("/", async (req: Request, res: Response) => {
     res.status(500).json({ err });
   }
 });
+
+challenge.get(
+  "/finishUpdate",
+  authMiddleware.verifyAT,
+  authMiddleware.accessTokenChk,
+  async (req, res) => {
+    const userId = req.user.id;
+    try {
+      const { count } = await challengeService.updateFinsh({
+        userId,
+      });
+      res.status(200).json({ count });
+    } catch (err) {}
+  }
+);
 
 challenge.post(
   "/create",
@@ -235,6 +242,7 @@ challenge.get(
             [orderby]: "desc",
           },
         });
+        console.log(keyword, challenge);
         const total = (
           await prisma.challenge.findMany({
             where: {

@@ -12,7 +12,12 @@ export type FieldType =
   | "Web"
   | null;
 export type DocumentType = "블로그" | "공식문서";
-export type StateType = "inProgress" | "finish" | "delete" | "reject";
+export type StateType =
+  | "inProgress"
+  | "finish"
+  | "delete"
+  | "reject"
+  | "pending";
 export interface ChallengeProps {
   title: string;
   originalLink: string;
@@ -24,6 +29,7 @@ export interface ChallengeProps {
 }
 export interface Challenge extends ChallengeProps {
   id: string;
+  onerId: string;
   state: StateType;
   current: number;
   maximum: number;

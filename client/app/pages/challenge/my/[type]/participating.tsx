@@ -5,10 +5,11 @@ import useValue from "@/app/shared/hooks/useValue";
 import { useEffect, useRef } from "react";
 import { MyChallengeApi } from "@/app/api/challenge/api";
 import s from "./styles/list.module.css";
+import my from "./styles/my.module.css";
+import SearchInput from "@/app/shared/components/search";
 
 export default function Participating({}) {
-  // const data = useValue([]);
-  const challenge = useValue([]);
+  const challenge = useValue<Challenge[]>([]);
   const page = useValue(1);
   const pageSize = useValue(5);
   const orderby = useValue("createdAt");
@@ -16,6 +17,21 @@ export default function Participating({}) {
   const total = useValue(0);
   const scrollEl = useRef<HTMLUListElement>(null);
   const isFatching = useValue(false);
+
+  function search() {
+    console.log("클릭 중");
+    MyChallengeApi({
+      page: page.value,
+      pageSize: pageSize.value,
+      orderby: orderby.value,
+      keyword: keyword.value,
+      type: "participating",
+    }).then((res) => {
+      total.set(res.total);
+      challenge.set(res.challenge);
+      console.log(res.data);
+    });
+  }
 
   useEffect(() => {
     MyChallengeApi({
@@ -25,12 +41,11 @@ export default function Participating({}) {
       keyword: keyword.value,
       type: "participating",
     }).then((res) => {
-      // data.set(res.data);
       total.set(res.total);
       isFatching.set(true);
       challenge.set((prev: Challenge[]) => [...prev, ...res.challenge]);
     });
-  }, [page.value, orderby.value, keyword.value]);
+  }, [page.value, orderby.value]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,30 +65,41 @@ export default function Participating({}) {
   }, [page.value, isFatching.value]);
 
   return (
-    <ul className={s.list} ref={scrollEl}>
-      {challenge.value.length === 0 ? (
-        <li className={s.noList}>챌린지가 없어요</li>
-      ) : (
-        challenge.value.map((v: Challenge, i: number) => {
-          return (
-            <li key={i}>
-              <Card
-                href={`${v.id}`}
-                field={v.field as FieldType}
-                documentType={v.documentType}
-                className={``}
-                state={v.state}
-                date={v.date}
-                current={v.current}
-                maximum={v.maximum}
-                continueBtn={true}
-              >
-                {v.title}
-              </Card>
-            </li>
-          );
-        })
-      )}
-    </ul>
+    <>
+      <div className={my.top}>
+        <SearchInput
+          className={my.search}
+          value={keyword.value}
+          setValue={keyword.set}
+          onClick={search}
+        />
+      </div>
+      <ul className={s.list} ref={scrollEl}>
+        {challenge.value.length === 0 ? (
+          <li className={s.noList}>챌린지가 없어요</li>
+        ) : (
+          challenge.value.map((v: Challenge, i: number) => {
+            return (
+              <li key={i}>
+                <Card
+                  href={`/pages/challenge/${v.id}`}
+                  field={v.field as FieldType}
+                  documentType={v.documentType}
+                  className={``}
+                  state={v.state}
+                  date={v.date}
+                  current={v.current}
+                  maximum={v.maximum}
+                  onerId={v.onerId}
+                  continueBtn={true}
+                >
+                  {v.title}
+                </Card>
+              </li>
+            );
+          })
+        )}
+      </ul>
+    </>
   );
 }

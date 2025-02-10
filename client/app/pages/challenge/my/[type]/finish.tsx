@@ -64,6 +64,7 @@ export default function Finish({}) {
                 state={v.state}
                 current={v.current}
                 maximum={v.maximum}
+                onerId={v.onerId}
                 continueBtn={true}
               >
                 {v.title}

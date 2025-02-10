@@ -22,15 +22,18 @@ export default function PageNation({
   const arr = [];
   const lastNum = startNum + 9;
   console.log(startNum);
+  console.log(Math.ceil(total / pageSize));
   for (let i = startNum; i <= lastNum; i++) {
-    if (Math.ceil(total / pageSize) >= lastNum) arr.push(i);
+    if (Math.ceil(total / pageSize) >= i) arr.push(i);
   }
   return (
     <div className={s.pageNavigation}>
-      <button
-        className={`${s.arrow} ${s.left} ${page === 1 && s.disable}`.trim()}
-        onClick={previous}
-      >{`<`}</button>
+      {Math.ceil(total / pageSize) !== 1 && (
+        <button
+          className={`${s.arrow} ${s.left} ${page === 1 && s.disable}`.trim()}
+          onClick={previous}
+        >{`<`}</button>
+      )}
       <ul className={s.number}>
         {arr.map((v: number, i: number) => {
           return (
@@ -48,12 +51,14 @@ export default function PageNation({
           );
         })}
       </ul>
-      <button
-        className={`${s.arrow} ${s.right} ${
-          page === total / pageSize && s.disable
-        }`.trim()}
-        onClick={next}
-      >{`>`}</button>
+      {Math.ceil(total / pageSize) !== 1 && (
+        <button
+          className={`${s.arrow} ${s.right} ${
+            page === total / pageSize && s.disable
+          }`.trim()}
+          onClick={next}
+        >{`>`}</button>
+      )}
     </div>
   );
 }

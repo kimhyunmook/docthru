@@ -57,7 +57,6 @@ export default function Challenge() {
       total.set(res.total);
       isFatching.set(true);
       setData((prev) => [...prev, ...res.data]);
-      console.log(res.data);
     });
   }, [page.value, pageSize.value, orderby.value]);
 
@@ -123,6 +122,7 @@ export default function Challenge() {
                     date={v.date}
                     current={v.current}
                     maximum={v.maximum}
+                    onerId={v.onerId}
                   >
                     {v.title}
                   </Card>

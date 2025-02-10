@@ -26,6 +26,13 @@ export async function GetChallenge({
   return await res.data;
 }
 
+export async function finishUpdateApi() {
+  try {
+    const res = await instance.get("/api/challenge/finishUpdate");
+    return await res.data;
+  } catch (err) {}
+}
+
 export async function PostChallenge(body: ChallengeProps) {
   const res = await instance.post("/api/challenge/create", body);
   return res.data;
