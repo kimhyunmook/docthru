@@ -2,10 +2,9 @@ import s from "./styles/apply.module.css";
 import Link from "next/link";
 
 interface pageNation {
-  previous: () => void;
-  next: () => void;
+  previous: React.MouseEventHandler<HTMLButtonElement>;
+  next: React.MouseEventHandler<HTMLButtonElement>;
   startNum: number;
-  lastNum: number;
   page: number;
   pageSize: number;
   total: number;
@@ -15,15 +14,16 @@ export default function PageNation({
   previous,
   next,
   startNum,
-  lastNum,
   page,
   pageSize,
   total,
   pageSet,
 }: pageNation) {
   const arr = [];
+  const lastNum = startNum + 9;
+  console.log(startNum);
   for (let i = startNum; i <= lastNum; i++) {
-    if (i <= Math.ceil(total)) arr.push(i);
+    if (Math.ceil(total / pageSize) >= lastNum) arr.push(i);
   }
   return (
     <div className={s.pageNavigation}>

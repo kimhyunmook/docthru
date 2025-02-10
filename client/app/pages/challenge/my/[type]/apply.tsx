@@ -1,28 +1,20 @@
 "use client";
 import useValue from "@/app/shared/hooks/useValue";
 import s from "./styles/apply.module.css";
-import Link from "next/link";
 import { useEffect } from "react";
 import { MyApplyApi } from "@/app/api/challenge/api";
 import { Challenge } from "@/app/shared/types/common";
 import textDate from "@/app/shared/hooks/textDate";
+import PageNation from "./pageNation";
 
 export default function Apply({}) {
   const data = useValue([]);
-  const total = useValue(0);
+  const total = useValue(110);
   const page = useValue(1);
   const pageSize = useValue(10);
   const orderby = useValue("createdAt");
   const keyword = useValue("");
-  const pageNation = useValue<number[]>([]);
   const pageStartNum = useValue<number>(1);
-  const pageLastNum = useValue<number>(pageSize.value);
-
-  useEffect(() => {
-    for (let i: number = pageStartNum.value; i <= pageLastNum.value; i++) {
-      pageNation.value.push(i);
-    }
-  }, [total.value]);
 
   useEffect(() => {
     MyApplyApi({
@@ -33,7 +25,7 @@ export default function Apply({}) {
     }).then((res) => {
       // console.log(res);
       console.log(res.total);
-      total.set(res.total);
+      // total.set(res.total);
       data.set(res.challenge);
     });
   }, [page.value, pageSize.value, orderby.value, keyword.value]);
@@ -41,14 +33,17 @@ export default function Apply({}) {
   function previous(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     if (page.value !== 1) {
+      if (page.value % pageSize.value === 1) {
+        pageStartNum.set((prev) => prev - pageSize.value);
+        // pageLastNum.set()
+      }
       page.set((prev: number) => prev - 1);
     }
   }
   function next(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (page.value !== pageNation.value.length) {
+    if (page.value !== total.value / pageSize.value) {
       if (page.value % pageSize.value === 0) {
-        console.log(page.value % pageSize.value);
         pageStartNum.set((prev) => prev + pageSize.value);
       }
       page.set((prev: number) => prev + 1);
@@ -95,40 +90,49 @@ export default function Apply({}) {
         )}
       </ul>
       {!!total.value && (
-        <div className={s.pageNavigation}>
-          <button
-            className={`${s.arrow} ${s.left} ${
-              page.value === 1 && s.disable
-            }`.trim()}
-            onClick={previous}
-          >{`<`}</button>
-          <ul className={s.number}>
-            {pageNation.value.map((v: number, i: number) => {
-              return (
-                <li
-                  key={`${v} ${i}`}
-                  className={page.value === v ? s.onPage : "navi"}
-                >
-                  <Link
-                    href={`${v}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      page.set(Number(v));
-                    }}
-                  >
-                    {v}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-          <button
-            className={`${s.arrow} ${s.right} ${
-              page.value === total.value / pageSize.value && s.disable
-            }`.trim()}
-            onClick={next}
-          >{`>`}</button>
-        </div>
+        <PageNation
+          previous={previous}
+          next={next}
+          page={page.value}
+          pageSet={page.set}
+          pageSize={pageSize.value}
+          total={total.value}
+          startNum={pageStartNum.value}
+        />
+        // <div className={s.pageNavigation}>
+        //   <button
+        //     className={`${s.arrow} ${s.left} ${
+        //       page.value === 1 && s.disable
+        //     }`.trim()}
+        //     onClick={previous}
+        //   >{`<`}</button>
+        //   <ul className={s.number}>
+        //     {pageNation.value.map((v: number, i: number) => {
+        //       return (
+        //         <li
+        //           key={`${v} ${i}`}
+        //           className={page.value === v ? s.onPage : "navi"}
+        //         >
+        //           <Link
+        //             href={`${v}`}
+        //             onClick={(e) => {
+        //               e.preventDefault();
+        //               page.set(Number(v));
+        //             }}
+        //           >
+        //             {v}
+        //           </Link>
+        //         </li>
+        //       );
+        //     })}
+        //   </ul>
+        //   <button
+        //     className={`${s.arrow} ${s.right} ${
+        //       page.value === total.value / pageSize.value && s.disable
+        //     }`.trim()}
+        //     onClick={next}
+        //   >{`>`}</button>
+        // </div>
       )}
     </div>
   );

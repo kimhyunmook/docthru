@@ -23,6 +23,7 @@ interface AuthContextType {
   refreshToken: () => Promise<void>;
   logout: () => Promise<void>;
   user: User;
+  auth: () => void;
   isLoading: boolean;
   isFetching: boolean;
 }
@@ -55,7 +56,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setToken(storage.get("token"));
     if (isLoading) return;
     if (isStale) refreshToken();
-  }, [isStale, token]);
+  }, [isStale, token, isLoading]);
 
   async function login({ email, password }: LoginProps) {
     const res = await loginApi({ email, password });
@@ -92,10 +93,16 @@ export function AuthProvider({ children }: PropsWithChildren) {
     router.refresh();
     setToken(null);
   }
+  function auth() {
+    if (!isLoading && !!!user) {
+      toast("warn", "로그인 해주세요");
+      router.replace("/pages/auth/login");
+    }
+  }
 
   return (
     <AuthContext.Provider
-      value={{ login, refreshToken, isLoading, isFetching, logout, user }}
+      value={{ login, refreshToken, isLoading, isFetching, logout, user, auth }}
     >
       {children}
     </AuthContext.Provider>

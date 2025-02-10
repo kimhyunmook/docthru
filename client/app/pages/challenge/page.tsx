@@ -87,9 +87,9 @@ export default function Challenge() {
       <div className={s.top}>
         <h2>챌린지 목록</h2>
         <Link href={`/pages/challenge/create`}>
-          <Btn.Solid className={s.createBtn} size="l">
+          <Btn.Solid.Regular className={s.createBtn}>
             신규 챌린지 신청 +
-          </Btn.Solid>
+          </Btn.Solid.Regular>
         </Link>
       </div>
       <div className={s.content}>
