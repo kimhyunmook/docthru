@@ -5,7 +5,7 @@ import Image from "next/image";
 import s from "./detail.module.css";
 import Container from "@/app/shared/components/container/container";
 import { useEffect, useState } from "react";
-import { DetailCallenge } from "@/app/api/challenge/api";
+import { DetailChallenge } from "@/app/api/challenge/api";
 import { useParams } from "next/navigation";
 import useValue from "@/app/shared/hooks/useValue";
 import List from "@/app/shared/components/list";
@@ -41,7 +41,7 @@ export default function Detail() {
   const [data, setData] = useState<ChallengeData>();
 
   useEffect(() => {
-    DetailCallenge({ id: `${id}` }).then((res) => {
+    DetailChallenge({ id: `${id}` }).then((res) => {
       console.log(res.data);
       setData(res.data);
     });
@@ -82,7 +82,7 @@ export default function Detail() {
             </div>
             <div className={s.chip_box}>
               {chipElement.value}
-              <Chip.Categori>공식문서</Chip.Categori>
+              <Chip.Categori>{data.documentType}</Chip.Categori>
             </div>
             <div className={s.text_box}>
               <p>{data.content}</p>

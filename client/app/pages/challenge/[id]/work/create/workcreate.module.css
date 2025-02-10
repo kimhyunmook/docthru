@@ -1,0 +1,56 @@
+.inner {
+  /* border: 1px solid red; */
+  padding-top: 24px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.nav {
+  /* border: 1px solid blue; */
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.logo {
+  margin-right: 30px;
+}
+
+.btn_box {
+  display: flex;
+  gap: 8px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.content h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.content span {
+  display: block;
+  border: 1px solid var(--gray200);
+  width: 100%;
+}
+
+.text_deco_box {
+  width: 270px;
+  height: 24px;
+  border: 1px solid var(--gray400);
+}
+
+.content > textarea {
+  font-size: 16px;
+  font-weight: 400;
+  max-height: 860px;
+  height: 400px;
+}
+
+.content > textarea::placeholder {
+  color: var(--gray400);
+}

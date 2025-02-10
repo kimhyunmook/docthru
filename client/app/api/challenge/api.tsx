@@ -28,7 +28,7 @@ export async function PostChallenge(body: ChallengeProps) {
   return res.data;
 }
 
-export async function PatchCallenge(body: ChallengeProps) {
+export async function PatchChallenge(body: ChallengeProps) {
   const res = await instance.patch("/api/challenge/edit", body);
   return res.data;
 }
@@ -42,8 +42,10 @@ export async function MyChallengeApi(type: MyChallengeProps) {
   }
 }
 
-export async function DetailCallenge({ id }: { id: string }) {
+export async function DetailChallenge({ id }: { id: string }) {
   const res = await instance.get(`api/challenge/${id}`);
   // console.log(id);
   return res.data;
 }
+
+// export async function WorkPagePost(body:) {}
