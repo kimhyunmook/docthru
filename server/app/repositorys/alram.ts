@@ -6,12 +6,13 @@ export interface CreateAlram {
 }
 async function createAlram({ content, userId }: CreateAlram) {
   try {
-    return await prisma.alarm.create({
+    const createAlarm = await prisma.alarm.create({
       data: {
         content,
         userId,
       },
     });
+    return createAlarm;
   } catch (err) {
     console.error(err);
     return null;
@@ -24,6 +25,10 @@ async function getAlram({ userId }: { userId: string }) {
       where: {
         userId,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 5,
     });
   } catch (err) {
     console.error(err);

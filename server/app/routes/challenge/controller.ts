@@ -76,6 +76,10 @@ challenge.get("/", async (req: Request, res: Response) => {
       pageSize,
       orderBy: orderby,
     });
+    console.log(data);
+    // await challengeService.updateFinsh({
+    //   userId,
+    // });
 
     const total = challengeService.total({ where });
 
@@ -86,10 +90,20 @@ challenge.get("/", async (req: Request, res: Response) => {
   }
 });
 
+challenge.post("/work/create", async (req: Request, res: Response) => {
+  console.log(req.body);
+  // const { title, content } = req.body;
+  // const data = await prisma.challengework.create({ data: { title, content } });
+  const { title, content, user, challenge } = req.body;
+  const data = await prisma.challengework.create({
+    data: { title, content, user, challenge },
+  });
+});
+
 challenge.get(
   "/finishUpdate",
-  authMiddleware.verifyAT,
   authMiddleware.accessTokenChk,
+  authMiddleware.verifyAT,
   async (req, res) => {
     const userId = req.user.id;
     try {
@@ -242,7 +256,6 @@ challenge.get(
             [orderby]: "desc",
           },
         });
-        console.log(keyword, challenge);
         const total = (
           await prisma.challenge.findMany({
             where: {

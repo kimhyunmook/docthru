@@ -10,3 +10,12 @@ export async function getUserAPi() {
     return err.response.data || null;
   }
 }
+
+export async function getAlramApi() {
+  try {
+    const res = await instance.get("/api/user/alram");
+    return await res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}

@@ -13,6 +13,8 @@ async function updateFinsh({ userId }: Omit<CreateAlram, "content">) {
       const content = `"${v.title}" 챌린지가 만료 되었습니다.`;
       await alramRepo.createAlram({ content, userId });
     });
+    // const alram = await alramRepo.getAlram({ userId });
+    // return { count: data.count, alram };
     return data;
   }
   throw console.log("noUpdate");

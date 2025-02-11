@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   loginApi,
   LoginProps,
   logoutApi,
   refreshTokenApi,
 } from "@/app/api/auth/api";
-import { finishUpdateApi } from "@/app/api/challenge/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
@@ -14,7 +14,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { getUserAPi } from "@/app/api/user/api";
+import { getAlramApi, getUserAPi } from "@/app/api/user/api";
 import type { User } from "../types/user";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useToaster } from "./toasterProvider";
@@ -25,8 +25,10 @@ interface AuthContextType {
   logout: () => Promise<void>;
   user: User;
   auth: () => void;
+  alram: any;
   isLoading: boolean;
   isFetching: boolean;
+  alramRefresh: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -53,10 +55,16 @@ export function AuthProvider({ children }: PropsWithChildren) {
     refetchOnWindowFocus: true,
   });
 
+  const { data: alram, refetch: alramRefresh } = useQuery({
+    queryKey: ["alram", ""],
+    queryFn: getAlramApi,
+    enabled: !!user,
+    refetchOnWindowFocus: true,
+  });
+
   useEffect(() => {
     setToken(storage.get("token"));
     if (isLoading) return;
-    if (token) finishUpdateApi();
     if (isStale) refreshToken();
   }, [isStale, token, isLoading]);
 
@@ -104,7 +112,17 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   return (
     <AuthContext.Provider
-      value={{ login, refreshToken, isLoading, isFetching, logout, user, auth }}
+      value={{
+        login,
+        refreshToken,
+        isLoading,
+        isFetching,
+        logout,
+        user,
+        auth,
+        alram,
+        alramRefresh,
+      }}
     >
       {children}
     </AuthContext.Provider>

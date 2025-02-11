@@ -14,4 +14,15 @@ userRouter.get(
   }
 );
 
+userRouter.get(
+  "/alram",
+  authMiddleware.accessTokenChk,
+  authMiddleware.verifyAT,
+  async (req, res) => {
+    const userId = req.user.id;
+    const alram = await userService.getAlram({ userId });
+    res.status(200).json({ alram });
+  }
+);
+
 export default userRouter;
