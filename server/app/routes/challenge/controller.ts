@@ -16,7 +16,6 @@ challenge.get("/", async (req: Request, res: Response) => {
   const fieldQuery = req.query.field as string;
   const documentTypeQuery = req.query.documentType as string;
   const stateQuery = req.query.state as string;
-  // const userId = req.user.id;
 
   try {
     let where: Prisma.challengeWhereInput = {};
@@ -76,10 +75,7 @@ challenge.get("/", async (req: Request, res: Response) => {
       pageSize,
       orderBy: orderby,
     });
-    console.log(data);
-    // await challengeService.updateFinsh({
-    //   userId,
-    // });
+    await challengeService.updateFinsh();
 
     const total = challengeService.total({ where });
 
@@ -90,30 +86,17 @@ challenge.get("/", async (req: Request, res: Response) => {
   }
 });
 
-challenge.post("/work/create", async (req: Request, res: Response) => {
-  console.log(req.body);
-  // const { title, content } = req.body;
-  // const data = await prisma.challengework.create({ data: { title, content } });
-  const { title, content, user, challenge } = req.body;
-  const data = await prisma.challengework.create({
-    data: { title, content, user, challenge },
-  });
-});
-
-challenge.get(
-  "/finishUpdate",
-  authMiddleware.accessTokenChk,
-  authMiddleware.verifyAT,
-  async (req, res) => {
-    const userId = req.user.id;
-    try {
-      const { count } = await challengeService.updateFinsh({
-        userId,
-      });
-      res.status(200).json({ count });
-    } catch (err) {}
-  }
-);
+// challenge.get(
+//   "/finishUpdate",
+//   authMiddleware.accessTokenChk,
+//   authMiddleware.verifyAT,
+//   async (req, res) => {
+//     try {
+//       const { count } = await challengeService.updateFinsh();
+//       res.status(200).json({ count });
+//     } catch (err) {}
+//   }
+// );
 
 challenge.post(
   "/create",
@@ -279,16 +262,7 @@ challenge.get(
 cron.schedule("0 0 * * *", async () => {
   console.log("매일 자정에 실행됨:", new Date().toLocaleString());
   // 여기에 실행할 작업 추가
-  await prisma.challenge.updateMany({
-    where: {
-      createdAt: {
-        lt: new Date(), // 현재 시간보다 작은 경우만 필터링
-      },
-    },
-    data: {
-      state: "finish",
-    },
-  });
+  await challengeService.updateFinsh();
 });
 
 export default challenge;

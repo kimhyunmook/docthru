@@ -25,10 +25,8 @@ interface AuthContextType {
   logout: () => Promise<void>;
   user: User;
   auth: () => void;
-  alram: any;
   isLoading: boolean;
   isFetching: boolean;
-  alramRefresh: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -47,18 +45,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
     isLoading,
     refetch: userRefetch,
   } = useQuery({
-    queryKey: ["user", token],
+    queryKey: ["user", !!token],
     queryFn: getUserAPi,
     enabled: !!token,
     staleTime: expired, // 한 시간
     refetchInterval: 60 * 1000 * 60,
-    refetchOnWindowFocus: true,
-  });
-
-  const { data: alram, refetch: alramRefresh } = useQuery({
-    queryKey: ["alram", ""],
-    queryFn: getAlramApi,
-    enabled: !!user,
     refetchOnWindowFocus: true,
   });
 
@@ -120,8 +111,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
         logout,
         user,
         auth,
-        alram,
-        alramRefresh,
       }}
     >
       {children}

@@ -21,6 +21,7 @@ userRouter.get(
   async (req, res) => {
     const userId = req.user.id;
     const alram = await userService.getAlram({ userId });
+    console.log("alram", alram);
     res.status(200).json({ alram });
   }
 );

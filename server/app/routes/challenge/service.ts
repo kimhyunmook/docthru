@@ -6,18 +6,17 @@ async function getChallenge({ page, pageSize, orderBy, where }: Find) {
   return data;
 }
 
-async function updateFinsh({ userId }: Omit<CreateAlram, "content">) {
+async function updateFinsh() {
   const data = await challengeRepo.updateFinish();
   if (!!data?.count) {
     data.data.forEach(async (v) => {
       const content = `"${v.title}" 챌린지가 만료 되었습니다.`;
-      await alramRepo.createAlram({ content, userId });
+      await alramRepo.createAlram({ content, userId: v.onerId });
     });
     // const alram = await alramRepo.getAlram({ userId });
-    // return { count: data.count, alram };
     return data;
   }
-  throw console.log("noUpdate");
+  console.log("no update finish");
 }
 
 async function total({ where }: Total) {

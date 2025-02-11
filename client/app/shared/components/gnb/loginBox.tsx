@@ -4,29 +4,46 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import LinkImg from "../LinkImg";
 import Dropdown from "../dropdown/dropdown";
-import type { User } from "../../types/user";
 import useValue from "../../hooks/useValue";
 import { usePathname } from "next/navigation";
+import { useAuth } from "../../provider/authProvider";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getAlramApi } from "@/app/api/user/api";
+import type { User } from "../../types/user";
 
 type LoginBoxT = {
-  user: User;
   admin: boolean;
 };
 type ModalState = {
   [key: string]: boolean;
   alram: boolean;
-  user: boolean;
 };
 
 const init: ModalState = {
   alram: false,
-  user: false,
 };
-export default function LoginBox({ user, admin }: LoginBoxT) {
+export default function LoginBox({ admin }: LoginBoxT) {
+  const { user } = useAuth();
   const [modalState, setModalState] = useState(init);
   function openModal({ type }: { type: string }) {
     setModalState((prev) => ({ ...prev, [type]: !prev[type] }));
   }
+
+  const [alram, setAlram] = useState<AlramProps[]>([]);
+  const { data, isFetched, isLoading } = useQuery({
+    queryKey: ["alram", !!alram.length],
+    queryFn: () => {
+      return getAlramApi();
+    },
+    staleTime: 25 * 1000,
+    refetchInterval: 30 * 1000,
+    refetchOnWindowFocus: true,
+  });
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (isFetched) setAlram(data?.alram);
+  }, [isLoading, isFetched, data]);
 
   const path = usePathname();
   useEffect(() => {
@@ -35,7 +52,6 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
       user: false,
     });
   }, [path]);
-
   const [state, setState] = useState([
     {
       href: "#",
@@ -112,36 +128,34 @@ export default function LoginBox({ user, admin }: LoginBoxT) {
   );
 }
 
-interface AlarmProps {
+interface AlramProps {
   content: string;
   date: string;
+  id: string;
 }
 function Alarm() {
+  const queryClient = useQueryClient();
+  const alram = queryClient.getQueryData<{ alram: AlramProps[] }>([
+    "alram",
+    true,
+  ]);
   const isRead = useValue(false);
-  const data: AlarmProps[] = [
-    {
-      content: "testing alarm",
-      date: "1234.11.11",
-    },
-    {
-      content: "1234",
-      date: "1234.11.11",
-    },
-  ];
-  function read() {
+  function read(id: string) {
     isRead.set(true);
   }
   return (
     <div className={styles.alarm}>
       <h2>알람</h2>
       <ul>
-        {!!data.length ? (
-          data.map((v, i) => {
+        {!!alram?.alram.length ? (
+          alram.alram.map((v, i) => {
             return (
               <li
                 className={`${styles.list} ${isRead.value ? styles.read : ""}`}
                 key={v.content + i}
-                onClick={read}
+                onClick={(e) => {
+                  read(v.id);
+                }}
               >
                 <p className={styles.content}>{v.content}</p>
                 <p className={styles.date}>{v.date}</p>

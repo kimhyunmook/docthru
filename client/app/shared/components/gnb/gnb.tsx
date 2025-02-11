@@ -31,7 +31,7 @@ export default function Gnb({ user }: Gnb) {
             </ul>
           ) : null}
         </div>
-        <LoginBox user={user} admin={user?.grade === "어드민"} />
+        <LoginBox admin={user?.grade === "어드민"} />
       </nav>
     </header>
   );

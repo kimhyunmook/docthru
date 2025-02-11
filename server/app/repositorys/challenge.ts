@@ -35,6 +35,7 @@ async function updateFinish() {
     const challenges = await prisma.challenge.findMany({
       where,
       select: {
+        onerId: true,
         title: true,
       },
     });

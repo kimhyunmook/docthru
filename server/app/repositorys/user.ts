@@ -30,6 +30,14 @@ async function findUser({ email }: { email: string }) {
       where: {
         email,
       },
+      include: {
+        alarm: {
+          select: {
+            content: true,
+            createdAt: true,
+          },
+        },
+      },
     });
     return res;
   } catch (err) {
