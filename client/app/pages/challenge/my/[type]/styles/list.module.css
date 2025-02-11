@@ -10,6 +10,8 @@
 }
 
 .list {
+  min-height: 100vh;
 }
 .list li {
+  margin-bottom: 24px;
 }

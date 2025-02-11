@@ -5,20 +5,18 @@ import Btn from "@/app/shared/components/btn/btn";
 import s from "./workcreate.module.css";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { Placeholder } from "@/app/shared/types/common";
+import { WorkPagePost } from "@/app/api/challenge/api";
 
 export default function ChallengeWorkCreate() {
   const router = useRouter();
   const { id } = useParams();
+  console.log("id", id);
 
-  interface Placeholder {
-    title: string;
-    content: string;
-  }
-
-  // ✅ title과 content 상태를 함께 관리
   const [placeholder, setPlaceholder] = useState<Placeholder>({
     title: "제목을 입력해주세요",
     content: "번역 내용을 입력해주세요",
+    id: Number(id),
   });
 
   useEffect(() => {
@@ -48,6 +46,20 @@ export default function ChallengeWorkCreate() {
     } else alert("임시 저장되었습니다.");
   };
 
+  const handleClick = () => {
+    if (
+      placeholder.title === "제목을 입력해주세요" ||
+      placeholder.content === "번역 내용을 입력해주세요"
+    ) {
+      alert("제목과 내용을 입력하세요");
+      return;
+    } else alert("제출 되었습니다.");
+    console.log(placeholder);
+    // WorkPagePost(placeholder); // 이건 처음 저장해둔 state값은 num인데 받아오는 처음 id값이 string이라 오류가 나는거였음
+
+    WorkPagePost({ ...placeholder, id: Number(id) }); // 이렇게 바꿔서 실행시킬 수 있게 됨
+  };
+
   return (
     <div className={s.inner}>
       <div className={s.nav}>
@@ -72,7 +84,7 @@ export default function ChallengeWorkCreate() {
           <Btn.Outline.Regular onClick={handleTempSave}>
             임시저장
           </Btn.Outline.Regular>
-          <Btn.Solid.Regular>제출하기</Btn.Solid.Regular>
+          <Btn.Solid.Regular onClick={handleClick}>제출하기</Btn.Solid.Regular>
         </div>
       </div>
       <div className={s.content}>

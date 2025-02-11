@@ -14,7 +14,7 @@ export default function Gnb({ user }: Gnb) {
         <div className={`${styles.left}`}>
           <LinkImg
             className={styles.logo}
-            href="/"
+            href="/pages"
             src="/img/logo.svg"
             alt="docthru"
             width={108}

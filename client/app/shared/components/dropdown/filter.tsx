@@ -5,90 +5,81 @@ import CloseBtn from "../btn/close";
 import { PropsWithChildren } from "react";
 import useValue from "../../hooks/useValue";
 import Btn from "../btn/btn";
+import {
+  ChallengeFilterProps,
+  DocumentType,
+  FieldType,
+  StateType,
+} from "../../types/common";
+import { useRouter } from "next/navigation";
 
 interface DropFilterProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onClick: React.MouseEventHandler<HTMLElement>;
+  setFilter: React.Dispatch<React.SetStateAction<ChallengeFilterProps>>;
 }
-interface FilterState {
-  name: string;
-  checked: boolean;
-  text: string;
-}
-const state1Init = [
-  { name: "nextjs", checked: false, text: "Next.js" },
-  {
-    name: "modernjs",
-    checked: false,
-    text: "Modern JS",
-  },
-  {
-    name: "api",
-    checked: false,
-    text: "API",
-  },
-  {
-    name: "web",
-    checked: false,
-    text: "Web",
-  },
-  {
-    name: "career",
-    checked: false,
-    text: "Career",
-  },
-];
-const state2Init = [
-  { name: "blog", checked: false, text: "블로그" },
-  { name: "document", checked: false, text: "공식 문서" },
-];
-const state3Init = [
-  { name: "inProgress", checked: false, text: "진행중" },
-  { name: "finish", checked: false, text: "마감" },
-];
+
 export default function DropFilter({
   open,
   setOpen,
   onClick,
+  setFilter,
 }: DropFilterProps) {
-  const state1 = useValue(state1Init);
-  const state2 = useValue(state2Init);
-  const state3 = useValue(state3Init);
+  const field = useValue(state1Init);
+  const documentType = useValue(state2Init);
+  const state = useValue(state3Init);
   const checkFilter = useValue(false);
 
   function reset() {
-    state1.set((prev: FilterState[]) => {
+    field.set((prev: FieldProps[]) => {
       const reset = prev.map((v) => {
         v.checked = false;
         return v;
       });
       return reset;
     });
-    state2.set((prev: FilterState[]) => {
+    documentType.set((prev: DocumentProps[]) => {
       const reset = prev.map((v) => {
         v.checked = false;
         return v;
       });
       return reset;
     });
-    state3.set((prev: FilterState[]) => {
+    state.set((prev: FilterState[]) => {
       const reset = prev.map((v) => {
         v.checked = false;
         return v;
       });
+
       return reset;
+    });
+    setFilter({
+      field: [],
+      documentType: [],
+      state: [],
     });
   }
 
   function filter() {
-    const true1 = !!state1.value.filter((x: FilterState) => x.checked).length;
-    const true2 = !!state2.value.filter((x: FilterState) => x.checked).length;
-    const true3 = !!state3.value.filter((x: FilterState) => x.checked).length;
-    if (true1 || true2 || true3) {
+    const fieldText = field.value.filter((x) => x.checked).map((v) => v.text);
+    const documentTypeText = documentType.value
+      .filter((x: FilterState) => x.checked)
+      .map((v) => v.text);
+    const stateText = state.value
+      .filter((x: FilterState) => x.checked)
+      .map((v) => v.name);
+
+    if (!!fieldText.length || !!documentTypeText.length || !!stateText.length) {
       checkFilter.set(true);
     } else checkFilter.set(false);
     setOpen(false);
+
+    setFilter({
+      field: fieldText,
+      documentType: documentTypeText,
+      state: stateText,
+    });
   }
   return (
     <div
@@ -127,13 +118,13 @@ export default function DropFilter({
             />
           </div>
           <ListCover title="분야">
-            {state1.value.map((v: FilterState, i: number) => {
+            {field.value.map((v: FieldProps, i: number) => {
               return (
                 <Check
                   key={i}
                   name={v.name}
                   checked={v.checked}
-                  setValue={state1.set}
+                  setValue={field.set}
                 >
                   {v.text}
                 </Check>
@@ -141,13 +132,13 @@ export default function DropFilter({
             })}
           </ListCover>
           <ListCover title="문서 타입">
-            {state2.value.map((v: FilterState, i: number) => {
+            {documentType.value.map((v: FilterState, i: number) => {
               return (
                 <Check
                   key={i}
                   name={v.name}
                   checked={v.checked}
-                  setValue={state2.set}
+                  setValue={documentType.set}
                 >
                   {v.text}
                 </Check>
@@ -155,13 +146,13 @@ export default function DropFilter({
             })}
           </ListCover>
           <ListCover title="상태">
-            {state3.value.map((v: FilterState, i: number) => {
+            {state.value.map((v: FilterState, i: number) => {
               return (
                 <Check
                   key={i}
                   name={v.name}
                   checked={v.checked}
-                  setValue={state3.set}
+                  setValue={state.set}
                 >
                   {v.text}
                 </Check>
@@ -194,7 +185,7 @@ function ListCover({ children, title }: ListCoverProps) {
 interface CheckProps extends PropsWithChildren {
   name: string;
   checked: boolean;
-  setValue: React.Dispatch<React.SetStateAction<FilterState[]>>;
+  setValue: React.Dispatch<React.SetStateAction<any[]>>;
 }
 function Check({ children, name, checked, setValue }: CheckProps) {
   // const checkedValue = useValue(checked);
@@ -231,3 +222,49 @@ function Check({ children, name, checked, setValue }: CheckProps) {
     </li>
   );
 }
+
+interface FilterState {
+  name: string;
+  checked: boolean;
+  text: string;
+}
+interface FieldProps extends Omit<FilterState, "text"> {
+  text: FieldType;
+}
+interface DocumentProps extends Omit<FilterState, "text"> {
+  text: DocumentType;
+}
+interface StateProps extends Omit<FilterState, "text"> {
+  text: StateType;
+}
+const state1Init: FieldProps[] = [
+  { name: "Next.js", checked: false, text: "Next.js" },
+  {
+    name: "Modern JS",
+    checked: false,
+    text: "Modern JS",
+  },
+  {
+    name: "API",
+    checked: false,
+    text: "API",
+  },
+  {
+    name: "Web",
+    checked: false,
+    text: "Web",
+  },
+  {
+    name: "Career",
+    checked: false,
+    text: "Career",
+  },
+];
+const state2Init: DocumentProps[] = [
+  { name: "blog", checked: false, text: "블로그" },
+  { name: "document", checked: false, text: "공식문서" },
+];
+const state3Init = [
+  { name: "inProgress", checked: false, text: "진행중" },
+  { name: "finish", checked: false, text: "마감" },
+];

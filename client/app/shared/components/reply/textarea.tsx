@@ -27,6 +27,7 @@ export default function Textarea({
         onChange={(e) => {
           e.preventDefault();
           setValue(e.target.value);
+          console.log(e.target.value);
         }}
       />
     </Reply>

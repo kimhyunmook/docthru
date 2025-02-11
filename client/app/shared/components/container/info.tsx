@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export type InfoProps = {
-  date: string;
+  date: Date | string;
   current: number;
   total: number;
 };

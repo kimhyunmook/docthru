@@ -1,7 +1,7 @@
 import Hash from "../../lib/utils/hash";
 import userRepo from "../../repositorys/user";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET, PORT } from "../../../config/config";
+import { JWT_SECRET } from "../../../config/config";
 import type { Compare, SignupProps, User } from "../../types/common";
 
 async function signup({ email, password, nickname }: SignupProps) {
@@ -17,7 +17,7 @@ interface CreateTokenProps {
 async function createToken({ user, type }: CreateTokenProps) {
   if (user) {
     const payload = { email: user.email, id: user.id };
-    const option = { expiresIn: type === "r" ? "2w" : "1h" }; // 2 weeks in seconds and 1 hour in seconds
+    const option = { expiresIn: type === "r" ? "2w" : "24h" }; // 2 weeks in seconds and 1 hour in seconds
     try {
       return jwt.sign(
         payload,

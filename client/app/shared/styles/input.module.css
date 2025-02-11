@@ -21,6 +21,7 @@
   outline: none;
   position: relative;
 }
+
 .inputBox input::placeholder {
   color: var(--placeholder);
 }
@@ -44,6 +45,9 @@ div.input {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+div.input:has(input:focus) {
+  border: 2px solid var(--gray800);
 }
 .error {
   width: 100%;

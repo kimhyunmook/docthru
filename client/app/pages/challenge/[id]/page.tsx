@@ -36,9 +36,10 @@ interface ChallengeData extends Challenge {
 export default function Detail() {
   const params = useParams();
   const { id } = params;
-  const chipElement = useValue("");
+  const chipElement = useValue(<></>);
 
   const [data, setData] = useState<ChallengeData>();
+  console.log("data", data);
 
   useEffect(() => {
     DetailChallenge({ id: `${id}` }).then((res) => {

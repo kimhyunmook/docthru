@@ -1,4 +1,3 @@
-"use client";
 import {
   loginApi,
   LoginProps,
@@ -17,19 +16,22 @@ import {
 import { getUserAPi } from "@/app/api/user/api";
 import type { User } from "../types/user";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { useToaster } from "./toasterProvider";
 
 interface AuthContextType {
   login: ({ email, password }: LoginProps) => Promise<void>;
   refreshToken: () => Promise<void>;
   logout: () => Promise<void>;
   user: User;
+  isLoading: boolean;
   isFetching: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
-const expired = 60 * 60 * 1000;
+const expired = 60 * 60 * 1000 * 24;
 
 export function AuthProvider({ children }: PropsWithChildren) {
+  const toast = useToaster();
   const router = useRouter();
   const storage = useLocalStorage();
   const queryClient = useQueryClient();
@@ -38,26 +40,31 @@ export function AuthProvider({ children }: PropsWithChildren) {
     data: user,
     isStale,
     isFetching,
-    // isLoading,
+    isLoading,
     refetch: userRefetch,
   } = useQuery({
     queryKey: ["user", token],
     queryFn: getUserAPi,
     enabled: !!token,
     staleTime: expired, // 한 시간
+    refetchInterval: 60 * 1000 * 60,
+    refetchOnWindowFocus: true,
   });
 
   useEffect(() => {
     setToken(storage.get("token"));
-    refreshToken();
+    if (isLoading) return;
+    if (isStale) refreshToken();
   }, [isStale, token]);
 
   async function login({ email, password }: LoginProps) {
     const res = await loginApi({ email, password });
     if (!res.success) {
-      alert("id 또는 password 를 확인해주세요");
+      toast("warn", "id 또는 password를 확인해주세요");
+      // alert("id 또는 password 를 확인해주세요");
       return;
     }
+    toast("info", "로그인 되었습니다.");
     router.push("/pages");
     storage.set("token", res.accessToken, expired);
     setToken(res.accessToken);
@@ -78,7 +85,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function logout() {
     await logoutApi();
-    alert("로그아웃 되었습니다.");
+    toast("info", "로그아웃 되었습니다.");
     userRefetch();
     localStorage.clear();
     queryClient.removeQueries({ queryKey: ["user"] });
@@ -86,12 +93,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setToken(null);
   }
 
-  // if (isFetching) return null;
-  // if (isLoading) return "loading...";
-
   return (
     <AuthContext.Provider
-      value={{ login, refreshToken, isFetching, logout, user }}
+      value={{ login, refreshToken, isLoading, isFetching, logout, user }}
     >
       {children}
     </AuthContext.Provider>

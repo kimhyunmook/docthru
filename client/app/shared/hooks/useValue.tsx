@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 
-export default function useValue(value: any) {
-  const [v, setV] = useState(value);
+export default function useValue<T>(value: T) {
+  const [v, setV] = useState<T>(value);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { value } = e.target;
-    setV(value);
+    setV(value as T);
   };
   return {
     value: v,
-    set: (t: any) => {
+    set: (t: T | ((prve: T) => T)) => {
       setV(t);
     },
     onChange,
