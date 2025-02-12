@@ -48,7 +48,7 @@ export interface MyChallengeProps extends GetChallengeProps {
   type: "participating" | "finish" | "apply";
 }
 
-export interface Placeholder {
+export interface WorkContent {
   title: string;
   content: string;
   id: Number;

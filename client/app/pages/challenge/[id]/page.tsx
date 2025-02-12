@@ -5,7 +5,7 @@ import Image from "next/image";
 import s from "./detail.module.css";
 import Container from "@/app/shared/components/container/container";
 import { useEffect, useState } from "react";
-import { DetailChallenge } from "@/app/api/challenge/api";
+import { DetailChallenge, WorkPageGet } from "@/app/api/challenge/api";
 import { useParams } from "next/navigation";
 import useValue from "@/app/shared/hooks/useValue";
 import List from "@/app/shared/components/list";
@@ -45,6 +45,9 @@ export default function Detail() {
     DetailChallenge({ id: `${id}` }).then((res) => {
       console.log(res.data);
       setData(res.data);
+    });
+    WorkPageGet({ id: `${id}` }).then((res) => {
+      console.log(res.data);
     });
   }, []);
 

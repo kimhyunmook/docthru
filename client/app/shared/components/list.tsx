@@ -45,7 +45,7 @@ function List({ number, user, isLast }: ListProps) {
           <Image src="/img/icon/heart.svg" alt="하트" width={20} height={20} />
           <span>{user?.like}</span>
         </p>
-        <Link className={styles.link} href={`/user/${user?.id}`}>
+        <Link className={styles.link} href={`/pages/challenge/2/work/`}>
           작업물 보기
           <span></span>
         </Link>

@@ -5,7 +5,7 @@ import Btn from "@/app/shared/components/btn/btn";
 import s from "./workcreate.module.css";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Placeholder } from "@/app/shared/types/common";
+import { WorkContent } from "@/app/shared/types/common";
 import { WorkPagePost } from "@/app/api/challenge/api";
 
 export default function ChallengeWorkCreate() {
@@ -13,20 +13,20 @@ export default function ChallengeWorkCreate() {
   const { id } = useParams();
   console.log("id", id);
 
-  const [placeholder, setPlaceholder] = useState<Placeholder>({
+  const [workContent, setWorkContent] = useState<WorkContent>({
     title: "제목을 입력해주세요",
     content: "번역 내용을 입력해주세요",
     id: Number(id),
   });
 
   useEffect(() => {
-    if (!id) return; // id가 없으면 실행하지 않음
+    if (!id) return;
 
     const savedData = localStorage.getItem(`tempContent-${id}`);
     if (savedData) {
       try {
-        const parsedData = JSON.parse(savedData) as Placeholder;
-        setPlaceholder(parsedData);
+        const parsedData = JSON.parse(savedData) as WorkContent;
+        setWorkContent(parsedData);
       } catch (error) {
         console.error("Failed to parse saved content:", error);
       }
@@ -35,11 +35,11 @@ export default function ChallengeWorkCreate() {
 
   const handleTempSave = () => {
     if (!id) return;
-    localStorage.setItem(`tempContent-${id}`, JSON.stringify(placeholder));
+    localStorage.setItem(`tempContent-${id}`, JSON.stringify(workContent));
     // console.log(`tempContent-${id}`, JSON.stringify(placeholder));
     if (
-      placeholder.title === "제목을 입력해주세요" ||
-      placeholder.content === "번역 내용을 입력해주세요"
+      workContent.title === "제목을 입력해주세요" ||
+      workContent.content === "번역 내용을 입력해주세요"
     ) {
       alert("제목과 내용을 입력하세요");
       return;
@@ -48,16 +48,14 @@ export default function ChallengeWorkCreate() {
 
   const handleClick = () => {
     if (
-      placeholder.title === "제목을 입력해주세요" ||
-      placeholder.content === "번역 내용을 입력해주세요"
+      workContent.title === "제목을 입력해주세요" ||
+      workContent.content === "번역 내용을 입력해주세요"
     ) {
       alert("제목과 내용을 입력하세요");
       return;
     } else alert("제출 되었습니다.");
-    console.log(placeholder);
-    // WorkPagePost(placeholder); // 이건 처음 저장해둔 state값은 num인데 받아오는 처음 id값이 string이라 오류가 나는거였음
-
-    WorkPagePost({ ...placeholder, id: Number(id) }); // 이렇게 바꿔서 실행시킬 수 있게 됨
+    console.log(workContent);
+    WorkPagePost({ ...workContent, id: Number(id) });
   };
 
   return (
@@ -89,18 +87,18 @@ export default function ChallengeWorkCreate() {
       </div>
       <div className={s.content}>
         <input
-          placeholder={placeholder.title}
-          value={placeholder.title}
+          placeholder={workContent.title}
+          value={workContent.title}
           onFocus={() => {
-            if (placeholder.title === "제목을 입력해주세요")
-              setPlaceholder((prev) => ({
+            if (workContent.title === "제목을 입력해주세요")
+              setWorkContent((prev) => ({
                 ...prev,
                 title: "",
               }));
           }}
           onBlur={() => {
-            if (placeholder.title === "") {
-              setPlaceholder((prev) => ({
+            if (workContent.title === "") {
+              setWorkContent((prev) => ({
                 ...prev,
                 title: "제목을 입력해주세요",
               }));
@@ -108,7 +106,7 @@ export default function ChallengeWorkCreate() {
             }
           }}
           onChange={(e) =>
-            setPlaceholder((prev) => ({
+            setWorkContent((prev) => ({
               ...prev,
               title: e.target.value,
             }))
@@ -117,18 +115,18 @@ export default function ChallengeWorkCreate() {
         <span></span>
         <div className={s.text_deco_box}>글씨 굵기나 정렬 등등 칸(임시)</div>
         <textarea
-          placeholder={placeholder.content}
-          value={placeholder.content}
+          placeholder={workContent.content}
+          value={workContent.content}
           onFocus={() => {
-            if (placeholder.content === "번역 내용을 입력해주세요")
-              setPlaceholder((prev) => ({
+            if (workContent.content === "번역 내용을 입력해주세요")
+              setWorkContent((prev) => ({
                 ...prev,
                 content: "",
               }));
           }}
           onBlur={() => {
-            if (placeholder.content === "") {
-              setPlaceholder((prev) => ({
+            if (workContent.content === "") {
+              setWorkContent((prev) => ({
                 ...prev,
                 content: "번역 내용을 입력해주세요",
               }));
@@ -136,7 +134,7 @@ export default function ChallengeWorkCreate() {
             }
           }}
           onChange={(e) =>
-            setPlaceholder((prev) => ({
+            setWorkContent((prev) => ({
               ...prev,
               content: e.target.value,
             }))
