@@ -1,0 +1,52 @@
+.container {
+  padding-top: 40px;
+  max-width: 890px;
+  margin: 0 auto;
+}
+
+.chip_container {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.user_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  margin-top: 16px;
+  border-top: 1px solid var(--gray200);
+  border-bottom: 1px solid var(--gray200);
+}
+
+.left_box {
+  display: flex;
+  gap: 12px;
+}
+
+.user_box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.like_box {
+  display: flex;
+  align-items: center;
+}
+
+.container > p {
+  padding: 24px 0 64px;
+  border-bottom: 1px solid var(--gray200);
+}
+
+.feedback {
+  border: 1px solid var(--gray200);
+  width: 100%;
+}
+
+.feedback_top {
+  display: flex;
+  gap: 24px;
+}

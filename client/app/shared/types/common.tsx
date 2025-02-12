@@ -1,3 +1,4 @@
+import internal from "node:stream";
 import { PropsWithChildren } from "react";
 
 export interface PropsWithClassName extends PropsWithChildren {
@@ -45,4 +46,10 @@ export interface GetChallengeProps {
 
 export interface MyChallengeProps extends GetChallengeProps {
   type: "participating" | "finish" | "apply";
+}
+
+export interface WorkContent {
+  title: string;
+  content: string;
+  id: Number;
 }

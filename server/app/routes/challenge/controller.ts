@@ -151,6 +151,28 @@ challenge.patch(
   }
 );
 
+challenge.get("/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    // console.log("야야", id);
+    const data = await prisma.challenge.findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        oner: {
+          select: {
+            nickname: true,
+          },
+        },
+      },
+    });
+    res.status(201).send({ data });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 challenge.get(
   "/apply",
   authMiddleware.verifyAT,
@@ -269,5 +291,30 @@ cron.schedule("0 0 * * *", async () => {
     },
   });
 });
+
+challenge.post(
+  "/work/create",
+  authMiddleware.verifyAT,
+  async (req: Request, res: Response) => {
+    console.log(req.body);
+
+    const { title, content, id } = req.body;
+    const userId = req.user.id;
+    console.log("id", id);
+
+    const data = await prisma.challengework.create({
+      data: {
+        title,
+        content,
+        challengeId: id,
+        userId: userId, // userId를 가진 유저와 연결
+      },
+    });
+
+    res.status(201).json(data);
+  }
+);
+
+// challenge.get(`pageSize/challenge/${id}/work`, async (req: Request))
 
 export default challenge;
