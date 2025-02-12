@@ -2,10 +2,16 @@
 import Gnb from "@/app/shared/components/gnb/gnb";
 import { usePathname } from "next/navigation";
 import { useAuth } from "./authProvider";
+import exp from "constants";
 
-const noHeader = ["/", "/pages/auth/login", "/pages/auth/signup"];
+const noHeader = [
+  "/",
+  "/pages/auth/login",
+  "/pages/auth/signup",
+  "/pages/challenge/work/create",
+];
 
-export default function HeaderProvider({}) {
+export function HeaderProvider({}) {
   const pathname = usePathname();
   const isValidHader = !noHeader.find((x) => x === pathname);
   const { user } = useAuth();

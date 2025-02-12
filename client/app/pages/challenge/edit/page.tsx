@@ -4,7 +4,7 @@ import Btn from "@/app/shared/components/btn/btn";
 import Application from "../create/page";
 import s from "../create/application.module.css";
 import { useEffect, useState } from "react";
-import { PatchCallenge } from "@/app/api/challenge/api";
+import { PatchChallenge } from "@/app/api/challenge/api";
 
 export default function Edit() {
   const [form, setForm] = useState({
@@ -22,7 +22,7 @@ export default function Edit() {
 
   function handleClick() {
     console.log(form);
-    // PatchCallenge(form);
+    // PatchChallenge(form);
   }
   return (
     <Application mainTitle="챌린지 수정">

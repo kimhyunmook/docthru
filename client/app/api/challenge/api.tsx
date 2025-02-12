@@ -5,6 +5,7 @@ import type {
   MyChallengeProps,
   GetChallengeProps,
 } from "@/app/shared/types/common";
+import { WorkContent } from "@/app/shared/types/common";
 
 export async function GetChallenge({
   page = 1,
@@ -39,7 +40,7 @@ export async function PostChallenge(body: ChallengeProps) {
   return res.data;
 }
 
-export async function PatchCallenge(body: ChallengeProps) {
+export async function PatchChallenge(body: ChallengeProps) {
   const res = await instance.patch("/api/challenge/edit", body);
   return res.data;
 }
@@ -76,8 +77,18 @@ export async function MyApplyApi({
   }
 }
 
-export async function DetailCallenge({ id }: { id: string }) {
+export async function DetailChallenge({ id }: { id: string }) {
   const res = await instance.get(`api/challenge/${id}`);
   // console.log(id);
+  return res.data;
+}
+
+export async function WorkPagePost(body: WorkContent) {
+  const res = await instance.post("/api/challenge/work/create", body);
+  return res.data;
+}
+
+export async function WorkPageGet({ id }: { id: string }) {
+  const res = await instance.get(`api/challenge/${id}/work`);
   return res.data;
 }
