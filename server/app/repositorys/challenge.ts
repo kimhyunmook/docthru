@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import prisma from "./prisma";
+import type { CreateParticipant, ParticiPant } from "../types/common";
 
 export interface Find {
   where: Prisma.challengeWhereInput;
@@ -58,12 +59,32 @@ export interface Total {
   where: Prisma.challengeWhereInput;
 }
 async function total({ where }: Total) {
-  const total = (
-    await prisma.challenge.findMany({
-      where,
-    })
-  ).length;
-  return total;
+  try {
+    const total = (
+      await prisma.challenge.findMany({
+        where,
+      })
+    ).length;
+    return total;
+  } catch (err) {
+    console.log(err);
+  }
 }
-const challengeRepo = { findList, updateFinish, total };
+
+async function createParticipant({ userId, challengeId }: CreateParticipant) {
+  try {
+    await prisma.participant.create({
+      data: {
+        challengeId,
+        state: "participate",
+        userId,
+      },
+    });
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+const challengeRepo = { findList, updateFinish, total, createParticipant };
 export default challengeRepo;

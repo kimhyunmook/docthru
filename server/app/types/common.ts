@@ -30,5 +30,17 @@ export interface User {
 
 export interface ParticiPant
   extends Omit<participant, "id" | "applicationDate" | "participantDate"> {
-  state: "pending" | "paticipate";
+  state: "pending" | "participate";
 }
+
+export interface CreateAlram {
+  content: string;
+  userId: string;
+}
+
+export interface ReadAlram {
+  userId: string;
+  id: number;
+}
+
+export interface CreateParticipant extends Omit<ParticiPant, "state"> {}

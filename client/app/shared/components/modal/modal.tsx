@@ -3,7 +3,9 @@ import Popup from "./popup";
 import TextBox from "./textBox";
 import { PropsWithClassName } from "../../types/common";
 
-export type ModalProps = PropsWithClassName & {};
+export type ModalProps = PropsWithClassName & {
+  btnFree?: React.ReactNode;
+};
 
 export default function Modal({ className, children }: ModalProps) {
   return (

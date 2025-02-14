@@ -5,6 +5,7 @@ import { HeaderProvider } from "./headerProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ToasterProvider from "./toasterProvider";
+import { ModalProvider } from "./modalProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,8 +21,10 @@ export default function Provider({ children }: PropsWithChildren) {
       <QueryClientProvider client={queryClient}>
         <ToasterProvider>
           <AuthProvider>
-            <HeaderProvider />
-            {children}
+            <ModalProvider>
+              <HeaderProvider />
+              {children}
+            </ModalProvider>
           </AuthProvider>
           <ReactQueryDevtools />
         </ToasterProvider>

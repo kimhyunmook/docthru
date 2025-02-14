@@ -1,4 +1,6 @@
+
 .modal {
+  background-color: #fff;
   border: 2px solid var(--gray800);
   border-radius: 8px;
   position: relative;
@@ -14,7 +16,7 @@
 }
 
 .modal.popup {
-  max-width: 540px;
+  width: 540px;
   min-height: 250px;
 }
 .modal.popup p {

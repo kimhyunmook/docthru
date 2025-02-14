@@ -19,3 +19,12 @@ export async function getAlramApi() {
     console.log(err);
   }
 }
+
+export async function readAlramApi({ id }: { id: number | string }) {
+  try {
+    const res = await instance.get(`/api/user/alram/${id}`);
+    return await res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}

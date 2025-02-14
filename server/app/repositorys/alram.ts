@@ -1,9 +1,6 @@
 import prisma from "./prisma";
+import type { ReadAlram, CreateAlram } from "../types/common";
 
-export interface CreateAlram {
-  content: string;
-  userId: string;
-}
 async function createAlram({ content, userId }: CreateAlram) {
   try {
     const createAlarm = await prisma.alarm.create({
@@ -24,19 +21,39 @@ async function getAlram({ userId }: { userId: string }) {
     return await prisma.alarm.findMany({
       where: {
         userId,
+        createdAt: {
+          gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+        },
       },
       orderBy: {
         createdAt: "desc",
       },
-      take: 5,
     });
   } catch (err) {
     console.error(err);
-    return null;
+    return [];
+  }
+}
+
+async function readAlram({ userId, id }: ReadAlram) {
+  try {
+    await prisma.alarm.update({
+      where: {
+        userId,
+        id,
+      },
+      data: {
+        read: true,
+      },
+    });
+    return true;
+  } catch (err) {
+    return false;
   }
 }
 const alramRepo = {
   createAlram,
   getAlram,
+  readAlram,
 };
 export default alramRepo;

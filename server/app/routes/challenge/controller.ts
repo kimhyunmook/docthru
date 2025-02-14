@@ -86,18 +86,6 @@ challenge.get("/", async (req: Request, res: Response) => {
   }
 });
 
-// challenge.get(
-//   "/finishUpdate",
-//   authMiddleware.accessTokenChk,
-//   authMiddleware.verifyAT,
-//   async (req, res) => {
-//     try {
-//       const { count } = await challengeService.updateFinsh();
-//       res.status(200).json({ count });
-//     } catch (err) {}
-//   }
-// );
-
 challenge.post(
   "/create",
   authMiddleware.verifyAT,
@@ -129,7 +117,7 @@ challenge.post(
       const participantData: ParticiPant = {
         userId,
         challengeId: data.id,
-        state: "paticipate",
+        state: "participate",
       };
       const participant = await prisma.participant.create({
         data: participantData,
@@ -178,7 +166,7 @@ challenge.get("/:id", async (req: Request, res: Response) => {
 });
 
 challenge.get(
-  "/apply",
+  "/my/apply",
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
     const userId = req.user.id;
@@ -222,7 +210,18 @@ challenge.get(
 );
 
 challenge.get(
-  "/:type",
+  "/apply/:challengeId",
+  authMiddleware.verifyAT,
+  async (req, res) => {
+    const userId = req.user.id;
+    const challengeId = parseInt(req.params.challengeId);
+    await challengeService.createParticipant({ userId, challengeId });
+    res.status(200).json(true);
+  }
+);
+
+challenge.get(
+  "/my/:type",
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
     const { type } = req.params;
@@ -291,11 +290,8 @@ challenge.post(
   "/work/create",
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
-    console.log(req.body);
-
     const { title, content, id } = req.body;
     const userId = req.user.id;
-    console.log("id", id);
 
     const data = await prisma.challengework.create({
       data: {

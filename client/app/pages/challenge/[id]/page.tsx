@@ -39,16 +39,18 @@ export default function Detail() {
   const chipElement = useValue(<></>);
 
   const [data, setData] = useState<ChallengeData>();
-  console.log("data", data);
+  const [participate, setParti] = useState([]);
+  // console.log("data", data);
 
   useEffect(() => {
     DetailChallenge({ id: `${id}` }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setData(res.data);
     });
-    WorkPageGet({ id: `${id}` }).then((res) => {
-      console.log(res.data);
-    });
+    console.log(111);
+    // WorkPageGet({ id: `${id}` }).then((res) => {
+    //   console.log(res.data);
+    // });
   }, []);
 
   useEffect(() => {
@@ -105,30 +107,40 @@ export default function Detail() {
             current={data.current}
             total={data.maximum}
             date={data.date}
+            refresh={setParti}
           />
         </div>
         <div className={s.bottom}>
           <span></span>
-          <div className={s.list_box}>
-            <div className={s.list_top}>
-              <h2>참여 현황</h2>
-              <div className={s.top_right}>
-                <div className={s.list_page_num}>
-                  <span>1/3</span>
-                </div>
-                <div className={s.arrow}>
+          {!!participate.length && (
+            <div className={s.list_box}>
+              <div className={s.list_top}>
+                <h2>참여 현황</h2>
+                <div className={s.top_right}>
+                  <div className={s.list_page_num}>
+                    <span>
+                      {data.current}/{data.maximum}
+                    </span>
+                  </div>
+                  {/* <div className={s.arrow}>
                   <span className={s.left}></span>
                   <span className={s.right}></span>
+                </div> */}
                 </div>
               </div>
+              {participate.map((v: User, index: number) => {
+                const isLast = index === dumi.length - 1; // 마지막 요소인지 확인
+                return (
+                  <List
+                    number={index + 1}
+                    key={v?.id}
+                    user={v}
+                    isLast={isLast}
+                  />
+                );
+              })}
             </div>
-            {dumi.map((v: User, index: number) => {
-              const isLast = index === dumi.length - 1; // 마지막 요소인지 확인
-              return (
-                <List number={index + 1} key={v?.id} user={v} isLast={isLast} />
-              );
-            })}
-          </div>
+          )}
         </div>
       </div>
     );

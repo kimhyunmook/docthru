@@ -54,7 +54,7 @@ export async function MyChallengeApi({
 }: MyChallengeProps) {
   try {
     const res = await instance.get(
-      `/api/challenge/${type}?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
+      `/api/challenge/my/${type}?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
     );
     return await res.data;
   } catch (err) {
@@ -69,7 +69,7 @@ export async function MyApplyApi({
 }: Omit<MyChallengeProps, "type">) {
   try {
     const res = await instance.get(
-      `/api/challenge/apply?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
+      `/api/challenge/my/apply?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
     );
     return await res.data;
   } catch (err) {
@@ -91,4 +91,13 @@ export async function WorkPagePost(body: WorkContent) {
 export async function WorkPageGet({ id }: { id: string }) {
   const res = await instance.get(`api/challenge/${id}/work`);
   return res.data;
+}
+
+export async function ApplyChallengeApi({ id }: { id: string | number }) {
+  try {
+    const res = await instance.get(`/api/challenge/apply/${id}`);
+    return await res.data;
+  } catch (err) {
+    console.log(err);
+  }
 }

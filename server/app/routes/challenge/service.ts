@@ -1,5 +1,6 @@
-import alramRepo, { CreateAlram } from "../../repositorys/alram";
+import alramRepo from "../../repositorys/alram";
 import challengeRepo, { Find, Total } from "../../repositorys/challenge";
+import { CreateParticipant } from "../../types/common";
 
 async function getChallenge({ page, pageSize, orderBy, where }: Find) {
   const data = await challengeRepo.findList({ page, pageSize, orderBy, where });
@@ -24,10 +25,15 @@ async function total({ where }: Total) {
   return total;
 }
 
+async function createParticipant({ userId, challengeId }: CreateParticipant) {
+  challengeRepo.createParticipant({ userId, challengeId });
+}
+
 const challengeService = {
   getChallenge,
   updateFinsh,
   total,
+  createParticipant,
 };
 
 export default challengeService;
