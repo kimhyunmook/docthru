@@ -39,7 +39,7 @@ model alarm {
   id        Int      @id @default(autoincrement())
   content   String
   read      Boolean  @default(false)
-  user      user     @relation(fields: [userId], references: [id])
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now())
 }
@@ -57,7 +57,7 @@ model challenge {
   state         String          @default("inProgress")
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  oner          user            @relation(fields: [onerId], references: [id])
+  oner          user            @relation(fields: [onerId], references: [id], onDelete: Cascade)
   onerId        String
   participants  participant[]
   challengework challengework[]
@@ -67,16 +67,18 @@ model challengework {
   id          Int       @id @default(autoincrement())
   title       String
   content     String
-  user        user      @relation(fields: [userId], references: [id])
+  user        user      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
-  challenge   challenge @relation(fields: [challengeId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  challenge   challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   challengeId Int
 }
 
 model challengework_feedback {
   id        Int      @id @default(autoincrement())
   content   String
-  user      user     @relation(fields: [userId], references: [id])
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -84,11 +86,11 @@ model challengework_feedback {
 
 model participant {
   id              Int       @id @default(autoincrement())
-  users           user      @relation(fields: [userId], references: [id])
+  users           user      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
   state           String    @default("pending")
   applicationDate DateTime  @default(now())
   participantDate DateTime  @updatedAt
-  challenge       challenge @relation(fields: [challengeId], references: [id])
+  challenge       challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   challengeId     Int
 }
