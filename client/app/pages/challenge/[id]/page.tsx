@@ -110,20 +110,16 @@ export default function Detail() {
         </div>
         <div className={s.bottom}>
           <span></span>
-          {!!participate.length && (
-            <div className={s.list_box}>
-              <div className={s.list_top}>
-                <h2>참여 현황</h2>
-                <div className={s.top_right}>
-                  <div className={s.list_page_num}>
-                    <span>
-                      {data.current}/{data.maximum}
-                    </span>
-                  </div>
-                  {/* <div className={s.arrow}>
+          <div className={s.list_box}>
+            <div className={s.list_top}>
+              <h2>참여 현황</h2>
+              <div className={s.top_right}>
+                <div className={s.list_page_num}>
+                  <span>1/3</span>
+                </div>
+                <div className={s.arrow}>
                   <span className={s.left}></span>
                   <span className={s.right}></span>
-                </div> */}
                 </div>
               </div>
             </div>
