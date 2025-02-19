@@ -84,3 +84,11 @@ export async function WorkPageGet({ id }: { id: string }) {
   const res = await instance.get(`api/challenge/${id}/work`);
   return res.data;
 }
+
+export async function WorklistGet(
+  { id }: { id: string },
+  { listId }: { listId: string }
+) {
+  const res = await instance.get(`api/challenge/${id}/work/${listId}`);
+  return res.data;
+}
