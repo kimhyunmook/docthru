@@ -101,3 +101,12 @@ export async function ApplyChallengeApi({ id }: { id: string | number }) {
     console.log(err);
   }
 }
+
+export async function deleteChallengeApi({ id }: { id: number }) {
+  try {
+    const res = await instance.patch(`/api/challenge/delete`, { id });
+    return await res.data;
+  } catch (err) {
+    return false;
+  }
+}

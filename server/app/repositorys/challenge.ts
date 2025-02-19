@@ -12,7 +12,12 @@ export interface Find {
 async function findList({ where, page, pageSize, orderBy }: Find) {
   try {
     const data = await prisma.challenge.findMany({
-      where,
+      where: {
+        ...where,
+        NOT: {
+          state: "deleted",
+        },
+      },
       skip: (page - 1) * pageSize,
       take: pageSize,
       orderBy: {
@@ -86,5 +91,36 @@ async function createParticipant({ userId, challengeId }: CreateParticipant) {
   }
 }
 
-const challengeRepo = { findList, updateFinish, total, createParticipant };
+async function deleted({ id, userId }: { id: number; userId: string }) {
+  try {
+    const data = await prisma.challenge.update({
+      where: {
+        id,
+      },
+      data: {
+        state: "deleted",
+      },
+    });
+
+    const userList = await prisma.participant.findMany({
+      where: {
+        challengeId: data.id,
+        NOT: {
+          userId,
+        },
+      },
+    });
+    return { user: userList, title: data.title };
+  } catch (err) {
+    return { title: "", user: [] };
+  }
+}
+
+const challengeRepo = {
+  findList,
+  updateFinish,
+  total,
+  createParticipant,
+  deleted,
+};
 export default challengeRepo;

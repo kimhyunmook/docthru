@@ -17,7 +17,7 @@ async function updateFinsh() {
     // const alram = await alramRepo.getAlram({ userId });
     return data;
   }
-  console.log("no update finish");
+  // console.log("no update finish");
 }
 
 async function total({ where }: Total) {
@@ -29,11 +29,23 @@ async function createParticipant({ userId, challengeId }: CreateParticipant) {
   challengeRepo.createParticipant({ userId, challengeId });
 }
 
+async function deleted({ id, userId }: { id: number; userId: string }) {
+  const { title, user } = await challengeRepo.deleted({ id, userId });
+  if (!!!user.length && !!!title) return false;
+
+  user.forEach(async (v) => {
+    const content = `참여 중이신 ${title} 챌린지가 삭제됐습니다.`;
+    await alramRepo.createAlram({ content, userId: v.userId });
+  });
+  return true;
+}
+
 const challengeService = {
   getChallenge,
   updateFinsh,
   total,
   createParticipant,
+  deleted,
 };
 
 export default challengeService;

@@ -20,7 +20,7 @@ userRouter.get(
   authMiddleware.verifyAT,
   async (req, res) => {
     const userId = req.user.id;
-    const alarm = (await userService.getAlram({ userId }));
+    const alarm = await userService.getAlram({ userId });
     res.status(200).json({ alarm });
   }
 );

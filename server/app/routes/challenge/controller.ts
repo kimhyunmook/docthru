@@ -77,7 +77,7 @@ challenge.get("/", async (req: Request, res: Response) => {
     });
     await challengeService.updateFinsh();
 
-    const total = challengeService.total({ where });
+    const total = await challengeService.total({ where });
 
     res.status(200).send({ data, total });
   } catch (err) {
@@ -142,6 +142,14 @@ challenge.patch(
     // res.status(202).send({ data });
   }
 );
+
+challenge.patch("/delete", authMiddleware.verifyAT, async (req, res) => {
+  const id = req.body.id as number;
+  const userId = req.user.id;
+  const result = await challengeService.deleted({ id, userId });
+  if (result) res.status(200).send(true);
+  else res.status(500).send(false);
+});
 
 challenge.get("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -236,7 +244,7 @@ challenge.get(
         const data = await prisma.participant.findMany({
           where: {
             userId,
-            state: "paticipate",
+            state: "participate",
           },
           select: {
             challengeId: true,
@@ -245,6 +253,7 @@ challenge.get(
         const challengeId = data.map((v) => {
           return v.challengeId;
         });
+        console.log(data);
         let challenge = await prisma.challenge.findMany({
           where: {
             id: { in: [...challengeId] },
@@ -252,7 +261,7 @@ challenge.get(
               { title: { contains: keyword, mode: "insensitive" } },
               { content: { contains: keyword, mode: "insensitive" } },
             ],
-            state: type === "finish" ? "finish" : undefined,
+            state: type === "finish" ? "finish" : "inProgress",
           },
           skip: (page - 1) * pageSize,
           take: pageSize,
@@ -270,9 +279,8 @@ challenge.get(
             },
           })
         ).length;
-
+        // console.log(challenge);
         res.status(200).json({ data, challenge, total });
-        return;
       }
     } catch (err) {
       console.log(err);
