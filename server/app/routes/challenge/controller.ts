@@ -151,10 +151,34 @@ challenge.patch(
   }
 );
 
+challenge.get("/:id/work", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  console.log("id", id);
+  try {
+    const data = await prisma.challengework.findMany({
+      where: { challengeId: Number(id) },
+      include: {
+        user: {
+          select: {
+            id: true,
+            nickname: true,
+            grade: true,
+            like: true,
+          },
+        },
+      },
+    });
+    console.log(data);
+    res.status(200).send({ data });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 challenge.get("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    // console.log("야야", id);
+    console.log("야야", id);
     const data = await prisma.challenge.findUnique({
       where: {
         id: Number(id),
@@ -167,7 +191,7 @@ challenge.get("/:id", async (req: Request, res: Response) => {
         },
       },
     });
-    res.status(201).send({ data });
+    res.status(200).send({ data });
   } catch (err) {
     console.log(err);
   }
@@ -315,6 +339,9 @@ challenge.post(
   }
 );
 
-// challenge.get(`pageSize/challenge/${id}/work`, async (req: Request))
+challenge.get("/:id/work/:listId", async (req: Request, res: Response) => {
+  const { id, listId } = req.params;
+  console.log("id", id, listId);
+});
 
 export default challenge;
