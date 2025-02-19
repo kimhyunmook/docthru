@@ -18,6 +18,7 @@ interface DropFilterProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onClick: React.MouseEventHandler<HTMLElement>;
   setFilter: React.Dispatch<React.SetStateAction<ChallengeFilterProps>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function DropFilter({
@@ -25,6 +26,7 @@ export default function DropFilter({
   setOpen,
   onClick,
   setFilter,
+  setPage,
 }: DropFilterProps) {
   const field = useValue(state1Init);
   const documentType = useValue(state2Init);
@@ -54,6 +56,7 @@ export default function DropFilter({
 
       return reset;
     });
+    setPage(1);
     setFilter({
       field: [],
       documentType: [],
@@ -75,6 +78,7 @@ export default function DropFilter({
     } else checkFilter.set(false);
     setOpen(false);
 
+    setPage(1);
     setFilter({
       field: fieldText,
       documentType: documentTypeText,

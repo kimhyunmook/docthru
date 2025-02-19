@@ -77,9 +77,10 @@ challenge.get("/", async (req: Request, res: Response) => {
     });
     await challengeService.updateFinsh();
 
-    const total = await challengeService.total({ where });
-
-    res.status(200).send({ data, total });
+    const total = (await challengeService.total({ where })) || 0;
+    const nextPage = Math.ceil(total / pageSize) === page ? null : page + 1;
+    console.log(nextPage);
+    res.status(200).send({ data, total, nextPage });
   } catch (err) {
     console.log(err);
     res.status(500).json({ err });

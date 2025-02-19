@@ -44,7 +44,7 @@ export type ChallengeFilterProps = {
   state: Omit<StateType, "delete,reject">[];
 };
 export interface GetChallengeProps {
-  page?: string | number;
+  pageParam?: string | number;
   pageSize?: string | number;
   orderby?: string;
   keyword?: string;

@@ -8,7 +8,7 @@ import type {
 import { WorkContent } from "@/app/shared/types/common";
 
 export async function GetChallenge({
-  page = 1,
+  pageParam = 1,
   pageSize = 10,
   orderby = "createdAt",
   keyword = "",
@@ -18,7 +18,7 @@ export async function GetChallenge({
     state: [],
   },
 }: GetChallengeProps) {
-  let endpoint = `/api/challenge/?page=${page}&pageSize=${pageSize}&orderby=${orderby}`;
+  let endpoint = `/api/challenge/?page=${pageParam}&pageSize=${pageSize}&orderby=${orderby}`;
   if (!!keyword) endpoint += `&keyword=${keyword}`;
   if (!!filter.documentType?.length)
     endpoint += `&documentType=${filter.documentType}`;
@@ -46,7 +46,7 @@ export async function PatchChallenge(body: ChallengeProps) {
 }
 
 export async function MyChallengeApi({
-  page = 1,
+  pageParam = 1,
   pageSize = 5,
   orderby = "createdAt",
   keyword = "",
@@ -54,7 +54,7 @@ export async function MyChallengeApi({
 }: MyChallengeProps) {
   try {
     const res = await instance.get(
-      `/api/challenge/my/${type}?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
+      `/api/challenge/my/${type}?page=${pageParam}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
     );
     return await res.data;
   } catch (err) {
@@ -62,14 +62,14 @@ export async function MyChallengeApi({
   }
 }
 export async function MyApplyApi({
-  page = 1,
+  pageParam = 1,
   pageSize = 10,
   orderby = "",
   keyword = "",
 }: Omit<MyChallengeProps, "type">) {
   try {
     const res = await instance.get(
-      `/api/challenge/my/apply?page=${page}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
+      `/api/challenge/my/apply?page=${pageParam}&pageSize=${pageSize}&orderby=${orderby}&keyword=${keyword}`
     );
     return await res.data;
   } catch (err) {

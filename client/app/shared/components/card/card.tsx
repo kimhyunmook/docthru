@@ -13,6 +13,7 @@ import { useAuth } from "../../provider/authProvider";
 import { useModal } from "../../provider/modalProvider";
 import { deleteChallengeApi } from "@/app/api/challenge/api";
 import { useToaster } from "../../provider/toasterProvider";
+import { useRouter } from "next/navigation";
 
 type CardProps = PropsWithClassName & {
   cardId: number;
@@ -46,6 +47,7 @@ function Card({
   const { modalOepn, modalClose, title, buttons } = useModal();
   const chipElement = useValue<React.ReactNode>(null);
   const dropdown = useValue(false);
+  const router = useRouter();
 
   useEffect(() => {
     switch (field?.toLocaleLowerCase()) {
@@ -76,10 +78,12 @@ function Card({
   async function deleteChall(challengeId: number) {
     const res = await deleteChallengeApi({ id: challengeId });
     if (res) {
-      toast("info", "삭제됐습니다.");
       modalClose();
+      toast("info", "삭제 됐습니다.");
       dropdown.set(false);
-      window.location.reload();
+      // router.refresh();
+      router.push("/pages/challenge/delete");
+      // window.location.reload();
     }
   }
 
