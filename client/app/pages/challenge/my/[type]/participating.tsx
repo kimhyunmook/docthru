@@ -82,6 +82,7 @@ export default function Participating({}) {
             return (
               <li key={i}>
                 <Card
+                  cardId={v.id}
                   href={`/pages/challenge/${v.id}`}
                   field={v.field as FieldType}
                   documentType={v.documentType}

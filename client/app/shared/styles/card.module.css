@@ -6,7 +6,24 @@
   padding: 24px;
   max-width: 996px;
   display: block;
+  transition: 0.1s;
 }
+
+.card:hover {
+  border-color: #7eb2ee;
+  background-color: var(--brand_black);
+}
+
+.card:hover .title {
+  color: var(--brand_yellow);
+}
+.card:hover .finishChip {
+  border: 1px solid #fff;
+}
+.card:hover .infoCon p {
+  color: var(--brand_yellow);
+}
+
 .top {
   border-bottom: 1px solid var(--gray200);
   margin-bottom: 16px;
@@ -65,4 +82,31 @@ ul.state li:last-child {
   font-size: 14px;
   font-weight: 400;
   border-radius: 20px;
+}
+
+.dropdown {
+  position: absolute;
+  top: 105%;
+  right: 5px;
+  width: 95px;
+  border-radius: 6px;
+  background-color: #fff;
+  border: 2px solid var(--gray200);
+  overflow: hidden;
+}
+.dropdown > li {
+  margin-bottom: 0 !important;
+}
+.dropdown > li a {
+  padding: 8px 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  display: block;
+  transition: 0.2s;
+}
+
+.dropdown li:hover a {
+  background-color: var(--brand_black);
+  color: #fff;
 }

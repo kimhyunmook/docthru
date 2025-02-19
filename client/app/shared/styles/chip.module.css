@@ -44,18 +44,23 @@
   font-weight: 600;
 }
 .pending {
-  color: #f2bc00;
+  color: #f2bc00 !important;
   background-color: #fffde7;
 }
 
 .reject {
   background-color: #fff0f0;
-  color: #e54946;
+  color: #e54946 !important;
 }
 
 .accecpt {
   background-color: #dff0ff;
-  color: #4095de;
+  color: #4095de !important;
+}
+
+.oner {
+  background-color: var(--brand_black);
+  color: var(--brand_yellow) !important;
 }
 
 .delete {

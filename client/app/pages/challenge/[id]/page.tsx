@@ -47,7 +47,6 @@ export default function Detail() {
       // console.log(res.data);
       setData(res.data);
     });
-    console.log(111);
     // WorkPageGet({ id: `${id}` }).then((res) => {
     //   console.log(res.data);
     // });
@@ -107,7 +106,6 @@ export default function Detail() {
             current={data.current}
             total={data.maximum}
             date={data.date}
-            refresh={setParti}
           />
         </div>
         <div className={s.bottom}>

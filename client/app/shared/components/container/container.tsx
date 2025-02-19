@@ -10,7 +10,6 @@ import { useToaster } from "../../provider/toasterProvider";
 
 interface Container extends InfoProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  refresh: any;
 }
 
 function Container({
@@ -36,7 +35,7 @@ function Container({
                 if (res) modalClose();
                 else toast("warn", "실패하였습니다.");
               });
-              modalClose();
+            modalClose();
             router.refresh();
           }}
         >

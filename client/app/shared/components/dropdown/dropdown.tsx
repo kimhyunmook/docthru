@@ -48,14 +48,9 @@ function Dropdown({
     e.preventDefault();
     setOpen(!open);
   }
+
   return (
     <div className={`${styles.dropdown} ${className}`.trim()}>
-      {/* <input
-        type="hidden"
-        name={name}
-        value={child as string}
-        onChange={onChange}
-      /> */}
       <div
         className={`${styles.default} ${on} ${open ? styles.open : ""} `.trim()}
         onClick={openHandle}
@@ -66,6 +61,9 @@ function Dropdown({
           value={child as string}
           placeholder={children as string}
           onChange={onChange}
+          onKeyDown={(e) => {
+            if (e.code === "Enter") setOpen((prev) => !prev);
+          }}
           readOnly
         />
       </div>

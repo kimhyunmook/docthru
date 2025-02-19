@@ -56,6 +56,7 @@ export default function Finish({}) {
           return (
             <li key={i}>
               <Card
+                cardId={v.id}
                 href={`${v.id}`}
                 field={v.field as FieldType}
                 documentType={v.documentType}

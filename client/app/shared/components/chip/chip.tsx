@@ -85,6 +85,12 @@ function Delete({ className }: ChiptChildProps) {
   );
 }
 
+function Oner({ className }: ChiptChildProps) {
+  return (
+    <Chip className={`${styles.oner} ${chipType} ${className}`}>Oner</Chip>
+  );
+}
+
 Chip.NextChip = NextChip;
 Chip.ApiChip = ApiChip;
 Chip.CareerChip = CareerChip;
@@ -96,6 +102,7 @@ Chip.Reject = Reject;
 Chip.Accecpt = Accecpt;
 Chip.Delete = Delete;
 Chip.Card = Card;
+Chip.Oner = Oner;
 
 NextChip.displayName = "Chip.NextChip";
 ApiChip.displayName = "Chip.ApiChip";
@@ -107,5 +114,6 @@ Pending.displayName = "Chip.Pending";
 Reject.displayName = "Chip.Reject";
 Accecpt.displayName = "Chip.Accecpt";
 Delete.displayName = "Chip.Delete";
+Chip.displayName = "Chip.Oner";
 
 export default Chip;

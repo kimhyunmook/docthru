@@ -13,6 +13,7 @@ import type {
 } from "@/app/shared/types/common";
 import DropFilter from "@/app/shared/components/dropdown/filter";
 import useValue from "@/app/shared/hooks/useValue";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Challenge() {
   const [data, setData] = useState<Challenge[]>([]);
@@ -29,6 +30,20 @@ export default function Challenge() {
   const total = useValue(0);
   const challenge = useRef<HTMLDivElement>(null);
   const isFatching = useValue(false);
+  // const { data: _challenge, isFetched } = useQuery({
+  //   queryKey: ["challenge"],
+  //   queryFn: () => {
+  //     return GetChallenge({
+  //       page: page.value,
+  //       pageSize: pageSize.value,
+  //       orderby: orderby.value,
+  //       keyword: keyword.value,
+  //       filter: filter.value,
+  //     });
+  //   },
+  //   refetchInterval: 60 * 1000,
+  //   staleTime: 60 * 1000,
+  // });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -114,6 +129,7 @@ export default function Challenge() {
               return (
                 <li key={i}>
                   <Card
+                    cardId={v.id}
                     href={`/pages/challenge/${v.id}`}
                     field={v.field as FieldType}
                     documentType={v.documentType}
