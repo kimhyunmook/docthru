@@ -37,50 +37,36 @@ export default function Challenge() {
   // const isFatching = useValue(false);
 =======
   const isFatching = useValue(false);
-  // const { data: _challenge, isFetched } = useQuery({
-  //   queryKey: ["challenge"],
-  //   queryFn: () => {
-  //     return GetChallenge({
-  //       page: page.value,
-  //       pageSize: pageSize.value,
-  //       orderby: orderby.value,
-  //       keyword: keyword.value,
-  //       filter: filter.value,
-  //     });
-  //   },
-  //   refetchInterval: 60 * 1000,
-  //   staleTime: 60 * 1000,
-  // });
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollLine = window.innerHeight + window.scrollY + 200;
-      if (!!!challenge.current) return;
-      const listHeight = challenge.current.getBoundingClientRect().height;
-      if (data.length === total.value) return;
-      if (scrollLine >= listHeight && isFatching.value) {
-        page.set((prev) => prev + 1);
-        isFatching.set(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollLine = window.innerHeight + window.scrollY + 200;
+  //     if (!!!challenge.current) return;
+  //     const listHeight = challenge.current.getBoundingClientRect().height;
+  //     if (data.length === total.value) return;
+  //     if (scrollLine >= listHeight && isFatching.value) {
+  //       page.set((prev) => prev + 1);
+  //       isFatching.set(false);
+  //     }
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isFatching.value, total.value]);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [isFatching.value, total.value]);
 
-  useEffect(() => {
-    GetChallenge({
-      page: page.value,
-      pageSize: pageSize.value,
-      orderby: orderby.value,
-      keyword: keyword.value,
-      filter: filter.value,
-    }).then((res) => {
-      total.set(res.total);
-      isFatching.set(true);
-      setData((prev) => [...prev, ...res.data]);
-    });
-  }, [page.value, pageSize.value, orderby.value]);
+  // useEffect(() => {
+  //   GetChallenge({
+  //     page: page.value,
+  //     pageSize: pageSize.value,
+  //     orderby: orderby.value,
+  //     keyword: keyword.value,
+  //     filter: filter.value,
+  //   }).then((res) => {
+  //     total.set(res.total);
+  //     isFatching.set(true);
+  //     setData((prev) => [...prev, ...res.data]);
+  //   });
+  // }, [page.value, pageSize.value, orderby.value]);
 
   useEffect(() => {
     getData();

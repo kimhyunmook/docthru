@@ -92,6 +92,7 @@ challenge.get("/", async (req: Request, res: Response) => {
 
     const total = (await challengeService.total({ where })) || 0;
     const nextPage = Math.ceil(total / pageSize) === page ? null : page + 1;
+    console.log(nextPage);
     res.status(200).send({ data, total, nextPage });
   } catch (err) {
     console.log(err);

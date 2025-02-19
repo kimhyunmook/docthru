@@ -98,6 +98,7 @@ function Card({
 =======
       toast("info", "삭제됐습니다.");
       modalClose();
+      toast("info", "삭제 됐습니다.");
       dropdown.set(false);
       window.location.reload();
 >>>>>>> b1e39d0 (a)
