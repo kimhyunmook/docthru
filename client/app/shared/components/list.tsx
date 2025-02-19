@@ -3,13 +3,20 @@ import styles from "@/app/shared/styles/list.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { User } from "../types/user";
+import { useParams } from "next/navigation";
 
 type ListProps = {
   number: number;
   user: User;
   isLast: boolean;
+  listId: number;
 };
-function List({ number, user, isLast }: ListProps) {
+function List({ number, user, isLast, listId }: ListProps) {
+  const params = useParams();
+  const { id } = params;
+
+  console.log("listId", listId);
+
   return (
     <div
       className={`${styles.list}`}
@@ -45,7 +52,7 @@ function List({ number, user, isLast }: ListProps) {
           <Image src="/img/icon/heart.svg" alt="하트" width={20} height={20} />
           <span>{user?.like}</span>
         </p>
-        <Link className={styles.link} href={`/pages/challenge/2/work/`}>
+        <Link className={styles.link} href={`${id}/work/${listId}`}>
           작업물 보기
           <span></span>
         </Link>

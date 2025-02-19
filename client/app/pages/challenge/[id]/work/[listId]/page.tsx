@@ -3,20 +3,27 @@
 import s from "./workpage.module.css";
 import Image from "next/image";
 import Chip from "@/app/shared/components/chip/chip";
-import { useParams } from "next/navigation";
 import Reply from "@/app/shared/components/reply/reply";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import { WorklistGet } from "@/app/api/challenge/api";
 
 export default function WorkPage() {
   const [textarea, setTextarea] = useState("");
+  const params = useParams();
+  const { id, listId } = params;
+  console.log(id);
+  console.log(listId);
 
-  // const handleClick = () => {
-
-  // }
+  useEffect(() => {
+    WorklistGet({ id: `${id}` }, { listId: `${listId}` }).then((res) => {
+      console.log("리스트상세", res.data);
+    });
+  }, []);
 
   return (
     <div className={s.container}>
-      <h2>Challenge Work Page</h2>
+      <h2>{listId}</h2>
       <div className={s.chip_container}>
         <Chip.CareerChip />
         <Chip.Categori>블로그</Chip.Categori>

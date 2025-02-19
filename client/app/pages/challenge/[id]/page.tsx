@@ -5,27 +5,16 @@ import Image from "next/image";
 import s from "./detail.module.css";
 import Container from "@/app/shared/components/container/container";
 import { useEffect, useState } from "react";
-import { DetailChallenge, WorkPageGet } from "@/app/api/challenge/api";
+import {
+  DetailChallenge,
+  WorkPageGet,
+  WorklistGet,
+} from "@/app/api/challenge/api";
 import { useParams } from "next/navigation";
 import useValue from "@/app/shared/hooks/useValue";
 import List from "@/app/shared/components/list";
 import type { User } from "@/app/shared/types/user";
-import type { Challenge } from "@/app/shared/types/common";
-
-const dumi: User[] = [
-  {
-    id: "asdf",
-    nickname: "예시",
-    grade: "어드민",
-    like: 1,
-  },
-  {
-    id: "dddd",
-    nickname: "난 다른놈",
-    grade: "일반",
-    like: 10,
-  },
-];
+import { WorkContent, type Challenge } from "@/app/shared/types/common";
 
 interface ChallengeData extends Challenge {
   oner: {
@@ -35,20 +24,31 @@ interface ChallengeData extends Challenge {
 
 export default function Detail() {
   const params = useParams();
-  const { id } = params;
+  const { id, listId } = params;
+  // console.log("listId", listId);
   const chipElement = useValue(<></>);
 
   const [data, setData] = useState<ChallengeData>();
-  const [participate, setParti] = useState([]);
-  // console.log("data", data);
+  const [participation, setParticipation] = useState<WorkContent[]>([]);
+  const [workId, setworkId] = useState<WorkContent[]>([]);
 
   useEffect(() => {
     DetailChallenge({ id: `${id}` }).then((res) => {
-      // console.log(res.data);
+      // console.log("DetailChallenge", res.data);
       setData(res.data);
     });
-    // WorkPageGet({ id: `${id}` }).then((res) => {
-    //   console.log(res.data);
+    WorkPageGet({ id: `${id}` }).then((res) => {
+      setParticipation(res.data);
+      // setworkId(res,data)
+      console.log(
+        res.data.map((value: any) => {
+          console.log("value.id", value.id);
+          return value.id;
+        })
+      );
+    });
+    // WorklistGet({ id: `${id}` }, { listId: `${listId}` }).then((res) => {
+    //   console.log("리스트상세", res.data);
     // });
   }, []);
 
@@ -126,19 +126,24 @@ export default function Detail() {
                 </div> */}
                 </div>
               </div>
-              {participate.map((v: User, index: number) => {
-                const isLast = index === dumi.length - 1; // 마지막 요소인지 확인
-                return (
-                  <List
-                    number={index + 1}
-                    key={v?.id}
-                    user={v}
-                    isLast={isLast}
-                  />
-                );
-              })}
             </div>
-          )}
+            {participation.map((v: WorkContent, index: number) => {
+              {
+                console.log("v", v);
+                // console.log("v", v?.user);
+              }
+              const isLast = index === participation.length - 1; // 마지막 요소인지 확인
+              return (
+                <List
+                  number={index + 1}
+                  key={v?.id}
+                  user={v.user}
+                  isLast={isLast}
+                  listId={v.id}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     );

@@ -110,3 +110,11 @@ export async function deleteChallengeApi({ id }: { id: number }) {
     return false;
   }
 }
+
+export async function WorklistGet(
+  { id }: { id: string },
+  { listId }: { listId: string }
+) {
+  const res = await instance.get(`api/challenge/${id}/work/${listId}`);
+  return res.data;
+}

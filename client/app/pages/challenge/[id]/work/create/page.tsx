@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { WorkContent } from "@/app/shared/types/common";
 import { WorkPagePost } from "@/app/api/challenge/api";
+import { User } from "@/app/shared/types/user";
 
 export default function ChallengeWorkCreate() {
   const router = useRouter();
@@ -17,6 +18,12 @@ export default function ChallengeWorkCreate() {
     title: "제목을 입력해주세요",
     content: "번역 내용을 입력해주세요",
     id: Number(id),
+    user: {
+      id: "",
+      nickname: "",
+      grade: "일반",
+      like: 0,
+    },
   });
 
   useEffect(() => {
@@ -56,6 +63,7 @@ export default function ChallengeWorkCreate() {
     } else alert("제출 되었습니다.");
     console.log(workContent);
     WorkPagePost({ ...workContent, id: Number(id) });
+    router.push(`/pages/challenge/${id}`);
   };
 
   return (
