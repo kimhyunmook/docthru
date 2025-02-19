@@ -29,7 +29,7 @@ export interface ChallengeProps {
   content: string;
 }
 export interface Challenge extends ChallengeProps {
-  id: string;
+  id: number;
   onerId: string;
   state: StateType;
   current: number;

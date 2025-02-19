@@ -42,6 +42,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     data: user,
     isStale,
     isFetching,
+    isFetched,
     isLoading,
     refetch: userRefetch,
   } = useQuery({
@@ -101,21 +102,22 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   }
 
-  return (
-    <AuthContext.Provider
-      value={{
-        login,
-        refreshToken,
-        isLoading,
-        isFetching,
-        logout,
-        user,
-        auth,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  if (isFetched)
+    return (
+      <AuthContext.Provider
+        value={{
+          login,
+          refreshToken,
+          isLoading,
+          isFetching,
+          logout,
+          user,
+          auth,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    );
 }
 
 export function useAuth() {
