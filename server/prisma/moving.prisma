@@ -1,0 +1,147 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum uesrType {
+  costomer
+  mover
+}
+
+enum serviceType {
+  small
+  home
+  office
+}
+
+// USER
+model user {
+  id              String         @id @default(uuid())
+  userType        uesrType       @default(costomer)
+  email           String
+  profileImage    String?
+  isLogged        Boolean
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  notification    notification[]
+  costomerRequest costomer?      @relation("Customer")
+  moverRequest    mover?         @relation("Mover")
+}
+
+// USER - 고객
+model costomer {
+  id              Int               @id @default(autoincrement())
+  servieType      serviceType[]
+  liveArea        String
+  user            user              @relation("Customer", fields: [userId], references: [id])
+  userId          String            @unique
+  favorite        favorite[]
+  movingInfo      movingInfo[]
+  estimate        estimate[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  review          review[]
+  estimateRequest estimateRequest[]
+}
+
+// USER - 이사 전문가
+model mover {
+  id             Int           @id @default(autoincrement())
+  career         String
+  confirmedCount Int           @default(0)
+  serviceArea    String
+  servieType     serviceType[]
+  user           user          @relation("Mover", fields: [userId], references: [id])
+  userId         String        @unique
+  favorite       favorite[]
+  estimate       estimate[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  review         review[]
+}
+
+// USER - 알람
+model notification {
+  id        Int      @id @default(autoincrement())
+  type      String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      user     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+// 고객 - 찜하기
+model favorite {
+  id                Int      @id @default(autoincrement())
+  costomerId        costomer @relation(fields: [costomerRequestId], references: [id])
+  moverId           mover    @relation(fields: [moverRequestId], references: [id])
+  costomerRequestId Int
+  moverRequestId    Int
+  createdAt         DateTime @default(now())
+}
+
+// 고객 - 이사 정보
+model movingInfo {
+  id                Int               @id @default(autoincrement())
+  movingType        String
+  movingDate        DateTime
+  startAddress      String
+  endAddress        String
+  costomerId        costomer          @relation(fields: [costomerRequestId], references: [id])
+  costomerRequestId Int
+  estimate          estimate[]
+  review            review[]
+  estimateRequest   estimateRequest[]
+}
+
+// 이사전문가 - 견적
+model estimate {
+  id                Int             @id @default(autoincrement())
+  price             Int
+  comment           String?
+  costomer          costomer        @relation(fields: [costomerId], references: [id])
+  movingInfo        movingInfo      @relation(fields: [movingInfoId], references: [id])
+  mover             mover           @relation(fields: [moverId], references: [id])
+  moverId           Int
+  movingInfoId      Int
+  costomerId        Int
+  review            review[]
+  estimateRequest   estimateRequest @relation("Estimate", fields: [estimateRequestId], references: [id])
+  estimateRequestId Int             @unique
+}
+
+// 이사전문가 - 견적 요청
+model estimateRequest {
+  id           Int        @id @default(autoincrement())
+  isDesignted  Boolean
+  costomer     costomer   @relation(fields: [costomerId], references: [id])
+  movingInfo   movingInfo @relation(fields: [movingInfoId], references: [id])
+  estimate     estimate?  @relation("Estimate")
+  costomerId   Int
+  movingInfoId Int
+}
+
+// 이사전문가 - 리뷰
+model review {
+  id           Int        @id @default(autoincrement())
+  rating       Int
+  comment      String?
+  mover        mover      @relation(fields: [moverId], references: [id])
+  costomer     costomer   @relation(fields: [costomerId], references: [id])
+  movingInfo   movingInfo @relation(fields: [movingInfoId], references: [id])
+  estimate     estimate   @relation(fields: [estimateId], references: [id])
+  estimateId   Int
+  moverId      Int
+  costomerId   Int
+  movingInfoId Int
+}
