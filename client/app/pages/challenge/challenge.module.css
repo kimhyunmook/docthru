@@ -45,6 +45,9 @@
   height: 73vh;
   overflow-y: auto;
 }
+.challenge .list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
 .challenge .list > li {
   margin-bottom: 24px;
 }

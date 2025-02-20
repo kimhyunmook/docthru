@@ -31,40 +31,6 @@ export default function Challenge() {
   const challenge = useRef<HTMLDivElement>(null);
   const isFatching = useValue(false);
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollLine = window.innerHeight + window.scrollY + 200;
-  //     if (!!!challenge.current) return;
-  //     const listHeight = challenge.current.getBoundingClientRect().height;
-  //     if (data.length === total.value) return;
-  //     if (scrollLine >= listHeight && isFatching.value) {
-  //       page.set((prev) => prev + 1);
-  //       isFatching.set(false);
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [isFatching.value, total.value]);
-
-  // useEffect(() => {
-  //   GetChallenge({
-  //     page: page.value,
-  //     pageSize: pageSize.value,
-  //     orderby: orderby.value,
-  //     keyword: keyword.value,
-  //     filter: filter.value,
-  //   }).then((res) => {
-  //     total.set(res.total);
-  //     isFatching.set(true);
-  //     setData((prev) => [...prev, ...res.data]);
-  //   });
-  // }, [page.value, pageSize.value, orderby.value]);
-
-  // useEffect(() => {
-  //   getData();
-  // }, [filter.value]);
-
   function filterHandle() {
     setFilterOpen((prev) => !prev);
   }
@@ -90,27 +56,42 @@ export default function Challenge() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["posts"],
-    queryFn: () =>
-      GetChallenge({
-        pageParam: 1,
+    queryKey: [
+      "posts",
+      {
         pageSize: pageSize.value,
         orderby: orderby.value,
         keyword: keyword.value,
         filter: filter.value,
-      }),
+      },
+    ],
+    queryFn: ({ pageParam = 1, queryKey }) => {
+      // queryKey의 두 번째 인자로 전달된 객체를 추출합니다.
+      const [, params] = queryKey as [
+        string,
+        {
+          pageSize: number;
+          orderby: string;
+          keyword: string;
+          filter: ChallengeFilterProps;
+        }
+      ];
+      return GetChallenge({
+        pageParam,
+        pageSize: params.pageSize,
+        orderby: params.orderby,
+        keyword: params.keyword,
+        filter: params.filter,
+      });
+    },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      console.log("lastPaeg", lastPage);
       if (!lastPage.nextPage) return undefined;
       if (lastPage.data.length === 0) return undefined;
 
-      // 그 외의 경우 정상적으로 nextPage 반환
       return lastPage.nextPage;
     },
   });
-
-  // console.log(scrollData);
 
   const scrollRef = useRef<HTMLUListElement>(null);
 
@@ -119,7 +100,7 @@ export default function Challenge() {
     if (!container) return;
     if (
       container.scrollHeight - container.scrollTop - container.clientHeight <
-      50
+      300
     ) {
       if (hasNextPage && !isFetchingNextPage) {
         fetchNextPage();
@@ -193,26 +174,6 @@ export default function Challenge() {
                 );
               })
             )
-            // data.map((v: Challenge, i) => {
-            //   return (
-            //     <li key={i}>
-            //       <Card
-            //         cardId={v.id}
-            //         href={`/pages/challenge/${v.id}`}
-            //         field={v.field as FieldType}
-            //         documentType={v.documentType}
-            //         className={``}
-            //         state={v.state}
-            //         date={v.date}
-            //         current={v.current}
-            //         maximum={v.maximum}
-            //         onerId={v.onerId}
-            //       >
-            //         {v.title}
-            //       </Card>
-            //     </li>
-            //   );
-            // })
           )}
         </ul>
       </div>
