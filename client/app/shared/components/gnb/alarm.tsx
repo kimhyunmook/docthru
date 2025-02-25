@@ -20,6 +20,7 @@ export default function Alarm() {
   const alarm = useValue<AlarmProps[]>(
     alarmData?.alarm.filter((x) => !x.read) || []
   );
+
   function read(id: string) {
     const t = alarm.value.find((x) => x.id === id)?.id;
     if (t) {
@@ -41,6 +42,7 @@ export default function Alarm() {
       prev.map((item) => (item.id === id ? { ...item, read: true } : item))
     );
   }
+
   return (
     <div className={styles.alarm}>
       <h2>알람</h2>

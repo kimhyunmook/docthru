@@ -28,14 +28,14 @@ enum serviceType {
 model user {
   id              String         @id @default(uuid())
   userType        uesrType       @default(costomer)
-  email           String
-  profileImage    String?
-  isLogged        Boolean
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  email           String         @unique
+  name            String
+  phoneNumber     Int
+  isLogged        Boolean        @default(false)
   notification    notification[]
   costomerRequest costomer?      @relation("Customer")
   moverRequest    mover?         @relation("Mover")
+  loggedAt        DateTime       @updatedAt // 로그인 시간
 }
 
 // USER - 고객
@@ -43,20 +43,22 @@ model costomer {
   id              Int               @id @default(autoincrement())
   servieType      serviceType[]
   liveArea        String
+  profileImage    String?
   user            user              @relation("Customer", fields: [userId], references: [id])
   userId          String            @unique
   favorite        favorite[]
   movingInfo      movingInfo[]
   estimate        estimate[]
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
   review          review[]
   estimateRequest estimateRequest[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
 }
 
 // USER - 이사 전문가
 model mover {
   id             Int           @id @default(autoincrement())
+  profileImage   String?
   career         String
   confirmedCount Int           @default(0)
   serviceArea    String
@@ -65,19 +67,19 @@ model mover {
   userId         String        @unique
   favorite       favorite[]
   estimate       estimate[]
+  review         review[]
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
-  review         review[]
 }
 
 // USER - 알람
 model notification {
-  id        Int      @id @default(autoincrement())
-  type      String
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  user      user     @relation(fields: [userId], references: [id])
-  userId    String
+  id               Int      @id @default(autoincrement())
+  notificationType String
+  isRead           Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  user             user     @relation(fields: [userId], references: [id])
+  userId           String
 }
 
 // 고객 - 찜하기
@@ -102,22 +104,37 @@ model movingInfo {
   estimate          estimate[]
   review            review[]
   estimateRequest   estimateRequest[]
+  confirmEstimate   confirmEstimate?  @relation("ConfirmEstimateMovingInfo")
 }
 
 // 이사전문가 - 견적
 model estimate {
-  id                Int             @id @default(autoincrement())
+  id                Int              @id @default(autoincrement())
   price             Int
   comment           String?
-  costomer          costomer        @relation(fields: [costomerId], references: [id])
-  movingInfo        movingInfo      @relation(fields: [movingInfoId], references: [id])
-  mover             mover           @relation(fields: [moverId], references: [id])
+  costomer          costomer         @relation(fields: [costomerId], references: [id])
+  movingInfo        movingInfo       @relation(fields: [movingInfoId], references: [id])
+  mover             mover            @relation(fields: [moverId], references: [id])
   moverId           Int
   movingInfoId      Int
   costomerId        Int
   review            review[]
-  estimateRequest   estimateRequest @relation("Estimate", fields: [estimateRequestId], references: [id])
-  estimateRequestId Int             @unique
+  estimateRequest   estimateRequest  @relation("Estimate", fields: [estimateRequestId], references: [id])
+  estimateRequestId Int              @unique
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  confirmEstimate   confirmEstimate? @relation("ConfirmEstimate")
+}
+
+// 확정된 견적서를 어떻게 처리 할까 생각하다가 테이블을 하나 만드는게 좋다고 생각하여 작성했습니다.
+model confirmEstimate {
+  id           Int        @id @default(autoincrement())
+  movingInfo   movingInfo @relation("ConfirmEstimateMovingInfo", fields: [movingInfoId], references: [id])
+  estimate     estimate   @relation("ConfirmEstimate", fields: [estimateId], references: [id])
+  estimateId   Int        @unique
+  movingInfoId Int        @unique
+  createdAt    DateTime   @default(now()) // 확정 시간
+  updatedAt    DateTime   @updatedAt // 확정 취소시 시간
 }
 
 // 이사전문가 - 견적 요청
@@ -129,9 +146,10 @@ model estimateRequest {
   estimate     estimate?  @relation("Estimate")
   costomerId   Int
   movingInfoId Int
+  createdAt    DateTime   @default(now())
 }
 
-// 이사전문가 - 리뷰
+// 이사전문가 - 견적서 - 리뷰
 model review {
   id           Int        @id @default(autoincrement())
   rating       Int
@@ -144,4 +162,6 @@ model review {
   moverId      Int
   costomerId   Int
   movingInfoId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }

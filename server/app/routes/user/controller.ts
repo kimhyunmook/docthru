@@ -18,7 +18,7 @@ userRouter.get(
   "/alram",
   authMiddleware.accessTokenChk,
   authMiddleware.verifyAT,
-  async (req, res) => {
+  async (req, res, next) => {
     const userId = req.user.id;
     const alarm = await userService.getAlram({ userId });
     res.status(200).json({ alarm });

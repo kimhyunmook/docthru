@@ -18,6 +18,7 @@ async function createToken({ user, type }: CreateTokenProps) {
   if (user) {
     const payload = { email: user.email, id: user.id };
     const option = { expiresIn: type === "r" ? "2w" : "24h" }; // 2 weeks in seconds and 1 hour in seconds
+    console.log("payload", payload);
     try {
       return jwt.sign(
         payload,

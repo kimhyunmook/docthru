@@ -16,5 +16,7 @@
     "migrate": "cd server && npm run migrate"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+  }
 }
