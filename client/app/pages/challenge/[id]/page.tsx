@@ -5,16 +5,13 @@ import Image from "next/image";
 import s from "./detail.module.css";
 import Container from "@/app/shared/components/container/container";
 import { useEffect, useState } from "react";
-import {
-  DetailChallenge,
-  WorkPageGet,
-  WorklistGet,
-} from "@/app/service/challenge/api";
+import { DetailChallenge, WorkPageGet } from "@/app/service/challenge/api";
 import { useParams } from "next/navigation";
 import useValue from "@/app/shared/hooks/useValue";
 import List from "@/app/shared/components/list";
-import type { User } from "@/app/shared/types/user";
+// import type { User } from "@/app/shared/types/user";
 import { WorkContent, type Challenge } from "@/app/shared/types/common";
+import CodeEditor from "@/app/shared/components/codeEditer";
 
 interface ChallengeData extends Challenge {
   oner: {
@@ -24,13 +21,13 @@ interface ChallengeData extends Challenge {
 
 export default function Detail() {
   const params = useParams();
-  const { id, listId } = params;
+  const { id } = params;
   // console.log("listId", listId);
   const chipElement = useValue(<></>);
 
   const [data, setData] = useState<ChallengeData>();
   const [participation, setParticipation] = useState<WorkContent[]>([]);
-  const [workId, setworkId] = useState<WorkContent[]>([]);
+  // const [workId, setworkId] = useState<WorkContent[]>([]);
 
   useEffect(() => {
     // if (!id || !listId) return;
@@ -43,14 +40,11 @@ export default function Detail() {
       setParticipation(res.data);
       // setworkId(res,data)
       console.log(
-        res.data.map((value: any) => {
+        res.data.map((value: { id: string }) => {
           console.log("value.id", value.id);
           return value.id;
         })
       );
-    });
-    WorklistGet({ id: `${id}` }, { listId: `${listId}` }).then((res) => {
-      console.log("리스트상세[id]page", res.data);
     });
   }, []);
 
@@ -73,6 +67,7 @@ export default function Detail() {
         break;
     }
   }, [data]);
+
   if (!!data)
     return (
       <div className={s.total}>
@@ -88,10 +83,21 @@ export default function Detail() {
               />
             </div>
             <div className={s.chip_box}>
-              {chipElement.value}
-              <Chip.Categori>{data.documentType}</Chip.Categori>
+              {data.field && chipElement.value}
+              {data.documentType && (
+                <Chip.Categori>{data.documentType}</Chip.Categori>
+              )}
             </div>
             <div className={s.text_box}>
+              {data.codeContent && (
+                <CodeEditor
+                  value={data.codeContent}
+                  height="150px"
+                  readonly={true}
+                  label={false}
+                  style={{ marginBottom: "20px" }}
+                />
+              )}
               <p>{data.content}</p>
               <div className={`${s.content}`}>
                 <Image

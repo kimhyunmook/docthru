@@ -81,9 +81,7 @@ function Card({
       modalClose();
       toast("info", "삭제 됐습니다.");
       dropdown.set(false);
-      // router.refresh();
       router.push("/pages/challenge/delete");
-      // window.location.reload();
     }
   }
 
@@ -115,10 +113,12 @@ function Card({
         </Link>
         {!!field || !!documentType ? (
           <div className={styles.chip}>
-            <span>{chipElement.value}</span>
-            <span>
-              <Chip.Categori>{documentType}</Chip.Categori>
-            </span>
+            {field && <span>{chipElement.value}</span>}
+            {documentType && (
+              <span>
+                <Chip.Categori>{documentType}</Chip.Categori>
+              </span>
+            )}
             {user?.id === onerId && (
               <span>
                 <Chip.Oner className={styles.onerChip} />
