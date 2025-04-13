@@ -3,7 +3,7 @@ import type { Challenge, FieldType } from "@/app/shared/types/common";
 import Card from "@/app/shared/components/card/card";
 import useValue from "@/app/shared/hooks/useValue";
 import { useEffect, useRef } from "react";
-import { MyChallengeApi } from "@/app/api/challenge/api";
+import { MyChallengeApi } from "@/app/service/challenge/api";
 import s from "./styles/list.module.css";
 
 export default function Finish({}) {
@@ -56,6 +56,7 @@ export default function Finish({}) {
           return (
             <li key={i}>
               <Card
+                cardId={v.id}
                 href={`${v.id}`}
                 field={v.field as FieldType}
                 documentType={v.documentType}
@@ -64,6 +65,7 @@ export default function Finish({}) {
                 state={v.state}
                 current={v.current}
                 maximum={v.maximum}
+                onerId={v.onerId}
                 continueBtn={true}
               >
                 {v.title}

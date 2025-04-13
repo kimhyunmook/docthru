@@ -14,4 +14,31 @@ userRouter.get(
   }
 );
 
+userRouter.get(
+  "/alram",
+  authMiddleware.accessTokenChk,
+  authMiddleware.verifyAT,
+  async (req, res, next) => {
+    const userId = req.user.id;
+    const alarm = await userService.getAlram({ userId });
+    res.status(200).json({ alarm });
+  }
+);
+
+userRouter.get(
+  "/alram/:id",
+  authMiddleware.accessTokenChk,
+  authMiddleware.verifyAT,
+  async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const id = parseInt(req.params.id);
+      userService.readAlram({ userId, id });
+      res.status(200).json(true);
+    } catch (err) {
+      res.status(400).json(false);
+    }
+  }
+);
+
 export default userRouter;

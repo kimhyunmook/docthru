@@ -18,17 +18,16 @@ import { User } from "../shared/types/user";
 import Crystal, { CrystalLayout } from "./crystal/crystal";
 import CloseBtn from "../shared/components/btn/close";
 
-const userDumi: User = {
-  id: "1",
-  name: "테스터",
-  grade: "어드민",
-  like: 0,
-};
-
 export default function ComponentsUse() {
   const [text, setText] = useState("");
   const click = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
+  };
+  const userDumi: User = {
+    id: "1",
+    nickname: "테스터",
+    grade: "어드민",
+    like: 0,
   };
   return (
     <div style={{ marginBottom: "400px" }} className={styles.page}>
@@ -60,7 +59,7 @@ export default function ComponentsUse() {
             }}
             className=""
           />
-          <SearchInput setData={null} className="" />
+          <SearchInput setData={setText} className="" />
         </CrystalLayout>
         <CrystalLayout title="chip">
           <Chip.NextChip className="" />
@@ -134,7 +133,7 @@ export default function ComponentsUse() {
           <Btn.Filled.Yellow className="" width={"0|auto"} onClick={click}>
             필드
           </Btn.Filled.Yellow>
-          <CloseBtn width={30} height={30} />
+          <CloseBtn width={30} height={30} onClick={() => {}} />
         </CrystalLayout>
         <CrystalLayout title="tab">
           <Tab.Middle href="#" className="" active={false}>
@@ -151,7 +150,7 @@ export default function ComponentsUse() {
           </Tab.Top>
         </CrystalLayout>
         <CrystalLayout title="list" width={900}>
-          <List number={0} user={userDumi} />
+          <List number={0} user={userDumi} isLast={false} listId={0} />
         </CrystalLayout>
         <CrystalLayout title="conatiner">
           <Container date="0000년 00월 00일" current={0} total={3}></Container>
@@ -168,8 +167,10 @@ export default function ComponentsUse() {
         </CrystalLayout>
         <CrystalLayout title="card" width={1040}>
           <Card
+            cardId={0}
+            state="delete"
             href="#"
-            field={"next.js"}
+            field={"Next.js"}
             documentType={"블로그"}
             date="00000"
             current={3}
@@ -179,9 +180,9 @@ export default function ComponentsUse() {
           </Card>
         </CrystalLayout>
         <CrystalLayout title="reply" width={870}>
-          <Reply userName={userDumi.name} date="날짜입니다" text="날짜" />
+          <Reply userName={userDumi.nickname} date="날짜입니다" text="날짜" />
           <Reply.Textarea
-            userName={userDumi.name}
+            userName={userDumi.nickname}
             value={text}
             setValue={setText}
           ></Reply.Textarea>

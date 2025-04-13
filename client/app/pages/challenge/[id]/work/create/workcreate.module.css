@@ -32,7 +32,7 @@
   font-weight: 600;
 }
 
-.content span {
+.content > span {
   display: block;
   border: 1px solid var(--gray200);
   width: 100%;

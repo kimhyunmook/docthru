@@ -1,11 +1,13 @@
 "use client";
 import useValue from "@/app/shared/hooks/useValue";
 import s from "./styles/apply.module.css";
-import Link from "next/link";
 import { useEffect } from "react";
-import { MyApplyApi } from "@/app/api/challenge/api";
-import { Challenge } from "@/app/shared/types/common";
+import { MyApplyApi } from "@/app/service/challenge/api";
+import { Challenge, StateType } from "@/app/shared/types/common";
 import textDate from "@/app/shared/hooks/textDate";
+import PageNation from "./pageNation";
+import Chip from "@/app/shared/components/chip/chip";
+import Link from "next/link";
 
 export default function Apply({}) {
   const data = useValue([]);
@@ -14,15 +16,7 @@ export default function Apply({}) {
   const pageSize = useValue(10);
   const orderby = useValue("createdAt");
   const keyword = useValue("");
-  const pageNation = useValue<number[]>([]);
   const pageStartNum = useValue<number>(1);
-  const pageLastNum = useValue<number>(pageSize.value);
-
-  useEffect(() => {
-    for (let i: number = pageStartNum.value; i <= pageLastNum.value; i++) {
-      pageNation.value.push(i);
-    }
-  }, [total.value]);
 
   useEffect(() => {
     MyApplyApi({
@@ -41,19 +35,24 @@ export default function Apply({}) {
   function previous(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     if (page.value !== 1) {
+      if (page.value % pageSize.value === 1) {
+        pageStartNum.set((prev) => prev - pageSize.value);
+        // pageLastNum.set()
+      }
       page.set((prev: number) => prev - 1);
     }
   }
   function next(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (page.value !== pageNation.value.length) {
+
+    if (page.value !== Math.ceil(total.value / pageSize.value)) {
       if (page.value % pageSize.value === 0) {
-        console.log(page.value % pageSize.value);
         pageStartNum.set((prev) => prev + pageSize.value);
       }
       page.set((prev: number) => prev + 1);
     }
   }
+
   return (
     <div className={s.apply}>
       <ul className={s.applyList}>
@@ -73,18 +72,23 @@ export default function Apply({}) {
           data.value.map((v: Challenge) => {
             const createdAt = textDate(v.createdAt);
             const finish = textDate(v.date);
+
             return (
               <li key={v.id}>
                 <div className={s.no}>{v.id}</div>
                 <div className={s.documentType}>{v.documentType}</div>
                 <div className={s.field}>{v.field}</div>
-                <div className={s.title}>{v.title}</div>
+                <div className={s.title}>
+                  <Link href={`/pages/chllange/${v.id}`}>{v.title}</Link>
+                </div>
                 <div className={s.people}>
                   {v.current}/{v.maximum}
                 </div>
                 <div className={s.createdAt}>{createdAt}</div>
                 <div className={s.finish}>{finish}</div>
-                <div className={s.state}>{v.state}</div>
+                <div className={s.state}>
+                  <StateChip type={v.state} />
+                </div>
               </li>
             );
           })
@@ -95,41 +99,37 @@ export default function Apply({}) {
         )}
       </ul>
       {!!total.value && (
-        <div className={s.pageNavigation}>
-          <button
-            className={`${s.arrow} ${s.left} ${
-              page.value === 1 && s.disable
-            }`.trim()}
-            onClick={previous}
-          >{`<`}</button>
-          <ul className={s.number}>
-            {pageNation.value.map((v: number, i: number) => {
-              return (
-                <li
-                  key={`${v} ${i}`}
-                  className={page.value === v ? s.onPage : "navi"}
-                >
-                  <Link
-                    href={`${v}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      page.set(Number(v));
-                    }}
-                  >
-                    {v}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-          <button
-            className={`${s.arrow} ${s.right} ${
-              page.value === total.value / pageSize.value && s.disable
-            }`.trim()}
-            onClick={next}
-          >{`>`}</button>
-        </div>
+        <PageNation
+          previous={previous}
+          next={next}
+          page={page.value}
+          pageSet={page.set}
+          pageSize={pageSize.value}
+          total={total.value}
+          startNum={pageStartNum.value}
+        />
       )}
     </div>
   );
+}
+
+function StateChip({ type }: { type: StateType }) {
+  const chip = useValue<React.ReactNode>(<Chip.Accecpt />);
+  useEffect(() => {
+    switch (type) {
+      case "inProgress":
+        chip.set(<Chip.Accecpt />);
+        break;
+      case "pending":
+        chip.set(<Chip.Pending />);
+        break;
+      case "delete":
+        chip.set(<Chip.Delete />);
+        break;
+      case "reject":
+        chip.set(<Chip.Reject />);
+        break;
+    }
+  }, [type]);
+  return <>{chip.value}</>;
 }

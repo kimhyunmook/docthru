@@ -42,6 +42,11 @@
 }
 .challenge .list {
   margin-top: 24px;
+  height: 73vh;
+  overflow-y: auto;
+}
+.challenge .list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 .challenge .list > li {
   margin-bottom: 24px;
@@ -71,7 +76,6 @@
 }
 .pageNavigation button:last-of-type {
 }
-
 
 @media screen and (max-width: 1199px) {
   .challenge {

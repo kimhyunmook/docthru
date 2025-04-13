@@ -2,10 +2,9 @@ import s from "./styles/apply.module.css";
 import Link from "next/link";
 
 interface pageNation {
-  previous: () => void;
-  next: () => void;
+  previous: React.MouseEventHandler<HTMLButtonElement>;
+  next: React.MouseEventHandler<HTMLButtonElement>;
   startNum: number;
-  lastNum: number;
   page: number;
   pageSize: number;
   total: number;
@@ -15,22 +14,26 @@ export default function PageNation({
   previous,
   next,
   startNum,
-  lastNum,
   page,
   pageSize,
   total,
   pageSet,
 }: pageNation) {
   const arr = [];
+  const lastNum = startNum + 9;
+  console.log(startNum);
+  console.log(Math.ceil(total / pageSize));
   for (let i = startNum; i <= lastNum; i++) {
-    if (i <= Math.ceil(total)) arr.push(i);
+    if (Math.ceil(total / pageSize) >= i) arr.push(i);
   }
   return (
     <div className={s.pageNavigation}>
-      <button
-        className={`${s.arrow} ${s.left} ${page === 1 && s.disable}`.trim()}
-        onClick={previous}
-      >{`<`}</button>
+      {Math.ceil(total / pageSize) !== 1 && (
+        <button
+          className={`${s.arrow} ${s.left} ${page === 1 && s.disable}`.trim()}
+          onClick={previous}
+        >{`<`}</button>
+      )}
       <ul className={s.number}>
         {arr.map((v: number, i: number) => {
           return (
@@ -48,12 +51,14 @@ export default function PageNation({
           );
         })}
       </ul>
-      <button
-        className={`${s.arrow} ${s.right} ${
-          page === total / pageSize && s.disable
-        }`.trim()}
-        onClick={next}
-      >{`>`}</button>
+      {Math.ceil(total / pageSize) !== 1 && (
+        <button
+          className={`${s.arrow} ${s.right} ${
+            page === total / pageSize && s.disable
+          }`.trim()}
+          onClick={next}
+        >{`>`}</button>
+      )}
     </div>
   );
 }

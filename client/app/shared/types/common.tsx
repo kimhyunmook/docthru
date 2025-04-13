@@ -14,7 +14,12 @@ export type FieldType =
   | "Web"
   | null;
 export type DocumentType = "블로그" | "공식문서";
-export type StateType = "inProgress" | "finish" | "delete" | "reject";
+export type StateType =
+  | "inProgress"
+  | "finish"
+  | "delete"
+  | "reject"
+  | "pending";
 export interface ChallengeProps {
   title: string;
   originalLink: string;
@@ -25,7 +30,8 @@ export interface ChallengeProps {
   content: string;
 }
 export interface Challenge extends ChallengeProps {
-  id: string;
+  id: number;
+  onerId: string;
   state: StateType;
   current: number;
   maximum: number;
@@ -38,7 +44,7 @@ export type ChallengeFilterProps = {
   state: Omit<StateType, "delete,reject">[];
 };
 export interface GetChallengeProps {
-  page?: string | number;
+  pageParam?: string | number;
   pageSize?: string | number;
   orderby?: string;
   keyword?: string;

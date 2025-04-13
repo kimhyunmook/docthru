@@ -11,6 +11,7 @@ function FilledBtn({
   width,
   onClick,
   icon,
+  enter,
 }: IconBtnProps) {
   return (
     <Btn
@@ -18,6 +19,7 @@ function FilledBtn({
       onClick={onClick}
       className={`${styles.filled} ${className}`}
       width={width}
+      enter={enter}
     >
       {children}
       {icon ? (
@@ -47,12 +49,14 @@ function Medium({
   width,
   onClick,
   icon,
+  enter,
 }: FilledSizeProps) {
   const att = {
     className,
     width,
     icon,
     onClick,
+    enter,
   };
   return (
     <FilledBtn {...att} size="m">
@@ -66,12 +70,14 @@ function Regular({
   width,
   icon,
   onClick,
+  enter,
 }: FilledSizeProps) {
   const att = {
     className,
     width,
     icon,
     onClick,
+    enter,
   };
   return (
     <FilledBtn {...att} size="r">
@@ -79,12 +85,20 @@ function Regular({
     </FilledBtn>
   );
 }
-function Small({ children, className, width, icon, onClick }: FilledSizeProps) {
+function Small({
+  children,
+  className,
+  width,
+  icon,
+  onClick,
+  enter,
+}: FilledSizeProps) {
   const att = {
     className,
     width,
     icon,
     onClick,
+    enter,
   };
   return (
     <FilledBtn {...att} size="s">
@@ -92,11 +106,18 @@ function Small({ children, className, width, icon, onClick }: FilledSizeProps) {
     </FilledBtn>
   );
 }
-function Yellow({ children, className, width, icon = false }: FilledSizeProps) {
+function Yellow({
+  children,
+  className,
+  width,
+  icon = false,
+  enter,
+}: FilledSizeProps) {
   const att = {
     className,
     width,
     icon,
+    enter,
   };
   return (
     <FilledBtn {...att} className={`${className} ${styles.yellow}`} size="r">
