@@ -89,6 +89,7 @@ export async function WorklistGet(
   { id }: { id: string },
   { listId }: { listId: string }
 ) {
-  const res = await instance.get(`api/challenge/${id}/work/${listId}`);
+  const res = await instance.get(`/api/challenge/${id}/work/${listId}`);
+  console.log("res여기api임", res);
   return res.data;
 }

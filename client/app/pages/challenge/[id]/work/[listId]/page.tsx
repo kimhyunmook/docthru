@@ -10,17 +10,33 @@ import { WorklistGet } from "@/app/api/challenge/api";
 
 export default function WorkPage() {
   const [textarea, setTextarea] = useState("");
+  const [data, setData] = useState({
+    title: "",
+    content: "",
+    userName: "",
+  });
   const params = useParams();
   const { id, listId } = params;
   console.log(id);
   console.log(listId);
 
   useEffect(() => {
-    WorklistGet({ id: `${id}` }, { listId: `${listId}` }).then((res) => {
-      console.log("리스트상세[listID]page", res.data);
-    });
-  }, []);
+    if (!listId || !id) return;
+    WorklistGet({ id: `${id}` }, { listId: `${listId}` })
+      .then((res) => {
+        if (!res) return;
+        console.log("res", res);
+        console.log("리스트상세[listID]page", res);
+        setData({
+          title: res.title,
+          content: res.content,
+          userName: res.user.nickname, // 👈 nickname만 뽑아서 넣기
+        });
+      })
+      .catch((err) => console.error(err));
+  }, [id, listId]);
 
+  console.log("data", data);
   return (
     <div className={s.container}>
       <h2>{listId}</h2>

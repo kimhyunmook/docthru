@@ -66,7 +66,7 @@ challenge.get("/", async (req: Request, res: Response) => {
         [orderby]: "desc",
       },
     });
-    console.log(where, data);
+    // console.log(where, data);
 
     await prisma.challenge.updateMany({
       where: {
@@ -151,9 +151,35 @@ challenge.patch(
   }
 );
 
+challenge.get("/:id/work/:listId", async (req: Request, res: Response) => {
+  try {
+    const { id, listId } = req.params;
+    const data = await prisma.challengework.findFirst({
+      where: {
+        AND: [{ id: Number(listId) }, { challengeId: Number(id) }],
+      },
+      select: {
+        title: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            nickname: true,
+          },
+        },
+      },
+    });
+    console.log("data", data);
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("에러 발생:", error);
+    res.status(400).json({ message: "작성글을 찾을 수 없습니다", error });
+  }
+});
+
 challenge.get("/:id/work", async (req: Request, res: Response) => {
   const { id } = req.params;
-  console.log("id", id);
   try {
     const data = await prisma.challengework.findMany({
       where: { challengeId: Number(id) },
@@ -168,7 +194,6 @@ challenge.get("/:id/work", async (req: Request, res: Response) => {
         },
       },
     });
-    console.log(data);
     res.status(200).send({ data });
   } catch (err) {
     console.log(err);
@@ -178,7 +203,6 @@ challenge.get("/:id/work", async (req: Request, res: Response) => {
 challenge.get("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    console.log("야야", id);
     const data = await prisma.challenge.findUnique({
       where: {
         id: Number(id),
@@ -320,11 +344,8 @@ challenge.post(
   "/work/create",
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
-    console.log(req.body);
-
     const { title, content, id } = req.body;
     const userId = req.user.id;
-    console.log("id", id);
 
     const data = await prisma.challengework.create({
       data: {
@@ -338,10 +359,5 @@ challenge.post(
     res.status(201).json(data);
   }
 );
-
-challenge.get("/:id/work/:listId", async (req: Request, res: Response) => {
-  const { id, listId } = req.params;
-  console.log("id", id, listId);
-});
 
 export default challenge;
