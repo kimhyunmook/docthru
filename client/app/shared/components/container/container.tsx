@@ -8,14 +8,13 @@ import { useModal } from "../../provider/modalProvider";
 import { useEffect } from "react";
 import { useToaster } from "../../provider/toasterProvider";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface ContainerProps extends InfoProps {}
+// interface ContainerProps extends InfoProps {}
 
 function Container({
   date = "0000년 0월 0일",
   current = 0,
   total = 0,
-}: ContainerProps) {
+}: InfoProps) {
   const router = useRouter();
   const params = useParams();
   const { id } = params;
@@ -35,7 +34,7 @@ function Container({
                 else toast("warn", "실패하였습니다.");
               });
             modalClose();
-            router.refresh();
+            router.push(`/pages/challenge/${id}/work/create`);
           }}
         >
           신청
@@ -54,7 +53,6 @@ function Container({
         <Btn.Solid.Regular
           onClick={() => {
             modalOepn();
-            // router.push(`/pages/challenge/${id}/work/create`);
           }}
         >
           작업 도전하기

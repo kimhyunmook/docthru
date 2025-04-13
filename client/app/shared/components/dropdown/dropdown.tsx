@@ -1,7 +1,7 @@
 "use client";
 import styles from "@/app/shared/styles/dropdown.module.css";
 import DropList from "./dropList";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { PropsWithClassName } from "../../types/common";
@@ -39,20 +39,40 @@ function Dropdown({
   const [on, setOn] = useState("");
   const [open, setOpen] = useState(false);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (child !== children) setOn(styles.on);
     setValue?.(child as string);
   }, [child, children]);
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        // 드롭다운 바깥 클릭했을 때
+        setOpen(false);
+        if (child !== children) {
+          setOn(styles.on);
+        }
+      }
+    }
+
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => window.removeEventListener("mousedown", handleClickOutside);
+  }, [child, children]);
+
   function openHandle(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
-    setOpen(!open);
+    setOpen((prev) => !prev);
   }
 
   return (
-    <div className={`${styles.dropdown} ${className}`.trim()}>
+    <div ref={dropdownRef} className={`${styles.dropdown} ${className}`.trim()}>
       <div
-        className={`${styles.default} ${on} ${open ? styles.open : ""} `.trim()}
+        className={`${styles.default} ${on} ${open ? styles.open : ""}`.trim()}
         onClick={openHandle}
       >
         <input

@@ -7,7 +7,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { WorkContent } from "@/app/shared/types/common";
 import { WorkPagePost } from "@/app/service/challenge/api";
-import { User } from "@/app/shared/types/user";
+// import { User } from "@/app/shared/types/user";
+import CodeEditor from "./ide";
 
 export default function ChallengeWorkCreate() {
   const router = useRouter();
@@ -120,6 +121,8 @@ export default function ChallengeWorkCreate() {
             }))
           }
         />
+        <CodeEditor />
+
         <span></span>
         <div className={s.text_deco_box}>글씨 굵기나 정렬 등등 칸(임시)</div>
         <textarea
