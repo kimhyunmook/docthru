@@ -33,8 +33,10 @@ export default function Detail() {
   const [workId, setworkId] = useState<WorkContent[]>([]);
 
   useEffect(() => {
+    // if (!id || !listId) return;
+
     DetailChallenge({ id: `${id}` }).then((res) => {
-      // console.log("DetailChallenge", res.data);
+      console.log("DetailChallenge", res.data);
       setData(res.data);
     });
     WorkPageGet({ id: `${id}` }).then((res) => {
@@ -47,9 +49,9 @@ export default function Detail() {
         })
       );
     });
-    // WorklistGet({ id: `${id}` }, { listId: `${listId}` }).then((res) => {
-    //   console.log("리스트상세", res.data);
-    // });
+    WorklistGet({ id: `${id}` }, { listId: `${listId}` }).then((res) => {
+      console.log("리스트상세[id]page", res.data);
+    });
   }, []);
 
   useEffect(() => {
