@@ -125,5 +125,7 @@
 }
 .pageNavigation .number li.onPage {
   background-color: var(--gray800);
+}
+.pageNavigation .number li.onPage a {
   color: var(--brand_yellow);
 }

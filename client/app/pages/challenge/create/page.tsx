@@ -2,15 +2,16 @@
 
 import Input from "@/app/shared/components/input/input";
 import s from "./application.module.css";
-import React, { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import Btn from "@/app/shared/components/btn/btn";
-import { PostChallenge } from "@/app/api/challenge/api";
+import { PostChallenge } from "@/app/service/challenge/api";
 import { isValidURL } from "@/lib/utils/convenience";
 import { useRouter } from "next/navigation";
 import Dropdown from "@/app/shared/components/dropdown/dropdown";
 import useValue from "@/app/shared/hooks/useValue";
 import { DocumentType } from "@/app/shared/types/common";
 import { useToaster } from "@/app/shared/provider/toasterProvider";
+import { useAuth } from "@/app/shared/provider/authProvider";
 
 interface bodyProps extends PropsWithChildren {
   mainTitle: string;
@@ -43,6 +44,11 @@ export default function Application({
   const field = useValue("");
   const documentType = useValue("블로그");
   const toast = useToaster();
+  const { auth, user } = useAuth();
+
+  useEffect(() => {
+    auth();
+  }, [user]);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -75,7 +81,7 @@ export default function Application({
           router.push("/pages/challenge");
           return;
         }
-        alert("실패");
+        toast("warn", "챌린지 성공에 실패했습니다.");
         router.refresh();
       });
     }

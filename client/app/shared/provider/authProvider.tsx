@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   loginApi,
   LoginProps,
   logoutApi,
   refreshTokenApi,
-} from "@/app/api/auth/api";
+} from "@/app/service/auth/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
@@ -13,7 +14,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { getUserAPi } from "@/app/api/user/api";
+import { getAlramApi, getUserAPi } from "@/app/service/user/api";
 import type { User } from "../types/user";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useToaster } from "./toasterProvider";
@@ -23,6 +24,7 @@ interface AuthContextType {
   refreshToken: () => Promise<void>;
   logout: () => Promise<void>;
   user: User;
+  auth: () => void;
   isLoading: boolean;
   isFetching: boolean;
 }
@@ -40,10 +42,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
     data: user,
     isStale,
     isFetching,
+    isFetched,
     isLoading,
     refetch: userRefetch,
   } = useQuery({
-    queryKey: ["user", token],
+    queryKey: ["user", !!token],
     queryFn: getUserAPi,
     enabled: !!token,
     staleTime: expired, // 한 시간
@@ -55,7 +58,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setToken(storage.get("token"));
     if (isLoading) return;
     if (isStale) refreshToken();
-  }, [isStale, token]);
+  }, [isStale, token, isLoading]);
 
   async function login({ email, password }: LoginProps) {
     const res = await loginApi({ email, password });
@@ -92,10 +95,24 @@ export function AuthProvider({ children }: PropsWithChildren) {
     router.refresh();
     setToken(null);
   }
+  function auth() {
+    if (!isLoading && !!!user) {
+      toast("warn", "로그인 해주세요");
+      router.replace("/pages/auth/login");
+    }
+  }
 
   return (
     <AuthContext.Provider
-      value={{ login, refreshToken, isLoading, isFetching, logout, user }}
+      value={{
+        login,
+        refreshToken,
+        isLoading,
+        isFetching,
+        logout,
+        user,
+        auth,
+      }}
     >
       {children}
     </AuthContext.Provider>

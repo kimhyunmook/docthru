@@ -9,8 +9,14 @@ import Chip from "../chip/chip";
 import type { FieldType, DocumentType, StateType } from "../../types/common";
 import Link from "next/link";
 import Btn from "../btn/btn";
+import { useAuth } from "../../provider/authProvider";
+import { useModal } from "../../provider/modalProvider";
+import { deleteChallengeApi } from "@/app/service/challenge/api";
+import { useToaster } from "../../provider/toasterProvider";
+import { useRouter } from "next/navigation";
 
 type CardProps = PropsWithClassName & {
+  cardId: number;
   field?: FieldType;
   documentType?: DocumentType;
   date: Date | string;
@@ -18,10 +24,12 @@ type CardProps = PropsWithClassName & {
   state: StateType;
   current: number;
   maximum: number;
+  onerId?: string;
   continueBtn?: boolean;
 };
 
 function Card({
+  cardId,
   href = "#",
   field = null,
   documentType,
@@ -31,9 +39,16 @@ function Card({
   current = 0,
   maximum = 0,
   continueBtn = false,
+  onerId = "",
   children,
 }: CardProps) {
+  const { user } = useAuth();
+  const toast = useToaster();
+  const { modalOepn, modalClose, title, buttons } = useModal();
   const chipElement = useValue<React.ReactNode>(null);
+  const dropdown = useValue(false);
+  const router = useRouter();
+
   useEffect(() => {
     switch (field?.toLocaleLowerCase()) {
       case "next.js":
@@ -60,24 +75,29 @@ function Card({
     else complte.set(false);
   }, [current, maximum]);
 
-  // const finish = useValue(false);
-  // useEffect(() => {
-  //   const now = new Date();
-  //   const finishDate = new Date(date);
-  //   if (finishDate <= now) finish.set(true);
-  //   else finish.set(false);
-  // }, [date]);
+  async function deleteChall(challengeId: number) {
+    const res = await deleteChallengeApi({ id: challengeId });
+    if (res) {
+      modalClose();
+      toast("info", "삭제 됐습니다.");
+      dropdown.set(false);
+      // router.refresh();
+      router.push("/pages/challenge/delete");
+      // window.location.reload();
+    }
+  }
+
   return (
     <div className={`${styles.card} ${className}`}>
       <div className={styles.top}>
         {complte.value ? (
           <ul className={styles.state}>
             <li>
-              <Chip.Card.Compolete />
+              <Chip.Card.Compolete className={styles.compoleteChip} />
             </li>
             {state === "finish" && (
               <li>
-                <Chip.Card.Finish />
+                <Chip.Card.Finish className={styles.finishChip} />
               </li>
             )}
           </ul>
@@ -85,7 +105,7 @@ function Card({
           state === "finish" && (
             <ul className={styles.state}>
               <li>
-                <Chip.Card.Finish />
+                <Chip.Card.Finish className={styles.finishChip} />
               </li>
             </ul>
           )
@@ -99,20 +119,65 @@ function Card({
             <span>
               <Chip.Categori>{documentType}</Chip.Categori>
             </span>
+            {user?.id === onerId && (
+              <span>
+                <Chip.Oner className={styles.onerChip} />
+              </span>
+            )}
           </div>
         ) : null}
-        <div className={styles.menu}>
-          <Image
-            src="/img/icon/menu_bar.svg"
-            alt="메뉴"
-            width={24}
-            height={24}
-          />
-        </div>
+        {user?.id === onerId ? (
+          <div className={styles.menu}>
+            <Image
+              src="/img/icon/menu_bar.svg"
+              alt="메뉴"
+              width={24}
+              height={24}
+              onClick={() => {
+                dropdown.set((prev) => !prev);
+              }}
+            />
+            {dropdown.value && (
+              <ul className={styles.dropdown}>
+                <li>
+                  <Link href="#">수정</Link>
+                </li>
+                <li>
+                  <Link
+                    href="#"
+                    onClick={() => {
+                      modalOepn();
+                      title(`"${children}" 챌린지를 삭제하시겠습니까?`);
+                      buttons(
+                        <>
+                          <Btn.Filled.Regular onClick={modalClose}>
+                            취소
+                          </Btn.Filled.Regular>
+                          <Btn.Solid.Regular
+                            onClick={() => deleteChall(cardId)}
+                          >
+                            삭제
+                          </Btn.Solid.Regular>
+                        </>
+                      );
+                    }}
+                  >
+                    삭제
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </div>
+        ) : null}
       </div>
       <div className={styles.bottom}>
         <div className={styles.info}>
-          <Info date={date} current={current} total={maximum} />
+          <Info
+            className={styles.infoCon}
+            date={date}
+            current={current}
+            total={maximum}
+          />
         </div>
         {continueBtn && (
           <Link href={href} className={styles.countinueBtn}>
