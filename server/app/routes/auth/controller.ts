@@ -10,6 +10,13 @@ authRouter.post("/signup", async (req: Request, res: Response) => {
   let result: BodyResult = { success: true };
   let status = 201;
   let msg = "";
+  // const 회원가입 = await  prisma.user.create({
+  //   data: {
+  //     email:email,
+  //     passowrd:password,
+  //     nickname:nickname
+  //   }
+  // })
   const signup = await service.signup({
     email,
     password,
