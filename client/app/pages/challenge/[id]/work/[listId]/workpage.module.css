@@ -46,6 +46,10 @@
   width: 100%;
 }
 
+.feedback_box {
+  margin-top: 24px;
+}
+
 .feedback_top {
   display: flex;
   gap: 24px;

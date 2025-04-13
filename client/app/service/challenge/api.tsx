@@ -5,7 +5,7 @@ import type {
   MyChallengeProps,
   GetChallengeProps,
 } from "@/app/shared/types/common";
-import { WorkContent } from "@/app/shared/types/common";
+import { WorkContent, Comment } from "@/app/shared/types/common";
 
 export async function GetChallenge({
   pageParam = 1,
@@ -116,6 +116,11 @@ export async function WorklistGet(
   { listId }: { listId: string }
 ) {
   const res = await instance.get(`/api/challenge/${id}/work/${listId}`);
-  console.log("res여기api임", res);
+  return res.data;
+}
+
+export async function commentApi(body: Comment) {
+  const res = await instance.post("/api/challenge/comment", body);
+  console.log("댓res", res);
   return res.data;
 }

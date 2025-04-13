@@ -61,3 +61,8 @@ export interface WorkContent {
   content: string;
   user: User;
 }
+
+export interface Comment {
+  userId: string;
+  content: string;
+}

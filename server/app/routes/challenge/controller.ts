@@ -174,11 +174,11 @@ challenge.get("/:id/work/:listId", async (req: Request, res: Response) => {
       select: {
         title: true,
         content: true,
-        createdAt: true,
         updatedAt: true,
         user: {
           select: {
             nickname: true,
+            id: true,
           },
         },
       },
@@ -375,4 +375,37 @@ challenge.post(
   }
 );
 
+challenge.post(
+  "/comment",
+  authMiddleware.verifyAT,
+  async (req: Request, res: Response) => {
+    const { content, userId } = req.body;
+    try {
+      console.log("content", content);
+      console.log("userid", userId);
+      const feedback = await prisma.challengework_feedback.create({
+        data: {
+          content,
+          user: { connect: { id: userId } },
+        },
+        select: {
+          id: true,
+          content: true,
+          updatedAt: true,
+          user: {
+            select: {
+              nickname: true,
+              id: true,
+            },
+          },
+        },
+      });
+      console.log("feedback", feedback);
+      res.status(200).json(feedback);
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ massge: "유저를 찾지 못하였습니다" });
+    }
+  }
+);
 export default challenge;
