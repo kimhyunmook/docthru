@@ -21,7 +21,7 @@ export default function Participating({}) {
   function search() {
     console.log("클릭 중");
     MyChallengeApi({
-      page: page.value,
+      // page: page.value,
       pageSize: pageSize.value,
       orderby: orderby.value,
       keyword: keyword.value,
@@ -35,7 +35,7 @@ export default function Participating({}) {
 
   useEffect(() => {
     MyChallengeApi({
-      page: page.value,
+      // page: page.value,
       pageSize: pageSize.value,
       orderby: orderby.value,
       keyword: keyword.value,

@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import useValue from "@/app/shared/hooks/useValue";
 import Participating from "./participating";
-import Finish from "./finish";
-import Apply from "./apply";
+// import Finish from "./finish";
+// import Apply from "./apply";
 
 export default function MyType() {
   const params = useParams();
@@ -16,10 +16,10 @@ export default function MyType() {
         element.set(<Participating />);
         break;
       case "finish":
-        element.set(<Finish />);
+        // element.set(<Finish />);
         break;
       case "apply":
-        element.set(<Apply />);
+        // element.set(<Apply />);
         break;
     }
   }, [params]);

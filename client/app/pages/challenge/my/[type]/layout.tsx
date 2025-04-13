@@ -14,7 +14,7 @@ export default function MyChallengeLayout({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (isLoading) return;
-    if (!!!user && isFetching) router.push("/");
+    if (!!!user && isFetching) router.replace("/");
   }, []);
 
   function active(type: string) {
@@ -37,12 +37,12 @@ export default function MyChallengeLayout({ children }: PropsWithChildren) {
         >
           참여중인 챌린지
         </Tab.Middle>
-        <Tab.Middle href="finish" active={active("finish")} className={s.tab}>
+        {/* <Tab.Middle href="finish" active={active("finish")} className={s.tab}>
           완료한 챌린지
         </Tab.Middle>
         <Tab.Middle href="apply" active={active("apply")} className={s.tab}>
           신청한 챌린지
-        </Tab.Middle>
+        </Tab.Middle> */}
       </div>
       {children}
     </div>
