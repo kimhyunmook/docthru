@@ -110,6 +110,7 @@ export async function deleteChallengeApi({ id }: { id: number }) {
     return false;
   }
 }
+<<<<<<< HEAD:client/app/service/challenge/api.tsx
 
 export async function WorklistGet(
   { id }: { id: string },
@@ -118,3 +119,5 @@ export async function WorklistGet(
   const res = await instance.get(`api/challenge/${id}/work/${listId}`);
   return res.data;
 }
+=======
+>>>>>>> 3964be4 (.):client/app/api/challenge/api.tsx
