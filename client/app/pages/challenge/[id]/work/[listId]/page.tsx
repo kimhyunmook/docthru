@@ -17,7 +17,7 @@ export default function WorkPage() {
 
   useEffect(() => {
     WorklistGet({ id: `${id}` }, { listId: `${listId}` }).then((res) => {
-      console.log("리스트상세", res.data);
+      console.log("리스트상세[listID]page", res.data);
     });
   }, []);
 
