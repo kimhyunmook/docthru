@@ -77,15 +77,9 @@ challenge.get("/", async (req: Request, res: Response) => {
     });
     await challengeService.updateFinsh();
 
-<<<<<<< HEAD
     const total = (await challengeService.total({ where })) || 0;
     const nextPage = Math.ceil(total / pageSize) === page ? null : page + 1;
     res.status(200).send({ data, total, nextPage });
-=======
-    const total = await challengeService.total({ where });
-
-    res.status(200).send({ data, total });
->>>>>>> 3964be4 (.)
   } catch (err) {
     console.log(err);
     res.status(500).json({ err });
@@ -103,7 +97,8 @@ challenge.post(
         originalLink,
         field,
         date,
-        maximum,
+        // maximum,
+        codeContent,
         content,
         documentType,
       } = req.body;
@@ -113,8 +108,8 @@ challenge.post(
           originalLink,
           field,
           date: new Date(date),
-          current: 1,
-          maximum: parseInt(maximum),
+          codeContent,
+          // maximum: parseInt(maximum),
           documentType,
           content,
           onerId: userId,
@@ -157,7 +152,6 @@ challenge.patch("/delete", authMiddleware.verifyAT, async (req, res) => {
   else res.status(500).send(false);
 });
 
-<<<<<<< HEAD
 challenge.get("/:id/work", async (req: Request, res: Response) => {
   const { id } = req.params;
   console.log("id", id);
@@ -182,8 +176,6 @@ challenge.get("/:id/work", async (req: Request, res: Response) => {
   }
 });
 
-=======
->>>>>>> 3964be4 (.)
 challenge.get("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
