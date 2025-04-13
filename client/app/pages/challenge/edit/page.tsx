@@ -4,7 +4,7 @@ import Btn from "@/app/shared/components/btn/btn";
 import Application from "../create/page";
 import s from "../create/application.module.css";
 import { useEffect, useState } from "react";
-import { PatchChallenge } from "@/app/api/challenge/api";
+import { PatchChallenge } from "@/app/service/challenge/api";
 
 export default function Edit() {
   const [form, setForm] = useState({

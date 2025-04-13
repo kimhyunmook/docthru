@@ -2,7 +2,7 @@
 import useValue from "@/app/shared/hooks/useValue";
 import s from "./styles/apply.module.css";
 import { useEffect } from "react";
-import { MyApplyApi } from "@/app/api/challenge/api";
+import { MyApplyApi } from "@/app/service/challenge/api";
 import { Challenge, StateType } from "@/app/shared/types/common";
 import textDate from "@/app/shared/hooks/textDate";
 import PageNation from "./pageNation";

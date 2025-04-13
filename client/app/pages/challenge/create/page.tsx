@@ -2,9 +2,9 @@
 
 import Input from "@/app/shared/components/input/input";
 import s from "./application.module.css";
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import Btn from "@/app/shared/components/btn/btn";
-import { PostChallenge } from "@/app/api/challenge/api";
+import { PostChallenge } from "@/app/service/challenge/api";
 import { isValidURL } from "@/lib/utils/convenience";
 import { useRouter } from "next/navigation";
 import Dropdown from "@/app/shared/components/dropdown/dropdown";
@@ -81,7 +81,7 @@ export default function Application({
           router.push("/pages/challenge");
           return;
         }
-        alert("실패");
+        toast("warn", "챌린지 성공에 실패했습니다.");
         router.refresh();
       });
     }

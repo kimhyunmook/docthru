@@ -6,7 +6,7 @@ import Chip from "@/app/shared/components/chip/chip";
 import Reply from "@/app/shared/components/reply/reply";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { WorklistGet } from "@/app/api/challenge/api";
+import { WorklistGet } from "@/app/service/challenge/api";
 
 export default function WorkPage() {
   const [textarea, setTextarea] = useState("");

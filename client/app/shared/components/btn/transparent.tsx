@@ -10,6 +10,7 @@ function TransparentBtn({
   width,
   icon = true,
   onClick,
+  enter,
 }: IconBtnProps) {
   return (
     <Btn
@@ -17,6 +18,7 @@ function TransparentBtn({
       width={width}
       className={`${styles.transparent} ${className}`}
       onClick={onClick}
+      enter={enter}
     >
       {children}
       {icon ? (
@@ -32,12 +34,20 @@ function TransparentBtn({
   );
 }
 
-function Large({ children, className, icon, width, onClick }: TransparentSize) {
+function Large({
+  children,
+  className,
+  icon,
+  width,
+  onClick,
+  enter,
+}: TransparentSize) {
   const att = {
     className,
     icon,
     width,
     onClick,
+    enter,
   };
   return (
     <TransparentBtn {...att} size="l">
@@ -51,12 +61,14 @@ function Medium({
   icon,
   width,
   onClick,
+  enter,
 }: TransparentSize) {
   const att = {
     className,
     icon,
     width,
     onClick,
+    enter,
   };
   return (
     <TransparentBtn {...att} size="m">
@@ -70,12 +82,14 @@ function Regular({
   icon,
   width,
   onClick,
+  enter,
 }: TransparentSize) {
   const att = {
     className,
     icon,
     width,
     onClick,
+    enter,
   };
   return (
     <TransparentBtn {...att} size="r">
@@ -83,12 +97,20 @@ function Regular({
     </TransparentBtn>
   );
 }
-function Small({ children, className, icon, width, onClick }: TransparentSize) {
+function Small({
+  children,
+  className,
+  icon,
+  width,
+  onClick,
+  enter,
+}: TransparentSize) {
   const att = {
     className,
     icon,
     width,
     onClick,
+    enter,
   };
   return (
     <TransparentBtn {...att} size="s">

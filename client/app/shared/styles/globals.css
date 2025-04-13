@@ -40,7 +40,7 @@ body {
   background-color: var(--gray50);
 }
 body:has(#header) {
-  padding-top: var(--headerHeight);
+  /* padding-top: var(--headerHeight); */
 }
 
 .flex {

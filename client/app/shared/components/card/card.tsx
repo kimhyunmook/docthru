@@ -11,7 +11,7 @@ import Link from "next/link";
 import Btn from "../btn/btn";
 import { useAuth } from "../../provider/authProvider";
 import { useModal } from "../../provider/modalProvider";
-import { deleteChallengeApi } from "@/app/api/challenge/api";
+import { deleteChallengeApi } from "@/app/service/challenge/api";
 import { useToaster } from "../../provider/toasterProvider";
 import { useRouter } from "next/navigation";
 

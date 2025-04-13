@@ -30,6 +30,7 @@ export default function Login({}) {
         <Btn.Solid.Large
           className={s.bt_l}
           width="100%"
+          enter={true}
           onClick={() =>
             login({ email: email.value, password: password.value })
           }

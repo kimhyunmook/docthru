@@ -13,6 +13,7 @@ function OutlineBtn({
   width,
   icon,
   onClick,
+  enter,
 }: OutlineProps) {
   return (
     <Btn
@@ -20,6 +21,7 @@ function OutlineBtn({
       width={width}
       onClick={onClick}
       className={`${styles.outline} ${className}`}
+      enter={enter}
     >
       {children}
       {!!icon && (
@@ -35,12 +37,20 @@ function OutlineBtn({
   );
 }
 
-function Large({ children, className, width, icon, onClick }: OutlineSize) {
+function Large({
+  children,
+  className,
+  width,
+  icon,
+  onClick,
+  enter,
+}: OutlineSize) {
   const att = {
     className,
     width,
     icon,
     onClick,
+    enter,
   };
   return (
     <OutlineBtn {...att} size="l">
@@ -48,12 +58,20 @@ function Large({ children, className, width, icon, onClick }: OutlineSize) {
     </OutlineBtn>
   );
 }
-function Medium({ children, className, width, icon, onClick }: OutlineSize) {
+function Medium({
+  children,
+  className,
+  width,
+  icon,
+  onClick,
+  enter,
+}: OutlineSize) {
   const att = {
     className,
     width,
     icon,
     onClick,
+    enter,
   };
   return (
     <OutlineBtn {...att} size="m">
@@ -61,12 +79,20 @@ function Medium({ children, className, width, icon, onClick }: OutlineSize) {
     </OutlineBtn>
   );
 }
-function Regular({ children, className, width, icon, onClick }: OutlineSize) {
+function Regular({
+  children,
+  className,
+  width,
+  icon,
+  onClick,
+  enter,
+}: OutlineSize) {
   const att = {
     className,
     width,
     icon,
     onClick,
+    enter,
   };
   return (
     <OutlineBtn {...att} size="r">
@@ -74,12 +100,20 @@ function Regular({ children, className, width, icon, onClick }: OutlineSize) {
     </OutlineBtn>
   );
 }
-function Small({ children, className, width, icon, onClick }: OutlineSize) {
+function Small({
+  children,
+  className,
+  width,
+  icon,
+  onClick,
+  enter,
+}: OutlineSize) {
   const att = {
     className,
     width,
     icon,
     onClick,
+    enter,
   };
   return (
     <OutlineBtn {...att} size="s">

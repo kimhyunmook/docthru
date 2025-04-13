@@ -7,14 +7,15 @@ import Dropdown from "../dropdown/dropdown";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../../provider/authProvider";
 import { useQuery } from "@tanstack/react-query";
-import { getAlramApi } from "@/app/api/user/api";
+import { getAlramApi } from "@/app/service/user/api";
 import Alarm, { AlarmProps } from "./alarm";
 import useValue from "../../hooks/useValue";
-import { useQueryClient } from "@tanstack/react-query";
+// import { useQueryClient } from "@tanstack/react-query";
 
 type LoginBoxT = {
   admin: boolean;
 };
+
 type ModalState = {
   [key: string]: boolean;
   alarm: boolean;
@@ -23,9 +24,10 @@ type ModalState = {
 const init: ModalState = {
   alarm: false,
 };
-export default function LoginBox({ admin }: LoginBoxT) {
+
+export default function LoginBox({}: LoginBoxT) {
   const { user } = useAuth();
-  const { data, isFetched, isLoading, isRefetching } = useQuery({
+  const { data, isFetched, isRefetching } = useQuery({
     queryKey: ["alarm"],
     queryFn: () => {
       return getAlramApi();
@@ -35,14 +37,15 @@ export default function LoginBox({ admin }: LoginBoxT) {
     refetchInterval: 10 * 1000,
     refetchOnWindowFocus: true,
   });
-
   const [modalState, setModalState] = useState(init);
+
   function openModal({ type }: { type: string }) {
     setModalState((prev) => ({ ...prev, [type]: !prev[type] }));
   }
   const alarm = useValue<AlarmProps[]>(
     data?.alarm.filter((x: AlarmProps) => !x.read) || []
   );
+
   useEffect(() => {
     if (isFetched || isRefetching)
       alarm.set(data.alarm.filter((x: AlarmProps) => !x.read));

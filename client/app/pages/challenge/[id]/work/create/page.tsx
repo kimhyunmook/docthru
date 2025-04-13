@@ -6,7 +6,7 @@ import s from "./workcreate.module.css";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { WorkContent } from "@/app/shared/types/common";
-import { WorkPagePost } from "@/app/api/challenge/api";
+import { WorkPagePost } from "@/app/service/challenge/api";
 import { User } from "@/app/shared/types/user";
 
 export default function ChallengeWorkCreate() {

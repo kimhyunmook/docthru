@@ -3,14 +3,13 @@ import styles from "@/app/shared/styles/container.module.css";
 import Btn from "../btn/btn";
 import Info, { InfoProps } from "./info";
 import { useRouter, useParams } from "next/navigation";
-import { ApplyChallengeApi } from "@/app/api/challenge/api";
+import { ApplyChallengeApi } from "@/app/service/challenge/api";
 import { useModal } from "../../provider/modalProvider";
 import { useEffect } from "react";
 import { useToaster } from "../../provider/toasterProvider";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface ContainerProps extends InfoProps {
-}
+interface ContainerProps extends InfoProps {}
 
 function Container({
   date = "0000년 0월 0일",

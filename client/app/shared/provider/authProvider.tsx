@@ -4,7 +4,7 @@ import {
   LoginProps,
   logoutApi,
   refreshTokenApi,
-} from "@/app/api/auth/api";
+} from "@/app/service/auth/api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
@@ -14,7 +14,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { getAlramApi, getUserAPi } from "@/app/api/user/api";
+import { getAlramApi, getUserAPi } from "@/app/service/user/api";
 import type { User } from "../types/user";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useToaster } from "./toasterProvider";

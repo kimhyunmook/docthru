@@ -9,7 +9,7 @@ import {
   DetailChallenge,
   WorkPageGet,
   WorklistGet,
-} from "@/app/api/challenge/api";
+} from "@/app/service/challenge/api";
 import { useParams } from "next/navigation";
 import useValue from "@/app/shared/hooks/useValue";
 import List from "@/app/shared/components/list";

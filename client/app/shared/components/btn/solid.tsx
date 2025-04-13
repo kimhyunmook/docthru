@@ -13,6 +13,7 @@ function SolidBtn({
   width,
   icon,
   onClick,
+  enter,
 }: SolidProps) {
   return (
     <Btn
@@ -20,6 +21,7 @@ function SolidBtn({
       onClick={onClick}
       width={width}
       className={`${styles.solid} ${className}`}
+      enter={enter}
     >
       {children}
       {!!icon && (
@@ -35,32 +37,60 @@ function SolidBtn({
   );
 }
 
-function Large({ children, className, width, icon, onClick }: SolidSize) {
-  const att = { className, width, icon, onClick };
+function Large({
+  children,
+  className,
+  width,
+  icon,
+  onClick,
+  enter,
+}: SolidSize) {
+  const att = { className, width, icon, onClick, enter };
   return (
     <SolidBtn {...att} size="l">
       {children}
     </SolidBtn>
   );
 }
-function Medium({ children, className, width, icon, onClick }: SolidSize) {
-  const att = { className, width, icon, onClick };
+function Medium({
+  children,
+  className,
+  width,
+  icon,
+  onClick,
+  enter,
+}: SolidSize) {
+  const att = { className, width, icon, onClick, enter };
   return (
     <SolidBtn {...att} size="m">
       {children}
     </SolidBtn>
   );
 }
-function Regular({ children, className, width, icon, onClick }: SolidSize) {
-  const att = { className, width, icon, onClick };
+function Regular({
+  children,
+  className,
+  width,
+  icon,
+  onClick,
+  enter,
+}: SolidSize) {
+  const att = { className, width, icon, onClick, enter };
   return (
     <SolidBtn {...att} size="r">
       {children}
     </SolidBtn>
   );
 }
-function Small({ children, className, width, icon, onClick }: SolidSize) {
-  const att = { className, width, icon, onClick };
+function Small({
+  children,
+  className,
+  width,
+  icon,
+  onClick,
+  enter,
+}: SolidSize) {
+  const att = { className, width, icon, onClick, enter };
   return (
     <SolidBtn {...att} size="s">
       {children}

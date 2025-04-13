@@ -3,7 +3,7 @@ import type { Challenge, FieldType } from "@/app/shared/types/common";
 import Card from "@/app/shared/components/card/card";
 import useValue from "@/app/shared/hooks/useValue";
 import { useEffect, useRef } from "react";
-import { MyChallengeApi } from "@/app/api/challenge/api";
+import { MyChallengeApi } from "@/app/service/challenge/api";
 import s from "./styles/list.module.css";
 
 export default function Finish({}) {

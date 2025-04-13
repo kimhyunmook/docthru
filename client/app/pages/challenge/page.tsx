@@ -5,7 +5,7 @@ import SearchInput from "@/app/shared/components/search";
 import Card from "@/app/shared/components/card/card";
 import Link from "next/link";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { GetChallenge } from "@/app/api/challenge/api";
+import { GetChallenge } from "@/app/service/challenge/api";
 import type {
   Challenge,
   ChallengeFilterProps,
@@ -16,7 +16,7 @@ import useValue from "@/app/shared/hooks/useValue";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function Challenge() {
-  const [data, setData] = useState<Challenge[]>([]);
+  const [, setData] = useState<Challenge[]>([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const page = useValue<number>(1);
   const pageSize = useValue(10);
@@ -29,7 +29,7 @@ export default function Challenge() {
   });
   const total = useValue(0);
   const challenge = useRef<HTMLDivElement>(null);
-  const isFatching = useValue(false);
+  // const isFatching = useValue(false);
 
   function filterHandle() {
     setFilterOpen((prev) => !prev);
@@ -152,7 +152,7 @@ export default function Challenge() {
           {scrollData.pages.length === 0 ? (
             <li className={s.noList}>챌린지가 없어요</li>
           ) : (
-            scrollData.pages.map((page, pageIndex) =>
+            scrollData.pages.map((page) =>
               page.data.map((v: Challenge, i: number) => {
                 return (
                   <li key={i}>

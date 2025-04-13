@@ -1,15 +1,16 @@
+import { useQueryClient } from "@tanstack/react-query";
+import useValue from "../../hooks/useValue";
+import styles from "@/app/shared/styles/loginBox.module.css";
+import textDate from "../../hooks/textDate";
+import { readAlramApi } from "@/app/service/user/api";
+import { useToaster } from "../../provider/toasterProvider";
+
 export interface AlarmProps {
   content: string;
   createdAt: string;
   id: string;
   read: boolean;
 }
-import { useQueryClient } from "@tanstack/react-query";
-import useValue from "../../hooks/useValue";
-import styles from "@/app/shared/styles/loginBox.module.css";
-import textDate from "../../hooks/textDate";
-import { readAlramApi } from "@/app/api/user/api";
-import { useToaster } from "../../provider/toasterProvider";
 
 export default function Alarm() {
   const queryClient = useQueryClient();
