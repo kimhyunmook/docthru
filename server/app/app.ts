@@ -63,6 +63,6 @@ const io = new ServerIo(server, {
 
 app.use("/api", router);
 
-app.listen(SERVICE_PORT, () => {
+server.listen(SERVICE_PORT, () => {
   console.log(`SERVER PORT: ${SERVICE_PORT}`);
 });

@@ -4,7 +4,6 @@ import LoginBox from "./loginBox";
 import LinkImg from "../LinkImg";
 import Link from "next/link";
 import { User } from "../../types/user";
-import { io } from "socket.io-client";
 // import { useEffect } from "react";
 
 // 백엔드 서버 주소 (포트 8000)
