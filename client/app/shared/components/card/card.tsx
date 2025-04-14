@@ -11,15 +11,10 @@ import Link from "next/link";
 import Btn from "../btn/btn";
 import { useAuth } from "../../provider/authProvider";
 import { useModal } from "../../provider/modalProvider";
-<<<<<<< HEAD
 import { deleteChallengeApi } from "@/app/service/challenge/api";
 import { useToaster } from "../../provider/toasterProvider";
 import { useRouter } from "next/navigation";
 import useDocumentOut from "../../hooks/useDocumentOut";
-=======
-import { deleteChallengeApi } from "@/app/api/challenge/api";
-import { useToaster } from "../../provider/toasterProvider";
->>>>>>> b1e39d0 (a)
 
 type CardProps = PropsWithClassName & {
   cardId: number;
@@ -53,13 +48,10 @@ function Card({
   const { modalOepn, modalClose, title, buttons } = useModal();
   const chipElement = useValue<React.ReactNode>(null);
   const dropdown = useValue(false);
-<<<<<<< HEAD
   const router = useRouter();
   const cardDropdownRef = useDocumentOut("ul", () => {
     dropdown.set(false);
   });
-=======
->>>>>>> b1e39d0 (a)
 
   useEffect(() => {
     switch (field?.toLocaleLowerCase()) {
@@ -90,18 +82,10 @@ function Card({
   async function deleteChall(challengeId: number) {
     const res = await deleteChallengeApi({ id: challengeId });
     if (res) {
-<<<<<<< HEAD
       modalClose();
       toast("info", "삭제 됐습니다.");
       dropdown.set(false);
       router.push("/pages/challenge/delete");
-=======
-      toast("info", "삭제됐습니다.");
-      modalClose();
-      toast("info", "삭제 됐습니다.");
-      dropdown.set(false);
-      window.location.reload();
->>>>>>> b1e39d0 (a)
     }
   }
 
@@ -133,19 +117,12 @@ function Card({
         </Link>
         {!!field || !!documentType ? (
           <div className={styles.chip}>
-<<<<<<< HEAD
             {field && <span>{chipElement.value}</span>}
             {documentType && (
               <span>
                 <Chip.Categori>{documentType}</Chip.Categori>
               </span>
             )}
-=======
-            <span>{chipElement.value}</span>
-            <span>
-              <Chip.Categori>{documentType}</Chip.Categori>
-            </span>
->>>>>>> b1e39d0 (a)
             {user?.id === onerId && (
               <span>
                 <Chip.Oner className={styles.onerChip} />
@@ -165,11 +142,7 @@ function Card({
               }}
             />
             {dropdown.value && (
-<<<<<<< HEAD
               <ul className={styles.dropdown} ref={cardDropdownRef}>
-=======
-              <ul className={styles.dropdown}>
->>>>>>> b1e39d0 (a)
                 <li>
                   <Link href="#">수정</Link>
                 </li>
