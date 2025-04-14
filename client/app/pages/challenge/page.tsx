@@ -66,7 +66,6 @@ export default function Challenge() {
       },
     ],
     queryFn: ({ pageParam = 1, queryKey }) => {
-      // queryKey의 두 번째 인자로 전달된 객체를 추출합니다.
       const [, params] = queryKey as [
         string,
         {

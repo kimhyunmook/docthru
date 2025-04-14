@@ -50,9 +50,10 @@ model challenge {
   originalLink  String          @default("")
   field         String          @default("")
   documentType  String          @default("")
+  codeContent   String          @default("")
   date          DateTime
   current       Int             @default(0)
-  maximum       Int
+  maximum       Int             @default(256)
   content       String
   state         String          @default("inProgress")
   createdAt     DateTime        @default(now())

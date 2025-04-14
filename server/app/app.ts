@@ -28,38 +28,38 @@ const io = new ServerIo(server, {
   },
   allowEIO3: true, // socket.io 클라이언트 버전 호환성 옵션 (필요 시)
 });
-io.on("connection", (socket) => {
-  console.log(`✅ 클라이언트 연결됨: ${socket.id}`);
+// io.on("connection", (socket) => {
+//   console.log(`✅ 클라이언트 연결됨: ${socket.id}`);
 
-  // 클라이언트로부터 메시지 수신
-  socket.on("message", (data) => {
-    console.log(`📩 받은 메시지: ${data}`);
-    // 모든 클라이언트에게 메시지 브로드캐스트
-    io.emit("message", data);
-  });
+//   // 클라이언트로부터 메시지 수신
+//   socket.on("message", (data) => {
+//     console.log(`📩 받은 메시지: ${data}`);
+//     // 모든 클라이언트에게 메시지 브로드캐스트
+//     io.emit("message", data);
+//   });
 
-  socket.on("disconnect", () => {
-    console.log(`❌ 클라이언트 연결 해제: ${socket.id}`);
-  });
-});
+//   socket.on("disconnect", () => {
+//     console.log(`❌ 클라이언트 연결 해제: ${socket.id}`);
+//   });
+// });
 
-const pgClient = new PGClient({
-  connectionString: process.env.DATABASE_URL, // PostgreSQL 연결 문자열
-});
+// const pgClient = new PGClient({
+//   connectionString: process.env.DATABASE_URL, // PostgreSQL 연결 문자열
+// });
 
-pgClient
-  .connect()
-  .then(() => {
-    console.log("✅ PostgreSQL에 연결됨");
-    return pgClient.query("LISTEN post_changes"); // 'post_changes' 채널 구독
-  })
-  .catch((err) => console.error("❌ PostgreSQL 연결 실패:", err));
+// pgClient
+//   .connect()
+//   .then(() => {
+//     console.log("✅ PostgreSQL에 연결됨");
+//     return pgClient.query("LISTEN post_changes"); // 'post_changes' 채널 구독
+//   })
+//   .catch((err) => console.error("❌ PostgreSQL 연결 실패:", err));
 
-pgClient.on("notification", (msg) => {
-  console.log("🔔 DB 변경 감지:", msg);
-  // 'dbChange' 이벤트로 클라이언트에 변경 사항 전달
-  io.emit("dbChange", msg.payload);
-});
+// pgClient.on("notification", (msg) => {
+//   console.log("🔔 DB 변경 감지:", msg);
+//   // 'dbChange' 이벤트로 클라이언트에 변경 사항 전달
+//   io.emit("dbChange", msg.payload);
+// });
 
 app.use("/api", router);
 

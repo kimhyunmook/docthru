@@ -43,3 +43,10 @@
 .btnArea button:first-child {
   margin-bottom: 8px;
 }
+
+button.disabled {
+  background-color: var(--gray200) !important;
+  color: var(--gray400) !important;
+  border: 1px solid var(--gray400) !important;
+  cursor: unset;
+}

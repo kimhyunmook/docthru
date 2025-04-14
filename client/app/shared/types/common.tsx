@@ -1,4 +1,3 @@
-// import internal from "node:stream";
 import { PropsWithChildren } from "react";
 import { User } from "./user";
 
@@ -22,12 +21,13 @@ export type StateType =
   | "pending";
 export interface ChallengeProps {
   title: string;
-  originalLink: string;
-  field: string;
-  documentType: DocumentType;
+  originalLink?: string;
+  field?: string;
+  documentType?: DocumentType;
   date: Date | string;
-  maximum: string | number;
+  // maximum: string | number;
   content: string;
+  codeContent: string;
 }
 export interface Challenge extends ChallengeProps {
   id: number;
