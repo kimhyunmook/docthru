@@ -23,7 +23,7 @@
   font-weight: 500;
   font-size: 14px;
   color: var(--gray800);
-  margin-bottom: 4px;
+  /* margin-bottom: 4px; */
 }
 .date {
   font-weight: 500;

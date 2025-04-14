@@ -76,6 +76,19 @@ challenge.get("/", async (req: Request, res: Response) => {
       orderBy: orderby,
     });
     await challengeService.updateFinsh();
+    // console.log(where, data);
+
+    await prisma.challenge.updateMany({
+      where: {
+        state: "inProgress",
+        date: {
+          lt: new Date(), // 현재 시간보다 작은 경우만 필터링
+        },
+      },
+      data: {
+        state: "finish",
+      },
+    });
 
     const total = (await challengeService.total({ where })) || 0;
     const nextPage = Math.ceil(total / pageSize) === page ? null : page + 1;
@@ -152,9 +165,47 @@ challenge.patch("/delete", authMiddleware.verifyAT, async (req, res) => {
   else res.status(500).send(false);
 });
 
+challenge.get("/:id/work/:listId", async (req: Request, res: Response) => {
+  try {
+    const { id, listId } = req.params;
+    const data = await prisma.challengework.findFirst({
+      where: {
+        AND: [{ id: Number(listId) }, { challengeId: Number(id) }],
+      },
+      select: {
+        title: true,
+        content: true,
+        updatedAt: true,
+        user: {
+          select: {
+            nickname: true,
+            id: true,
+            like: true,
+          },
+        },
+        challengework_feedback: {
+          select: {
+            content: true,
+            updatedAt: true,
+            user: {
+              select: {
+                nickname: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    console.log("data", data);
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("에러 발생:", error);
+    res.status(400).json({ message: "작성글을 찾을 수 없습니다", error });
+  }
+});
+
 challenge.get("/:id/work", async (req: Request, res: Response) => {
   const { id } = req.params;
-  console.log("id", id);
   try {
     const data = await prisma.challengework.findMany({
       where: { challengeId: Number(id) },
@@ -169,7 +220,6 @@ challenge.get("/:id/work", async (req: Request, res: Response) => {
         },
       },
     });
-    console.log(data);
     res.status(200).send({ data });
   } catch (err) {
     console.log(err);
@@ -179,7 +229,6 @@ challenge.get("/:id/work", async (req: Request, res: Response) => {
 challenge.get("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    console.log("야야", id);
     const data = await prisma.challenge.findUnique({
       where: {
         id: Number(id),
@@ -339,9 +388,38 @@ challenge.post(
   }
 );
 
-challenge.get("/:id/work/:listId", async (req: Request, res: Response) => {
-  const { id, listId } = req.params;
-  console.log("id", id, listId);
-});
-
+challenge.post(
+  "/comment",
+  authMiddleware.verifyAT,
+  async (req: Request, res: Response) => {
+    const { content, userId, challengeworkId } = req.body;
+    try {
+      console.log("content", content);
+      console.log("userid", userId);
+      const feedback = await prisma.challengework_feedback.create({
+        data: {
+          challengework: { connect: { id: Number(challengeworkId) } },
+          content,
+          user: { connect: { id: userId } },
+        },
+        select: {
+          id: true,
+          content: true,
+          updatedAt: true,
+          user: {
+            select: {
+              nickname: true,
+              id: true,
+            },
+          },
+        },
+      });
+      console.log("feedback", feedback);
+      res.status(200).json(feedback);
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ massge: "유저를 찾지 못하였습니다" });
+    }
+  }
+);
 export default challenge;
