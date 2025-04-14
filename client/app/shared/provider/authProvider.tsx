@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   loginApi,
   LoginProps,
@@ -14,7 +13,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { getAlramApi, getUserAPi } from "@/app/service/user/api";
+import { getUserAPi } from "@/app/service/user/api";
 import type { User } from "../types/user";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useToaster } from "./toasterProvider";
@@ -42,7 +41,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
     data: user,
     isStale,
     isFetching,
-    isFetched,
     isLoading,
     refetch: userRefetch,
   } = useQuery({

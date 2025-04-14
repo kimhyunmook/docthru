@@ -9,7 +9,6 @@ import { DetailChallenge, WorkPageGet } from "@/app/service/challenge/api";
 import { useParams } from "next/navigation";
 import useValue from "@/app/shared/hooks/useValue";
 import List from "@/app/shared/components/list";
-// import type { User } from "@/app/shared/types/user";
 import { WorkContent, type Challenge } from "@/app/shared/types/common";
 import CodeEditor from "@/app/shared/components/codeEditer";
 
@@ -22,23 +21,18 @@ interface ChallengeData extends Challenge {
 export default function Detail() {
   const params = useParams();
   const { id } = params;
-  // console.log("listId", listId);
   const chipElement = useValue(<></>);
 
   const [data, setData] = useState<ChallengeData>();
   const [participation, setParticipation] = useState<WorkContent[]>([]);
-  // const [workId, setworkId] = useState<WorkContent[]>([]);
 
   useEffect(() => {
-    // if (!id || !listId) return;
-
     DetailChallenge({ id: `${id}` }).then((res) => {
       console.log("DetailChallenge", res.data);
       setData(res.data);
     });
     WorkPageGet({ id: `${id}` }).then((res) => {
       setParticipation(res.data);
-      // setworkId(res,data)
       console.log(
         res.data.map((value: { id: string }) => {
           console.log("value.id", value.id);
@@ -111,6 +105,11 @@ export default function Detail() {
             </div>
           </div>
           <Container
+            className={s.containerRight}
+            buttonAbled={{
+              originalLink: !!data.originalLink,
+              challengeLink: true,
+            }}
             current={data.current}
             total={data.maximum}
             date={data.date}
@@ -123,7 +122,9 @@ export default function Detail() {
               <h2>참여 현황</h2>
               <div className={s.top_right}>
                 <div className={s.list_page_num}>
-                  <span>1/3</span>
+                  <span>
+                    {data.current}/{data.maximum}
+                  </span>
                 </div>
                 <div className={s.arrow}>
                   <span className={s.left}></span>
@@ -132,10 +133,6 @@ export default function Detail() {
               </div>
             </div>
             {participation.map((v: WorkContent, index: number) => {
-              {
-                console.log("v", v);
-                // console.log("v", v?.user);
-              }
               const isLast = index === participation.length - 1; // 마지막 요소인지 확인
               return (
                 <List

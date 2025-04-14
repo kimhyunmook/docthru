@@ -1,12 +1,13 @@
 "use client";
 import styles from "@/app/shared/styles/dropdown.module.css";
 import DropList from "./dropList";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { PropsWithClassName } from "../../types/common";
 import { useAuth } from "../../provider/authProvider";
 import { useRouter } from "next/navigation";
+import useDocumentOut from "../../hooks/useDocumentOut";
 
 const type = ["Next.js", "API", "Career", "Modern JS", "Web"];
 const state = [
@@ -39,29 +40,17 @@ function Dropdown({
   const [on, setOn] = useState("");
   const [open, setOpen] = useState(false);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useDocumentOut("div", () => {
+    // 드롭다운 바깥 클릭했을 때
+    setOpen(false);
+    if (child !== children) {
+      setOn(styles.on);
+    }
+  });
 
   useEffect(() => {
     if (child !== children) setOn(styles.on);
     setValue?.(child as string);
-  }, [child, children]);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        // 드롭다운 바깥 클릭했을 때
-        setOpen(false);
-        if (child !== children) {
-          setOn(styles.on);
-        }
-      }
-    }
-
-    window.addEventListener("mousedown", handleClickOutside);
-    return () => window.removeEventListener("mousedown", handleClickOutside);
   }, [child, children]);
 
   function openHandle(e: React.MouseEvent<HTMLElement>) {

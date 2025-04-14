@@ -5,7 +5,6 @@ import s from "./application.module.css";
 import { PropsWithChildren, useEffect, useState } from "react";
 import Btn from "@/app/shared/components/btn/btn";
 import { PostChallenge } from "@/app/service/challenge/api";
-import { isValidURL } from "@/lib/utils/convenience";
 import { useRouter } from "next/navigation";
 import Dropdown from "@/app/shared/components/dropdown/dropdown";
 import useValue from "@/app/shared/hooks/useValue";
@@ -13,6 +12,7 @@ import { DocumentType } from "@/app/shared/types/common";
 import { useToaster } from "@/app/shared/provider/toasterProvider";
 import { useAuth } from "@/app/shared/provider/authProvider";
 import CodeEditor from "@/app/shared/components/codeEditer";
+import { isValidURL } from "@/lib/utils/convenience";
 
 interface bodyProps extends PropsWithChildren {
   mainTitle: string;
@@ -114,7 +114,7 @@ export default function Application({
         placeholder="원문 링크를 입력해주세요"
         onChange={handleChange}
         error="URL을 정확히 입력해주세요"
-        errorCondition={allErrorCondtion[1]}
+        errorCondition={isValidURL(form.originalLink)}
       />
       <Selector
         label="분야"

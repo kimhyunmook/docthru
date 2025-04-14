@@ -14,6 +14,7 @@ import { useModal } from "../../provider/modalProvider";
 import { deleteChallengeApi } from "@/app/service/challenge/api";
 import { useToaster } from "../../provider/toasterProvider";
 import { useRouter } from "next/navigation";
+import useDocumentOut from "../../hooks/useDocumentOut";
 
 type CardProps = PropsWithClassName & {
   cardId: number;
@@ -48,6 +49,9 @@ function Card({
   const chipElement = useValue<React.ReactNode>(null);
   const dropdown = useValue(false);
   const router = useRouter();
+  const cardDropdownRef = useDocumentOut("ul", () => {
+    dropdown.set(false);
+  });
 
   useEffect(() => {
     switch (field?.toLocaleLowerCase()) {
@@ -138,7 +142,7 @@ function Card({
               }}
             />
             {dropdown.value && (
-              <ul className={styles.dropdown}>
+              <ul className={styles.dropdown} ref={cardDropdownRef}>
                 <li>
                   <Link href="#">수정</Link>
                 </li>

@@ -134,3 +134,8 @@
   border-left: 2px solid var(--gray400);
   transform: rotate(53deg);
 }
+
+.containerRight {
+  position: sticky;
+  top: 11%;
+}

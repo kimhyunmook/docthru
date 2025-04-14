@@ -121,8 +121,7 @@ export default function ChallengeWorkCreate() {
             }))
           }
         />
-        <CodeEditor dispatch={setCode} />
-
+        <CodeEditor value={code} dispatch={setCode} />
         <span></span>
         <div className={s.text_deco_box}>글씨 굵기나 정렬 등등 칸(임시)</div>
         <textarea

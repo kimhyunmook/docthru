@@ -3,6 +3,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import type { OnMount, OnChange, Monaco } from "@monaco-editor/react";
 import s from "../styles/editer.module.css";
+
 // 다이나믹 임포트: SSR 비활성화
 const Editor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false,
