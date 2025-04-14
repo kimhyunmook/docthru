@@ -40,6 +40,9 @@ export default function Detail() {
         })
       );
     });
+    // WorkPageGet({ id: `${id}` }).then((res) => {
+    //   console.log(res.data);
+    // });
   }, []);
 
   useEffect(() => {

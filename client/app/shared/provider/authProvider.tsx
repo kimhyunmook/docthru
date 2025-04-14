@@ -101,22 +101,21 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   }
 
-  if (isFetched)
-    return (
-      <AuthContext.Provider
-        value={{
-          login,
-          refreshToken,
-          isLoading,
-          isFetching,
-          logout,
-          user,
-          auth,
-        }}
-      >
-        {children}
-      </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider
+      value={{
+        login,
+        refreshToken,
+        isLoading,
+        isFetching,
+        logout,
+        user,
+        auth,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
