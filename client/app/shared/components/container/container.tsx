@@ -9,17 +9,12 @@ import { useEffect } from "react";
 import { useToaster } from "../../provider/toasterProvider";
 import { useAuth } from "../../provider/authProvider";
 
-<<<<<<< HEAD
 interface ContainerProps extends InfoProps {
   buttonAbled?: {
     originalLink?: boolean;
     challengeLink?: boolean;
   };
   originalLink?: string;
-=======
-interface Container extends InfoProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
->>>>>>> b1e39d0 (a)
 }
 
 function Container({
@@ -53,23 +48,7 @@ function Container({
     buttons(
       <>
         <Btn.Filled.Regular onClick={modalClose}>취소</Btn.Filled.Regular>
-<<<<<<< HEAD
         <Btn.Solid.Regular onClick={modalButtonEvent}>신청</Btn.Solid.Regular>
-=======
-        <Btn.Solid.Regular
-          onClick={() => {
-            if (id && typeof id === "string")
-              ApplyChallengeApi({ id }).then((res) => {
-                if (res) modalClose();
-                else toast("warn", "실패하였습니다.");
-              });
-            modalClose();
-            router.refresh();
-          }}
-        >
-          신청
-        </Btn.Solid.Regular>
->>>>>>> b1e39d0 (a)
       </>
     );
   }, []);

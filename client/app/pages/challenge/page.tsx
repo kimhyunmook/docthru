@@ -13,11 +13,7 @@ import type {
 } from "@/app/shared/types/common";
 import DropFilter from "@/app/shared/components/dropdown/filter";
 import useValue from "@/app/shared/hooks/useValue";
-<<<<<<< HEAD
 import { useInfiniteQuery } from "@tanstack/react-query";
-=======
-import { useQuery } from "@tanstack/react-query";
->>>>>>> b1e39d0 (a)
 
 export default function Challenge() {
   const [, setData] = useState<Challenge[]>([]);
@@ -33,45 +29,7 @@ export default function Challenge() {
   });
   const total = useValue(0);
   const challenge = useRef<HTMLDivElement>(null);
-<<<<<<< HEAD
   // const isFatching = useValue(false);
-=======
-  const isFatching = useValue(false);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollLine = window.innerHeight + window.scrollY + 200;
-  //     if (!!!challenge.current) return;
-  //     const listHeight = challenge.current.getBoundingClientRect().height;
-  //     if (data.length === total.value) return;
-  //     if (scrollLine >= listHeight && isFatching.value) {
-  //       page.set((prev) => prev + 1);
-  //       isFatching.set(false);
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [isFatching.value, total.value]);
-
-  // useEffect(() => {
-  //   GetChallenge({
-  //     page: page.value,
-  //     pageSize: pageSize.value,
-  //     orderby: orderby.value,
-  //     keyword: keyword.value,
-  //     filter: filter.value,
-  //   }).then((res) => {
-  //     total.set(res.total);
-  //     isFatching.set(true);
-  //     setData((prev) => [...prev, ...res.data]);
-  //   });
-  // }, [page.value, pageSize.value, orderby.value]);
-
-  useEffect(() => {
-    getData();
-  }, [filter.value]);
->>>>>>> b1e39d0 (a)
 
   function filterHandle() {
     setFilterOpen((prev) => !prev);
@@ -193,7 +151,6 @@ export default function Challenge() {
           {scrollData.pages.length === 0 ? (
             <li className={s.noList}>챌린지가 없어요</li>
           ) : (
-<<<<<<< HEAD
             scrollData.pages.map((page) =>
               page.data.map((v: Challenge, i: number) => {
                 return (
@@ -216,28 +173,6 @@ export default function Challenge() {
                 );
               })
             )
-=======
-            data.map((v: Challenge, i) => {
-              return (
-                <li key={i}>
-                  <Card
-                    cardId={v.id}
-                    href={`/pages/challenge/${v.id}`}
-                    field={v.field as FieldType}
-                    documentType={v.documentType}
-                    className={``}
-                    state={v.state}
-                    date={v.date}
-                    current={v.current}
-                    maximum={v.maximum}
-                    onerId={v.onerId}
-                  >
-                    {v.title}
-                  </Card>
-                </li>
-              );
-            })
->>>>>>> b1e39d0 (a)
           )}
         </ul>
       </div>

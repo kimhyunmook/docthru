@@ -59,11 +59,7 @@ function Dropdown({
   }
 
   return (
-<<<<<<< HEAD
     <div ref={dropdownRef} className={`${styles.dropdown} ${className}`.trim()}>
-=======
-    <div className={`${styles.dropdown} ${className}`.trim()}>
->>>>>>> b1e39d0 (a)
       <div
         className={`${styles.default} ${on} ${open ? styles.open : ""}`.trim()}
         onClick={openHandle}
