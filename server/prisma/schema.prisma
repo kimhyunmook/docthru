@@ -64,24 +64,27 @@ model challenge {
 }
 
 model challengework {
-  id          Int       @id @default(autoincrement())
-  title       String
-  content     String
-  user        user      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  challenge   challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-  challengeId Int
+  id                     Int                      @id @default(autoincrement())
+  title                  String
+  content                String
+  user                   user                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                 String
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  challenge              challenge                @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  challengeId            Int
+  challengework_feedback challengework_feedback[]
 }
 
 model challengework_feedback {
-  id        Int      @id @default(autoincrement())
-  content   String
-  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              Int           @id @default(autoincrement())
+  content         String
+  user            user          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challengework   challengework @relation(fields: [challengeworkId], references: [id], onDelete: Cascade)
+  userId          String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  challengeworkId Int
 }
 
 model participant {

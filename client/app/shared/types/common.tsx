@@ -1,4 +1,4 @@
-import internal from "node:stream";
+// import internal from "node:stream";
 import { PropsWithChildren } from "react";
 import { User } from "./user";
 
@@ -60,4 +60,10 @@ export interface WorkContent {
   title: string;
   content: string;
   user: User;
+}
+
+export interface Comment {
+  userId: string;
+  content: string;
+  challengeworkId: string;
 }

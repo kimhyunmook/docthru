@@ -13,7 +13,7 @@ import {
 import { useParams } from "next/navigation";
 import useValue from "@/app/shared/hooks/useValue";
 import List from "@/app/shared/components/list";
-import type { User } from "@/app/shared/types/user";
+// import type { User } from "@/app/shared/types/user";
 import { WorkContent, type Challenge } from "@/app/shared/types/common";
 
 interface ChallengeData extends Challenge {
@@ -30,7 +30,7 @@ export default function Detail() {
 
   const [data, setData] = useState<ChallengeData>();
   const [participation, setParticipation] = useState<WorkContent[]>([]);
-  const [workId, setworkId] = useState<WorkContent[]>([]);
+  // const [workId, setworkId] = useState<WorkContent[]>([]);
 
   useEffect(() => {
     // if (!id || !listId) return;
