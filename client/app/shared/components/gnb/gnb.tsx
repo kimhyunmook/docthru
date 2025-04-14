@@ -2,7 +2,7 @@
 import styles from "@/app/shared/styles/header.module.css";
 import LoginBox from "./loginBox";
 import LinkImg from "../LinkImg";
-import Link from "next/link";
+// import Link from "next/link";
 import { User } from "../../types/user";
 // import { useEffect } from "react";
 
@@ -41,16 +41,6 @@ export default function Gnb({ user }: Gnb) {
             width={108}
             height={31}
           />
-          {user?.grade === "어드민" ? (
-            <ul className={`${styles.gnbMenu} flexCenter`}>
-              <li>
-                <Link href="#">챌린지 관리</Link>
-              </li>
-              <li>
-                <Link href="#">챌린지 목록</Link>
-              </li>
-            </ul>
-          ) : null}
         </div>
         <LoginBox admin={user?.grade === "어드민"} />
       </nav>

@@ -10,7 +10,7 @@ import InputNumber from "./inputNumber";
 export type InputProps = PropsWithClassName &
   InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
-    setValue?: React.Dispatch<React.SetStateAction<any>>;
+    // setValue?: React.Dispatch<React.SetStateAction<any>>;
     error?: string;
     errorCondition?: boolean;
   };
@@ -23,7 +23,7 @@ function Input({
   onChange,
   className,
   error,
-  setValue,
+  // setValue,
   errorCondition = false,
   children,
   ...props

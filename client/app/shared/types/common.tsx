@@ -25,7 +25,6 @@ export interface ChallengeProps {
   field?: string;
   documentType?: DocumentType;
   date: Date | string;
-  // maximum: string | number;
   content: string;
   codeContent: string;
 }

@@ -8,7 +8,7 @@ import { PostChallenge } from "@/app/service/challenge/api";
 import { useRouter } from "next/navigation";
 import Dropdown from "@/app/shared/components/dropdown/dropdown";
 import useValue from "@/app/shared/hooks/useValue";
-import { DocumentType } from "@/app/shared/types/common";
+import { ChallengeProps, DocumentType } from "@/app/shared/types/common";
 import { useToaster } from "@/app/shared/provider/toasterProvider";
 import { useAuth } from "@/app/shared/provider/authProvider";
 import CodeEditor from "@/app/shared/components/codeEditer";
@@ -19,7 +19,9 @@ interface bodyProps extends PropsWithChildren {
   changeHandle?: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  clickHanlde?: (e?: React.MouseEvent<HTMLButtonElement | HTMLElement>) => void;
+  clickHanlde?: (body: ChallengeProps) => void;
+  formData?: ChallengeProps;
+  btnText?: string;
 }
 
 export interface Form {
@@ -33,6 +35,8 @@ export default function Application({
   children,
   changeHandle,
   clickHanlde,
+  formData,
+  btnText = "신청하기",
 }: bodyProps) {
   const router = useRouter();
   const [form, setForm] = useState<Form>({
@@ -50,7 +54,17 @@ export default function Application({
 
   useEffect(() => {
     auth();
-  }, [user]);
+    if (formData) {
+      setForm({
+        title: formData.title,
+        originalLink: formData.originalLink!,
+        content: formData.content,
+      });
+      date.set(new Date(formData.date).toString());
+      documentType.set(formData.documentType as string);
+      code.set(formData.codeContent);
+    }
+  }, [user, formData]);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -67,9 +81,17 @@ export default function Application({
   }
 
   async function handleClick() {
+    console.log(date.value);
     if (allErrorCondtion.find((x) => !x) === false)
       return toast("warn", "모든 정보를 기입해주세요");
-    if (!!clickHanlde) clickHanlde();
+    if (!!clickHanlde)
+      clickHanlde({
+        ...form,
+        date: new Date(date.value),
+        documentType: documentType.value as DocumentType,
+        field: field.value,
+        codeContent: code.value,
+      });
     else {
       PostChallenge({
         ...form,
@@ -131,12 +153,13 @@ export default function Application({
       />
       <Input.Date
         name="date"
-        value={date.value}
+        value={new Date(date.value).toString()}
         onInput={(e) => {
           const now = new Date();
           const { value } = e.currentTarget;
           const targetDate = new Date(value);
-          if (targetDate < now) return alert("마감 기한은 최소 +1일 입니다.");
+          if (targetDate < now)
+            return toast("warn", "마감 기한은 최소 +1일 입니다.");
           date.set(value);
         }}
       />
@@ -147,7 +170,7 @@ export default function Application({
         setValue={maximum.set}
         placeholder="인원을 입력해주세요"
       /> */}
-      <CodeEditor dispatch={code.set} />
+      <CodeEditor dispatch={code.set} value={code.value} />
       <div className={s.constent_box}>
         <span>내용</span>
         <textarea
@@ -162,7 +185,7 @@ export default function Application({
         children
       ) : (
         <Btn.Solid.Large onClick={handleClick} className={s.bt_l}>
-          신청하기
+          {btnText}
         </Btn.Solid.Large>
       )}
     </div>
