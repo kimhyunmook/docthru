@@ -179,6 +179,18 @@ challenge.get("/:id/work/:listId", async (req: Request, res: Response) => {
           select: {
             nickname: true,
             id: true,
+            like: true,
+          },
+        },
+        challengework_feedback: {
+          select: {
+            content: true,
+            updatedAt: true,
+            user: {
+              select: {
+                nickname: true,
+              },
+            },
           },
         },
       },
@@ -379,12 +391,13 @@ challenge.post(
   "/comment",
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
-    const { content, userId } = req.body;
+    const { content, userId, challengeworkId } = req.body;
     try {
       console.log("content", content);
       console.log("userid", userId);
       const feedback = await prisma.challengework_feedback.create({
         data: {
+          challengework: { connect: { id: Number(challengeworkId) } },
           content,
           user: { connect: { id: userId } },
         },

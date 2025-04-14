@@ -7,6 +7,8 @@ type ReplyProps = PropsWithClassName & {
   userName: string;
   date?: string;
   text?: string;
+  style?: React.CSSProperties;
+  onClick?: () => void;
 };
 
 export default function Reply({
@@ -15,9 +17,11 @@ export default function Reply({
   text,
   children,
   className,
+  style,
+  onClick,
 }: ReplyProps) {
   return (
-    <div className={`${styles.replyBox} ${className}`}>
+    <div className={`${styles.replyBox} ${className} `} style={style}>
       {children ? (
         children
       ) : (
@@ -36,7 +40,7 @@ export default function Reply({
               </div>
             </div>
             <div className={styles.right}>
-              <button>
+              <button onClick={onClick}>
                 <Image
                   src="/img/icon/menu_bar.svg"
                   alt="메뉴"

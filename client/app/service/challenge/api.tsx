@@ -119,7 +119,7 @@ export async function WorklistGet(
   return res.data;
 }
 
-export async function commentApi(body: Comment) {
+export async function CreateCommentApi(body: Comment) {
   const res = await instance.post("/api/challenge/comment", body);
   console.log("댓res", res);
   return res.data;
