@@ -38,8 +38,11 @@ export default function WorkPage() {
     : "";
 
   const [comments, setComments] = useState<CommentType[]>([]);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalPosition, setModalPosition] = useState<{
+    top: number;
+    left: number;
+  }>({ top: 0, left: 0 });
   const params = useParams();
 
   const { id, listId } = params;
@@ -62,9 +65,15 @@ export default function WorkPage() {
     });
   };
 
-  // const handleClick = () => {
-  //   setIsModalOpen(true)
-  // }
+  const handleClick = (e: React.MouseEvent, commentId: number) => {
+    setIsModalOpen(true);
+    const rect = (e.target as HTMLElement).getBoundingClientRect();
+    setModalPosition({
+      top: rect.top + window.scrollY + rect.height + 10, // 댓글 하단에 10px 여백
+      left: rect.left + window.scrollX,
+    });
+    // alert("snffla");
+  };
 
   useEffect(() => {
     if (!listId || !id) return;
@@ -144,15 +153,41 @@ export default function WorkPage() {
         </div>
       </div>
       {comments.map((v, key) => (
-        <Reply
-          style={{ backgroundColor: "#f2f2f2", marginTop: "16px" }}
+        <div
           key={key}
-          userName={v.user.nickname}
-          date={v.updatedAt}
-          text={v.content}
-          // onClick={handleClick}
-        />
+          style={{ position: "relative" }} // 각 댓글 컨테이너에 relative 적용
+          onClick={(e) => handleClick(e, key)} // 클릭 이벤트에 위치 전달
+        >
+          <Reply
+            style={{
+              position: "relative",
+              backgroundColor: "#f2f2f2",
+              marginTop: "16px",
+            }}
+            key={key}
+            userName={v.user.nickname}
+            date={v.updatedAt}
+            text={v.content}
+            onClick={handleClick}
+          />
+        </div>
       ))}
+      {/* 수정/삭제 모달 */}
+      {isModalOpen && (
+        <div
+          className={s.modal}
+          style={{
+            top: `${modalPosition.top}px`,
+            left: `${modalPosition.left}px`,
+          }}
+        >
+          <div className={s.modalActions}>
+            <button>수정하기</button>
+            <button>삭제하기</button>
+            <button onClick={() => setIsModalOpen(false)}>취소</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
