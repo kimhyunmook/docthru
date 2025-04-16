@@ -6,10 +6,10 @@ import LinkImg from "../LinkImg";
 import Dropdown from "../dropdown/dropdown";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../../provider/authProvider";
-import { useQuery } from "@tanstack/react-query";
-import { getAlramApi } from "@/app/service/user/api";
-import Alarm, { AlarmProps } from "./alarm";
-import useValue from "../../hooks/useValue";
+// import { useQuery } from "@tanstack/react-query";
+// import { getAlramApi } from "@/app/service/user/api";
+// import Alarm, { AlarmProps } from "./alarm";
+// import useValue from "../../hooks/useValue";
 // import { useQueryClient } from "@tanstack/react-query";
 
 type LoginBoxT = {
@@ -27,29 +27,30 @@ const init: ModalState = {
 
 export default function LoginBox({}: LoginBoxT) {
   const { user } = useAuth();
-  const { data, isFetched, isRefetching } = useQuery({
-    queryKey: ["alarm"],
-    queryFn: () => {
-      return getAlramApi();
-    },
-    staleTime: 10 * 1000,
-    enabled: !!user,
-    refetchInterval: 10 * 1000,
-    refetchOnWindowFocus: true,
-  });
+  // const { data, isFetched, isRefetching } = useQuery({
+  //   queryKey: ["alarm"],
+  //   queryFn: () => {
+  //     return getAlramApi();
+  //   },
+  //   // staleTime: 10 * 1000,
+  //   staleTime: Infinity,
+  //   enabled: !!user,
+  //   refetchInterval: 10 * 1000,
+  //   refetchOnWindowFocus: true,
+  // });
   const [modalState, setModalState] = useState(init);
 
   function openModal({ type }: { type: string }) {
     setModalState((prev) => ({ ...prev, [type]: !prev[type] }));
   }
-  const alarm = useValue<AlarmProps[]>(
-    data?.alarm.filter((x: AlarmProps) => !x.read) || []
-  );
+  // const alarm = useValue<AlarmProps[]>(
+  //   data?.alarm.filter((x: AlarmProps) => !x.read) || []
+  // );
 
-  useEffect(() => {
-    if (isFetched || isRefetching)
-      alarm.set(data.alarm.filter((x: AlarmProps) => !x.read));
-  }, [isFetched, isRefetching]);
+  // useEffect(() => {
+  //   if (isFetched || isRefetching)
+  //     alarm.set(data.alarm.filter((x: AlarmProps) => !x.read));
+  // }, [isFetched, isRefetching]);
 
   const path = usePathname();
   useEffect(() => {
@@ -71,7 +72,7 @@ export default function LoginBox({}: LoginBoxT) {
       ) : (
         <>
           <div className={styles.itemBox}>
-            <LinkImg
+            {/* <LinkImg
               href={"#"}
               alt="알람"
               src={
@@ -84,8 +85,8 @@ export default function LoginBox({}: LoginBoxT) {
               onClick={() => {
                 openModal({ type: "alarm" });
               }}
-            />
-            {modalState.alarm && <Alarm />}
+            /> */}
+            {/* {modalState.alarm && <Alarm />} */}
           </div>
           <div className={styles.itemBox}>
             <LinkImg

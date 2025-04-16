@@ -27,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/service/instance.tsx"
+    "app/service/instance.tsx",
+    "app/shared/components/editer.tsㅌ"
   ],
   "exclude": ["node_modules"]
 }

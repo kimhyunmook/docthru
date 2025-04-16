@@ -5,13 +5,14 @@ import s from "./application.module.css";
 import { PropsWithChildren, useEffect, useState } from "react";
 import Btn from "@/app/shared/components/btn/btn";
 import { PostChallenge } from "@/app/service/challenge/api";
-import { isValidURL } from "@/lib/utils/convenience";
 import { useRouter } from "next/navigation";
 import Dropdown from "@/app/shared/components/dropdown/dropdown";
 import useValue from "@/app/shared/hooks/useValue";
 import { DocumentType } from "@/app/shared/types/common";
 import { useToaster } from "@/app/shared/provider/toasterProvider";
 import { useAuth } from "@/app/shared/provider/authProvider";
+import CodeEditor from "@/app/shared/components/codeEditer";
+import { isValidURL } from "@/lib/utils/convenience";
 
 interface bodyProps extends PropsWithChildren {
   mainTitle: string;
@@ -40,9 +41,10 @@ export default function Application({
     content: "",
   });
   const date = useValue("");
-  const maximum = useValue("");
+  // const maximum = useValue("");
   const field = useValue("");
   const documentType = useValue("블로그");
+  const code = useValue("");
   const toast = useToaster();
   const { auth, user } = useAuth();
 
@@ -72,9 +74,10 @@ export default function Application({
       PostChallenge({
         ...form,
         date: date.value,
-        maximum: maximum.value,
+        // maximum: maximum.value,
         documentType: documentType.value as DocumentType,
         field: field.value,
+        codeContent: code.value,
       }).then((res) => {
         if (res.success) {
           toast("info", "챌린지 생성에 성공했습니다.");
@@ -89,7 +92,7 @@ export default function Application({
 
   const allErrorCondtion = [
     form.title.length >= 5,
-    isValidURL(form.originalLink),
+    // isValidURL(form.originalLink),
   ];
 
   return (
@@ -111,7 +114,7 @@ export default function Application({
         placeholder="원문 링크를 입력해주세요"
         onChange={handleChange}
         error="URL을 정확히 입력해주세요"
-        errorCondition={allErrorCondtion[1]}
+        errorCondition={isValidURL(form.originalLink)}
       />
       <Selector
         label="분야"
@@ -137,13 +140,14 @@ export default function Application({
           date.set(value);
         }}
       />
-      <Input.Number
+      {/* <Input.Number
         label="최대 인원"
         name="maximum"
         value={maximum.value}
         setValue={maximum.set}
         placeholder="인원을 입력해주세요"
-      />
+      /> */}
+      <CodeEditor dispatch={code.set} />
       <div className={s.constent_box}>
         <span>내용</span>
         <textarea

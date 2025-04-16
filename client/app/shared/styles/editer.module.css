@@ -1,0 +1,14 @@
+.codeContainer {
+  width: 100%;
+  display: block;
+}
+.editer {
+  display: block;
+  border-radius: 6px;
+  border: 1px solid var(--gray200);
+  padding: 10px 0;
+}
+.title {
+  margin-bottom: 4px;
+  font-size: 16px;
+}

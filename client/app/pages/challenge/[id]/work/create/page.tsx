@@ -7,8 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { WorkContent } from "@/app/shared/types/common";
 import { WorkPagePost } from "@/app/service/challenge/api";
-// import { User } from "@/app/shared/types/user";
-import CodeEditor from "./ide";
+import CodeEditor from "../../../../../shared/components/codeEditer";
 
 export default function ChallengeWorkCreate() {
   const router = useRouter();
@@ -26,6 +25,7 @@ export default function ChallengeWorkCreate() {
       like: 0,
     },
   });
+  const [code, setCode] = useState("");
 
   useEffect(() => {
     if (!id) return;
@@ -121,8 +121,7 @@ export default function ChallengeWorkCreate() {
             }))
           }
         />
-        <CodeEditor />
-
+        <CodeEditor value={code} dispatch={setCode} />
         <span></span>
         <div className={s.text_deco_box}>글씨 굵기나 정렬 등등 칸(임시)</div>
         <textarea
