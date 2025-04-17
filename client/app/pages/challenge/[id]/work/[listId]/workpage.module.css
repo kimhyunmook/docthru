@@ -55,7 +55,17 @@
   gap: 24px;
 }
 
-.realy {
-  background-color: #f2f2f2 !important;
-  margin-top: 16px;
+.modal {
+  border: 1px solid black;
+  width: 140px;
+  height: 46px;
+  background-color: white;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+.modalActions {
+  display: flex;
+  flex-direction: column;
 }
