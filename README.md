@@ -31,6 +31,6 @@
 <img width="1241" alt="image" src="https://github.com/user-attachments/assets/8482b73e-4987-4533-8a3a-0f6cfbffa296" />
 
 - 원문 링크가 없는 경우
-- <img width="306" alt="image" src="https://github.com/user-attachments/assets/5157c243-b06d-4693-b5e4-f82bb6b1ceea" />
+<img width="306" alt="image" src="https://github.com/user-attachments/assets/5157c243-b06d-4693-b5e4-f82bb6b1ceea" />
 
 
