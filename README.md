@@ -28,9 +28,18 @@
 <img width="1232" alt="image" src="https://github.com/user-attachments/assets/ba34f3fe-d825-450a-9d0b-43c92358dff0" />
 
 ### 챌린지 상세
-<img width="1241" alt="image" src="https://github.com/user-attachments/assets/8482b73e-4987-4533-8a3a-0f6cfbffa296" />
+<img width="1237" alt="image" src="https://github.com/user-attachments/assets/5ad4f255-724f-42a3-b5bf-2bcd8a1546df" />
+<img width="1218" alt="image" src="https://github.com/user-attachments/assets/da018459-16eb-4a04-a4fe-372b3a8eb8cf" />
 
 - 원문 링크가 없는 경우
 <img width="306" alt="image" src="https://github.com/user-attachments/assets/5157c243-b06d-4693-b5e4-f82bb6b1ceea" />
 
+### 챌린지 도전
+- 기본상태
+<img width="1501" alt="image" src="https://github.com/user-attachments/assets/2ee49f0e-a376-40e3-81e4-a3548b7c3039" />
 
+- 작성
+<img width="1212" alt="image" src="https://github.com/user-attachments/assets/47d48c64-8e8f-40a9-b51b-48547fb0ea81" />
+
+### 작성된 작업 
+<img width="984" alt="image" src="https://github.com/user-attachments/assets/53383200-4918-42c1-9771-b214518d2ba2" />
