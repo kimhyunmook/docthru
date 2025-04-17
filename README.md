@@ -26,3 +26,7 @@
 
 #### 챌린지 생성 성공
 <img width="1232" alt="image" src="https://github.com/user-attachments/assets/ba34f3fe-d825-450a-9d0b-43c92358dff0" />
+
+### 챌린지 상세
+<img width="1241" alt="image" src="https://github.com/user-attachments/assets/8482b73e-4987-4533-8a3a-0f6cfbffa296" />
+
