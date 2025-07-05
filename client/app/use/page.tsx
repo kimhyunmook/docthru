@@ -59,7 +59,12 @@ export default function ComponentsUse() {
             }}
             className=""
           />
-          <SearchInput setData={setText} className="" />
+          <SearchInput
+            value=""
+            setValue={() => {}}
+            onClick={() => {}}
+            className=""
+          />
         </CrystalLayout>
         <CrystalLayout title="chip">
           <Chip.NextChip className="" />
@@ -80,7 +85,7 @@ export default function ComponentsUse() {
             className=""
             width={"0|auto"}
             icon={false}
-            onClick={click}
+            onClick={() => {}}
           >
             라지
           </Btn.Filled.Large>
@@ -88,7 +93,7 @@ export default function ComponentsUse() {
             className=""
             width={"0|auto"}
             icon={true}
-            onClick={click}
+            onClick={() => {}}
           >
             미디움
           </Btn.Filled.Medium>
@@ -96,7 +101,7 @@ export default function ComponentsUse() {
             className=""
             width={"0|auto"}
             icon={true}
-            onClick={click}
+            onClick={() => {}}
           >
             레귤러
           </Btn.Filled.Regular>
@@ -104,18 +109,18 @@ export default function ComponentsUse() {
             className=""
             width={"0|auto"}
             icon={true}
-            onClick={click}
+            onClick={() => {}}
           >
             스몰
           </Btn.Filled.Small>
-          <Btn.Outline.Small className="" width={"0|auto"} onClick={click}>
+          <Btn.Outline.Small className="" width={"0|auto"} onClick={() => {}}>
             아웃라인
           </Btn.Outline.Small>
           <Btn.Outline.Small
             className=""
             width={"0|auto"}
             icon="/img/icon/arrow_right.svg"
-            onClick={click}
+            onClick={() => {}}
           >
             아웃라인 아이콘
           </Btn.Outline.Small>
@@ -123,14 +128,14 @@ export default function ComponentsUse() {
             className=""
             width={"0|auto"}
             icon={true}
-            onClick={click}
+            onClick={() => {}}
           >
             투명
           </Btn.Transparent.Regular>
-          <Btn.Solid.Regular className="" width={"0|auto"} onClick={click}>
+          <Btn.Solid.Regular className="" width={"0|auto"} onClick={() => {}}>
             솔리드
           </Btn.Solid.Regular>
-          <Btn.Filled.Yellow className="" width={"0|auto"} onClick={click}>
+          <Btn.Filled.Yellow className="" width={"0|auto"} onClick={() => {}}>
             필드
           </Btn.Filled.Yellow>
           <CloseBtn width={30} height={30} onClick={() => {}} />
@@ -163,7 +168,7 @@ export default function ComponentsUse() {
             카테고리
           </Dropdown>
           <Dropdown.Sort className=""></Dropdown.Sort>
-          <Dropdown.Login className="" user={userDumi} />
+          <Dropdown.Login className="" />
         </CrystalLayout>
         <CrystalLayout title="card" width={1040}>
           <Card

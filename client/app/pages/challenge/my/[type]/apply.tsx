@@ -20,7 +20,7 @@ export default function Apply({}) {
 
   useEffect(() => {
     MyApplyApi({
-      page: page.value,
+      // page: page.value,
       pageSize: pageSize.value,
       orderby: orderby.value,
       keyword: keyword.value,

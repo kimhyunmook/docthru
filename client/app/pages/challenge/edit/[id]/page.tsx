@@ -1,6 +1,6 @@
 "use client";
 
-import Application from "../../create/page";
+import Application from "../../create/createFrom";
 import { useEffect, useState } from "react";
 import { getChallenge, PatchChallenge } from "@/app/service/challenge/api";
 import { useParams, useRouter } from "next/navigation";
