@@ -99,6 +99,20 @@ challenge.get("/", async (req: Request, res: Response) => {
   }
 });
 
+challenge.get("/:id", async (req, res) => {
+  const params = req.params;
+  try {
+    const data = await prisma.challenge.findUnique({
+      where: { id: Number(params.id) },
+    });
+    res.status(201).json({ data });
+  } catch (err) {
+    res.status(204).json({
+      err,
+    });
+  }
+});
+
 challenge.post(
   "/create",
   authMiddleware.verifyAT,
@@ -146,14 +160,26 @@ challenge.post(
 );
 
 challenge.patch(
-  "/edit",
+  "/edit/:id",
   authMiddleware.verifyAT,
   async (req: Request, res: Response) => {
-    // console.log(req.body);
-    // const { title, originalLink, field, date, maximum, content } = req.body;
-    // const data = await prisma.challenge.update({
-    // });
-    // res.status(202).send({ data });
+    const { id } = req.params;
+    console.log("body", req.body);
+    try {
+      const data = await prisma.challenge.update({
+        where: {
+          id: Number(id),
+        },
+        data: { ...req.body },
+      });
+      console.log(data);
+      res.status(202).send({ ok: true, data });
+    } catch (err) {
+      res.status(204).json({
+        ok: false,
+        err,
+      });
+    }
   }
 );
 

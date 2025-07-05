@@ -144,14 +144,14 @@ function Card({
             {dropdown.value && (
               <ul className={styles.dropdown} ref={cardDropdownRef}>
                 <li>
-                  <Link href="#">수정</Link>
+                  <Link href={`./challenge/edit/${cardId}`}>수정</Link>
                 </li>
                 <li>
                   <Link
                     href="#"
                     onClick={() => {
                       modalOepn();
-                      title(`"${children}" 챌린지를 삭제하시겠습니까?`);
+                      title(`${children} 챌린지를 삭제하시겠습니까?`);
                       buttons(
                         <>
                           <Btn.Filled.Regular onClick={modalClose}>

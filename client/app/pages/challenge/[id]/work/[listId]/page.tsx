@@ -168,7 +168,7 @@ export default function WorkPage() {
             userName={v.user.nickname}
             date={v.updatedAt}
             text={v.content}
-            onClick={handleClick}
+            // onClick={handleClick}
           />
         </div>
       ))}

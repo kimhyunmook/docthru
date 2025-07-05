@@ -7,7 +7,7 @@ import type {
 } from "@/app/shared/types/common";
 import { WorkContent, Comment } from "@/app/shared/types/common";
 
-export async function GetChallenge({
+export async function GetChallenges({
   pageParam = 1,
   pageSize = 10,
   orderby = "createdAt",
@@ -40,8 +40,8 @@ export async function PostChallenge(body: ChallengeProps) {
   return res.data;
 }
 
-export async function PatchChallenge(body: ChallengeProps) {
-  const res = await instance.patch("/api/challenge/edit", body);
+export async function PatchChallenge(id: string, body: ChallengeProps) {
+  const res = await instance.patch(`/api/challenge/edit/${id}`, body);
   return res.data;
 }
 
@@ -61,6 +61,12 @@ export async function MyChallengeApi({
     console.log(err);
   }
 }
+
+export async function getChallenge(body: { id: string }) {
+  const res = await instance.get(`/api/challenge/${body.id}`);
+  return res.data;
+}
+
 export async function MyApplyApi({
   pageParam = 1,
   pageSize = 10,
@@ -121,6 +127,5 @@ export async function WorklistGet(
 
 export async function CreateCommentApi(body: Comment) {
   const res = await instance.post("/api/challenge/comment", body);
-  console.log("댓res", res);
   return res.data;
 }

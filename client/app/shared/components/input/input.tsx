@@ -23,7 +23,7 @@ function Input({
   onChange,
   className,
   error,
-  setValue,
+  // setValue,
   errorCondition = false,
   children,
   ...props

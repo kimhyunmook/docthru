@@ -103,7 +103,7 @@ export default function Detail() {
                   width={30}
                   height={30}
                 />
-                <p className={s.user}>{data.oner.nickname}</p>
+                <p className={s.user}>{data.oner?.nickname}</p>
               </div>
             </div>
           </div>

@@ -93,12 +93,13 @@ export default function LoginBox({}: LoginBoxT) {
               href={"#"}
               alt="유저"
               src={"/img/icon/profile_member.svg"}
-              width={32}
-              height={32}
+              width={28}
+              height={28}
               onClick={() => {
                 openModal({ type: "user" });
               }}
             />
+            <p className={styles.nickName}>{user.nickname}</p>
             {modalState.user && <Dropdown.Login className={styles.modal} />}
           </div>
         </>

@@ -5,7 +5,7 @@ import SearchInput from "@/app/shared/components/search";
 import Card from "@/app/shared/components/card/card";
 import Link from "next/link";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { GetChallenge } from "@/app/service/challenge/api";
+import { GetChallenges } from "@/app/service/challenge/api";
 import type {
   Challenge,
   ChallengeFilterProps,
@@ -36,7 +36,7 @@ export default function Challenge() {
   }
 
   function getData() {
-    GetChallenge({
+    GetChallenges({
       pageParam: page.value,
       pageSize: pageSize.value,
       orderby: orderby.value,
@@ -75,7 +75,7 @@ export default function Challenge() {
           filter: ChallengeFilterProps;
         }
       ];
-      return GetChallenge({
+      return GetChallenges({
         pageParam,
         pageSize: params.pageSize,
         orderby: params.orderby,
